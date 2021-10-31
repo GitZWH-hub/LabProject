@@ -1,0 +1,16 @@
+
+server:
+  port: 5678
+
+eureka:
+  client:
+     #下面两项没有代码提示
+     serviceUrl:
+      #服务治理地址
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh

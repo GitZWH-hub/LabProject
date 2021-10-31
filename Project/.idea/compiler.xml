@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="configserver" />
+        <module name="bullet" />
+        <module name="eureka-server" />
+        <module name="eureka-producer" />
+        <module name="eureka-sidecar" />
+        <module name="gateway" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="eureka-config" target="1.8" />
+      <module name="eureka-customer" target="1.8" />
+      <module name="gateWay" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="bullet" options="-parameters" />
+      <module name="configserver" options="-parameters" />
+      <module name="eureka-config" options="-parameters" />
+      <module name="eureka-customer" options="-parameters" />
+      <module name="eureka-producer" options="-parameters" />
+      <module name="eureka-server" options="-parameters" />
+      <module name="eureka-sidecar" options="" />
+      <module name="gateWay" options="-parameters" />
+      <module name="gateway" options="-parameters" />
+    </option>
+  </component>
+</project>

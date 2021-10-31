@@ -1,0 +1,25 @@
+#logging:
+#  level:
+#    ROOT: DEBUG
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations:
+           - classpath:/yml/bullet/         # java服务（websocket+入口）
+           - classpath:/yml/gateway/        # 前端接入网关
+#           - classpath:/yml/sidecar/ # python
+           - classpath:/yml/game/
+           - classpath:/yml/admin/
+#           - classpath:/yml/
+server:
+  port: 1026
+eureka:
+  client:
+     serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/

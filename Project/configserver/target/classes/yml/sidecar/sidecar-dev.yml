@@ -1,0 +1,12 @@
+server:
+  port: 8769  # 代表sidecar运行的端口
+
+sidecar:
+  port: 3000    # 第三方程序运行的端口（上方的Python），所以监听端口为3000
+  health-uri: http://localhost:${sidecar.port}/health   # Python健康接口，应指向python的健康服务
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka   # 指定服务注册中心

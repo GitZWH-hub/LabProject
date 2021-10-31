@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4a0b81a6-9f45-4d33-a5b7-9ef2d22ecd65" name="默认变更列表" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectId" id="1v9u6lv4zLPITps2ZIbnpTEBzJZ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelOrder2" value="2" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RequestMappingsPanelWidth2" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="jdk.selected.JAVA_MODULE" value="azul-1.8" />
+    <property name="jdk.selected.PYTHON_MODULE" value="Python 3" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/eureka-sidecar/src/main/java" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../repo_2021-10-12_2021101201409204" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.13378906" />
+    <property name="project.structure.side.proportion" value="0.42099324" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="show.run.dashboard.notification" value="false" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/eureka-python" />
+      <recent name="$PROJECT_DIR$/configserver/src/main/resources/yml/sidecar" />
+      <recent name="$PROJECT_DIR$/eureka-sidecar/src/main/resources" />
+      <recent name="$PROJECT_DIR$/bullet/src/main/java/com/naah/bullet" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/eureka-python/linux" />
+      <recent name="$PROJECT_DIR$/Bullet-WebSocket/src/main/resources/static" />
+      <recent name="$PROJECT_DIR$/eureka-python" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.naah.bullet" />
+      <recent name="" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.naah.bullet.request" />
+      <recent name="com.example.eurekaproducer.request" />
+      <recent name="com.example.eurekaproducer.entity" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.text (1)">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="md_demo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="eureka-python" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/eureka-python/linux" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/eureka-python/linux/md_demo.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="text (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="eureka-python" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/eureka-python" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/eureka-python/text.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="text" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="eureka-python" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/eureka-python" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/eureka-python/linux/text.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="BulletApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="bullet" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.naah.bullet.BulletApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ConfigserverApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="configserver" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.naah.configserver.ConfigserverApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ConfigserverApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="eureka-config" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.naah.configserver.ConfigserverApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EurekaCustomerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="eureka-customer" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.eurekacustomer.EurekaCustomerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EurekaProducerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="eureka-producer" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.eurekaproducer.EurekaProducerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EurekaServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
+      <module name="eureka-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.eurekaserver.EurekaServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EurekaSidecarApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="eureka-sidecar" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.EurekaSidecarApplication.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.EurekaSidecarApplication.EurekaSidecarApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GateWayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="gateWay" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.gateway.GateWayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.naah.gateway.GatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.text (1)" />
+        <item itemvalue="Spring Boot.EurekaSidecarApplication" />
+        <item itemvalue="Spring Boot.EurekaServerApplication" />
+        <item itemvalue="Python.text" />
+        <item itemvalue="Python.md_demo" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="4a0b81a6-9f45-4d33-a5b7-9ef2d22ecd65" name="默认变更列表" comment="" />
+      <created>1625986452256</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1625986452256</updated>
+      <workItem from="1625986453389" duration="6293000" />
+      <workItem from="1626001843614" duration="6001000" />
+      <workItem from="1626008718402" duration="2000" />
+      <workItem from="1626012349849" duration="7746000" />
+      <workItem from="1626072732933" duration="598000" />
+      <workItem from="1626083672008" duration="1211000" />
+      <workItem from="1626139049952" duration="371000" />
+      <workItem from="1626146658098" duration="3455000" />
+      <workItem from="1626234414686" duration="721000" />
+      <workItem from="1626235150975" duration="239000" />
+      <workItem from="1626235659362" duration="611000" />
+      <workItem from="1626329617634" duration="1361000" />
+      <workItem from="1626658464419" duration="1533000" />
+      <workItem from="1626766511843" duration="1210000" />
+      <workItem from="1631677562035" duration="112000" />
+      <workItem from="1631678661350" duration="686000" />
+      <workItem from="1631679362498" duration="315000" />
+      <workItem from="1631679776038" duration="25000" />
+      <workItem from="1631679807452" duration="3168000" />
+      <workItem from="1631684603231" duration="613000" />
+      <workItem from="1631685226048" duration="1850000" />
+      <workItem from="1631687108867" duration="250000" />
+      <workItem from="1631687365004" duration="1776000" />
+      <workItem from="1631689155171" duration="57000" />
+      <workItem from="1631689487410" duration="554000" />
+      <workItem from="1631690075946" duration="199000" />
+      <workItem from="1631690285581" duration="938000" />
+      <workItem from="1631691506411" duration="339000" />
+      <workItem from="1631692130362" duration="58000" />
+      <workItem from="1631692594623" duration="307000" />
+      <workItem from="1631692906922" duration="2602000" />
+      <workItem from="1631695532711" duration="5636000" />
+      <workItem from="1631704047604" duration="49000" />
+      <workItem from="1632076856927" duration="637000" />
+      <workItem from="1633431682119" duration="630000" />
+      <workItem from="1633432321179" duration="150000" />
+      <workItem from="1633432474677" duration="6423000" />
+      <workItem from="1633453696070" duration="610000" />
+      <workItem from="1633454339954" duration="49000" />
+      <workItem from="1633454443287" duration="6897000" />
+      <workItem from="1633502293926" duration="5407000" />
+      <workItem from="1633511794366" duration="8935000" />
+      <workItem from="1633527934066" duration="1182000" />
+      <workItem from="1633529169203" duration="6453000" />
+      <workItem from="1633535654980" duration="7266000" />
+      <workItem from="1633589134352" duration="1479000" />
+      <workItem from="1633659874156" duration="3638000" />
+      <workItem from="1633748876688" duration="32000" />
+      <workItem from="1633748919021" duration="707000" />
+      <workItem from="1633749780708" duration="170000" />
+      <workItem from="1633749970319" duration="3000" />
+      <workItem from="1633749993751" duration="3810000" />
+      <workItem from="1633756491647" duration="18321000" />
+      <workItem from="1633857558678" duration="6384000" />
+      <workItem from="1633865333301" duration="1060000" />
+      <workItem from="1633937110820" duration="14153000" />
+      <workItem from="1634005643638" duration="3395000" />
+      <workItem from="1634029332284" duration="859000" />
+      <workItem from="1634030539073" duration="3532000" />
+      <workItem from="1634034507969" duration="7000" />
+      <workItem from="1634034527265" duration="26000" />
+      <workItem from="1634035957817" duration="7022000" />
+      <workItem from="1634043640378" duration="18000" />
+      <workItem from="1634044124839" duration="9786000" />
+      <workItem from="1634100720312" duration="9440000" />
+      <workItem from="1634110182426" duration="17000" />
+      <workItem from="1634111644416" duration="2018000" />
+      <workItem from="1634113676284" duration="3235000" />
+      <workItem from="1634116988464" duration="1448000" />
+      <workItem from="1634118924829" duration="2036000" />
+      <workItem from="1634124247141" duration="791000" />
+      <workItem from="1634125054087" duration="1411000" />
+      <workItem from="1634126950392" duration="198000" />
+      <workItem from="1634127178186" duration="20882000" />
+      <workItem from="1634190109064" duration="16955000" />
+      <workItem from="1634267766179" duration="45784000" />
+      <workItem from="1634891643188" duration="10490000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.log" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Project$DataSrc.coverage" NAME="DataSrc Coverage Results" MODIFIED="1633947625070" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eureka-python" />
+    <SUITE FILE_PATH="coverage/Project$md_demo.coverage" NAME="md_demo Coverage Results" MODIFIED="1634124379506" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eureka-python/linux" />
+    <SUITE FILE_PATH="coverage/Project$text.coverage" NAME="text Coverage Results" MODIFIED="1634192698549" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eureka-python" />
+    <SUITE FILE_PATH="coverage/Project$text__1_.coverage" NAME="text (1) Coverage Results" MODIFIED="1634896832581" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eureka-python" />
+  </component>
+</project>
