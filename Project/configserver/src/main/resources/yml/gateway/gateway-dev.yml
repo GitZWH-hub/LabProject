@@ -22,7 +22,7 @@ spring:
           allowedMethods: "*"
       gateway:
         routes:
-          - id: bulletscreen
+          - id: bullet
             uri: lb://bullet
             predicates:
               - Path=/bullet/**
@@ -33,7 +33,7 @@ spring:
           - id: producer
             uri: lb://eureka-producer
             predicates:
-              - Path=/eureka-producer/**
+              - Path=/**
 #      routes:
 #        - id: RegisterLogin
 #          #          uri: http://localhost:8765/
