@@ -23,6 +23,7 @@ public class UserController {
     */
     @PostMapping("/Req8001")
     public String getKData(@RequestBody Req8001 req){
+        System.out.println(req);
         return restTemplate.getForEntity("http://sidecar/8001"
                 + "/" + req.getFut()
                 + "/" + req.getFutEnd()
