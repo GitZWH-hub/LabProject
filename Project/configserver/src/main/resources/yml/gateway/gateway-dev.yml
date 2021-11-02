@@ -30,7 +30,7 @@ spring:
 #            uri: lb:ws://bullet
 #            predicates:
 #              - Path=/bullet/**
-          - id: producer
+          - id: eureka-producer
             uri: lb://eureka-producer
             predicates:
               - Path=/**
