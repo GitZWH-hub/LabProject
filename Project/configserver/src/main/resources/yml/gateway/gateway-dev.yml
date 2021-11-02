@@ -12,37 +12,39 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 spring:
   cloud:
-    gateway:
-      routes:
-      - id: bulletscreen
-        uri: lb://bullet
-        predicates:
-        - Path=/bullet/**
-      - id: bulletscreen
-        uri: lb:ws://bullet
-        predicates:
-        - Path=/bullet/**
-      - id: producer
-        uri: http://localhost:8765
-        predicates:
-        - Path=/eureka-producer/**
+    globalcors:
+      add-to-simple-url-handler-mapping: true # 解决options请求被拦截问题
+      cors-configurations:
+        '[/**]':
+          allowedCredentials: true
+          allowedOrigins: "*"
+          allowedHeaders: "*"
+          allowedMethods: "*"
+      gateway:
+        routes:
+          - id: bulletscreen
+            uri: lb://bullet
+            predicates:
+              - Path=/bullet/**
+#          - id: bulletscreen
+#            uri: lb:ws://bullet
+#            predicates:
+#              - Path=/bullet/**
+          - id: producer
+            uri: lb://eureka-producer
+            predicates:
+              - Path=/eureka-producer/**
+#      routes:
+#        - id: RegisterLogin
+#          #          uri: http://localhost:8765/
+#          uri: lb://RegisterLogin
+#          predicates:
+#            - Path=/**
+#          filters:
+#            #          - StripPrefix=1
+#            - Auth=true
 
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowed-credentials: true
-            allowed-origins: "*"
-            allowed-headers: "*"
-            allowed-methods: "*"
-            max-age: 3600
 
-
-#        filters:
-#        - name: Hystrix
-#          args:
-#            name: fallbackcmd
-#            fallbackUri: forward:/incaseoffailureusethis
-#        - RewritePath=/consumingserviceendpoint, /backingserviceendpoint
 management:
   endpoints:
     web:
