@@ -26,10 +26,10 @@ spring:
             uri: lb://bullet
             predicates:
               - Path=/bullet/**
-#          - id: bulletscreen
-#            uri: lb:ws://bullet
-#            predicates:
-#              - Path=/bullet/**
+          - id: bulletscreen
+            uri: lb:ws://bullet
+            predicates:
+              - Path=/bullet/**
           - id: eureka-producer
             uri: lb://eureka-producer
             predicates:
