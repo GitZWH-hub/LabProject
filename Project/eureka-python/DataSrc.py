@@ -127,6 +127,14 @@ class HisQuotes(Base):
     # 用于回测（下载数据）功能，获得数据时要判断库中是否存在该时间段的合约数据
     # (1)全部都存在，则只需查询数据库返回数据即可（2）只存在一部分，则需拉取（3）不存在，则需拉取
     def getData(self, ts_code, start, end):
+        # 判断库中有没有表
+        try:
+            sql = "select *from " + ts_code[:2].upper() + ";"
+            self.conn.execute(sql)
+        except:
+            # 不存在这个表
+            self.pullData(ts_code=ts_code, start_date=start, end_date=end)
+            return self.sqlData(ts_code, start, end)
         # 库中获取数据
         data = self.sqlData(ts_code, start, end)
         print("Im here")
