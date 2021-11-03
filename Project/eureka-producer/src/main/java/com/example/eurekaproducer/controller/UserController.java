@@ -1,6 +1,6 @@
 package com.example.eurekaproducer.controller;
+import com.example.eurekaproducer.request.Req8008;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,6 +38,18 @@ public class UserController {
     public String pullData(@RequestBody Req8002 req) {
         return restTemplate.getForEntity("http://sidecar/8002"
                 + "/" + req.getType()
+                + "/" + req.getFut()
+                + "/" + req.getStart()
+                + "/" + req.getEnd(), String.class).getBody();
+    }
+
+    /*
+    8005:请求拉取数据from TuShare
+    */
+    @PostMapping("/Req8008")
+    public String getData(@RequestBody Req8008 req) {
+        System.out.println(req);
+        return restTemplate.getForEntity("http://sidecar/8008"
                 + "/" + req.getFut()
                 + "/" + req.getStart()
                 + "/" + req.getEnd(), String.class).getBody();
