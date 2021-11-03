@@ -157,7 +157,7 @@ class HisQuotes(Base):
             data = self.pullData(ts_code, start, end)
 
         # 需要对data按日期拍下序
-        data.sort(columns=['trade_date'], axis=0, ascending=True)
+        data.sort_values(columns=['trade_date'], axis=0, ascending=True)
         # 添加两列，MAS：短期均线值，MAL长期均线值
         data['MAS'] = 0.0
         data['MAL'] = 0.0
