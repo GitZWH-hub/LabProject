@@ -109,7 +109,7 @@ class HisQuotes(Base):
         log.info('-- 开始拉取历史行情(HisQuotes) --')
         try:
             data = self.pro.fut_daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
-            data.to_sql(ts_code, self.conn, index=True, if_exists='append')
+            data.to_sql(ts_code[:2].upper(), self.conn, index=True, if_exists='append')
         except:
             log.error("to_sql ERROR")
         log.info('-- 拉取历史行情结束(HisQuotes) --')
@@ -129,7 +129,7 @@ class HisQuotes(Base):
     # 用于回测（下载数据）功能，获得数据时要判断库中是否存在该时间段的合约数据
     # (1)全部都存在，则只需查询数据库返回数据即可（2）只存在一部分，则需拉取（3）不存在，则需拉取
     def getData(self, ts_code, start, end):
-        self.pullData(ts_code=ts_code, start_date='20201008',end_date='20201008')
+        self.pullData(ts_code=ts_code, start_date='20201008', end_date='20201008')
         # 库中获取数据
         data = self.sqlData(ts_code, start, end)
         print("Im here")
