@@ -154,18 +154,18 @@ class HisQuotes(Base):
             data = self.pullData(ts_code, start, end)
 
         # 添加两列，MAS：短期均线值，MAL长期均线值
-        data['MAS'] = 0
-        data['MAL'] = 0
+        data['MAS'] = 0.0
+        data['MAL'] = 0.0
         # data.loc[0, 'close']
         # 如果记录数大于4，需要计算均值返回，给前端显示,先计算5天的均值给前端显示试试
         data_length = len(data)
         if data_length >= 5:
-            mas = mal = 0
+            mas = mal = 0.0
             for i in range(data_length):
                 if i > 4:  # 第6天开始有前五日均值
                     data.loc[i, 'MAS'] = mas / 5
-                    mas = mas - int(data.loc[i - 5, 'close'])
-                mas = mas + int(data.loc[i, 'close'])
+                    mas = mas - float(data.loc[i - 5, 'close'])
+                mas = mas + float(data.loc[i, 'close'])
         return data
 
     # sql查询，返回k线图字段，若无数据，则返回[]
