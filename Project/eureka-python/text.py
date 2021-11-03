@@ -81,7 +81,7 @@ def downFutHis(fut, start, end):
     with HisQuotes() as hq:
         data = hq.getData(ts_code=fut, start=start, end=end)
     # 同时需要将数据返回给web端
-    return data
+    return Response(json.dumps(data.to_json(orient='records')), mimetype='application/json')
 
 
 # 8003 查询当下合约
