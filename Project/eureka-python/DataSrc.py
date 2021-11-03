@@ -157,10 +157,10 @@ class HisQuotes(Base):
         try:
             fut = ts_code[:2].upper()
             print("select trade_date,ts_code,open,close,high,low from " +
-                  fut + " where ts_code = '" + ts_code + "' and trade_date between '" +
+                  fut + " where ts_code = '" + ts_code.upper() + "' and trade_date between '" +
                   start + "' and '" + end + "'")
             data = pd.read_sql_query("select trade_date,ts_code,open,close,high,low from " +
-                                     fut + " where ts_code = '" + ts_code + "' and trade_date between '"
+                                     fut + " where ts_code = '" + ts_code.upper() + "' and trade_date between '"
                                      + start + "' and '" + end + "'",
                                      self.conn)
             print(data)
