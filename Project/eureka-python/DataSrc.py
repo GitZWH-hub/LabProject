@@ -29,7 +29,7 @@ class Base(object):
 
     def read_sql(self):
         data = pd.read_sql_query("select *from " + self.TABLENAME, self.conn)
-        print(data.head())
+        return data
 
 
 '''
@@ -84,6 +84,12 @@ class TradeCal(Base):
             log.error('to_sql ERROR')
         log.info('-- 拉取交易日历结束(TradeCal) --')
 
+    # 获取某段时间内的所有交易日
+    def getTradeDay(self, start, end):
+        data = pd.read_sql_query("select cal_date from " + self.TABLENAME +
+                                 " where is_open = '1' and cal_date between '" + start + "' and '" + end + "'")
+        return data
+
 
 '''
 获取SHFE历史行情信息: TuShare
@@ -97,43 +103,14 @@ class HisQuotes(Base):
         self.TABLENAME = 'HisQuotes'
         return self
 
-    def pull_data_(self, start_date=None, end_date=None, ts_code=None):
-        # 考虑几种情况
-        # 1. 拉取CU的所有历史数据，此时start_date和end_date=None
-        #    此时使用 需要先查取Futures  的所有该合约的期货代码ts_code循环利用下面的语句拉数据
-        #    self.pro.fut_daily(ts-code=ts_code)
-
+    def pullData(self, ts_code, start_date, end_date):
         log.info('-- 开始拉取历史行情(HisQuotes) --')
         try:
-            with Futures() as future:
-                if ts_code is not None:
-                    data = self.pro.fut_daily(ts_code=ts_code + '.SHF', start_date=start_date, end_date=end_date)
-                    data.to_sql(ts_code, self.conn, index=True, if_exists='replace')
-                    return
-                futures = future.get_fut()
-                futs = futures['ts_code']
-                for fut in futs:
-                    log.info('  获取' + fut + '行情')
-                    data = self.pro.fut_daily(ts_code=fut, start_date=start_date, end_date=end_date)
-                    data.to_sql(fut, self.conn, index=True, if_exists='replace')
-                    log.info('  结束')
+            data = self.pro.fut_daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
+            data.to_sql(ts_code, self.conn, index=True, if_exists='append')
         except:
             log.error("to_sql ERROR")
         log.info('-- 拉取历史行情结束(HisQuotes) --')
-
-    def pull_data(self, ts_code, start_date=None, end_date=None):
-        try:
-            with Futures() as fut:
-                ts_codes = fut.get_ts_code(fut_code=ts_code)
-
-                for index, row in ts_codes.iterrows():
-                    print(row)
-                    print(row['ts_code'])
-                    data = self.pro.fut_daily(ts_code=row['ts_code'])
-                    print(data)
-                    data.to_sql(ts_code, self.conn, index=True, if_exists='append')
-        except:
-            log.error("sql error")
 
     def getKData(self, fut, futEnd, start, end):
         try:
@@ -146,6 +123,45 @@ class HisQuotes(Base):
             return data
         except:
             log.info("ERROR")
+
+    # 用于回测（下载数据）功能，获得数据时要判断库中是否存在该时间段的合约数据
+    # (1)全部都存在，则只需查询数据库返回数据即可（2）只存在一部分，则需拉取（3）不存在，则需拉取
+    def getData(self, ts_code, start, end):
+        # 库中获取数据
+        data = self.sqlData(ts_code, start, end)
+        print("Im here")
+        print(data)
+        # （1）如果库中没有数据（data=[]），则拉取
+        if 0 == len(data):
+            self.pullData(ts_code=ts_code, start_date=start, end_date=end)
+            return self.sqlData(ts_code, start, end)
+        # （2）库中存在时间段内的一些数据或全部数据，需要结合交易日历来判断库中的数据是否完整
+
+        with TradeCal() as tc:
+            tradecal = tc.getTradeDay(start=start, end=end)
+        # 库中存在完整数据
+        if len(data) == len(tradecal):
+            return data
+        # 库中数据不完整，左边界，右边界
+        self.pullData(ts_code=ts_code, start_date=start, end_date=data[0].trade_date)
+        self.pullData(ts_code=ts_code, start_date=start, end_date=data[len(data)-1].trade_date)
+        return self.sqlData(ts_code, start, end)
+        # 怎么判断数据是否都存在？？？
+
+    # sql查询，返回k线图字段，若无数据，则返回[]
+    def sqlData(self, ts_code, start, end):
+        try:
+            fut = ts_code[:2].upper()
+            print("select trade_date,ts_code,open,close,high,low from " +
+                  fut + " where ts_code = '" + ts_code + "' and trade_date between '" +
+                  start + "' and '" + end + "'")
+            data = pd.read_sql_query("select trade_date,ts_code,open,close,high,low from " +
+                                     fut + " where ts_code = '" + ts_code + "' and trade_date between '"
+                                     + start + "' and '" + end + "'",
+                                     self.conn)
+        except:
+            log.info("ERROR")
+        return data
 
 
 '''

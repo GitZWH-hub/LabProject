@@ -71,7 +71,17 @@ def pullData(type, fut=None, start=None, end=None):
 
     return rsp
 
-@app.route("/8005")
+
+# 8008 拉取合约历史数据
+@app.route("/8008/<fut>/<start>/<end>")
+def downFutHis(fut, start, end):
+    # 暂时：起始时间和结束时间为必须
+    start = start.replace('-', '')
+    end = end.replace('-', '')
+    with HisQuotes() as hq:
+        data = hq.getData(ts_code=fut, start=start, end=end)
+    # 同时需要将数据返回给web端
+    return data
 
 
 # 8003 查询当下合约
