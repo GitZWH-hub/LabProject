@@ -164,8 +164,8 @@ class HisQuotes(Base):
             for i in range(data_length):
                 if i > 4:  # 第6天开始有前五日均值
                     data.loc[i, 'MAS'] = mas / 5
-                    mas -= data.loc[i - 5, 'close']
-                mas += data.loc[i, 'close']
+                    mas = mas - data.loc[i - 5, 'close']
+                mas = mas + data.loc[i, 'close']
         return data
 
     # sql查询，返回k线图字段，若无数据，则返回[]
