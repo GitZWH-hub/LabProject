@@ -5,6 +5,9 @@ import re
 
 import tushare as ts
 import sqlite3 as sql3
+
+from pandas.core import frame
+
 from logfile import log, Logger
 from datetime import datetime
 import pandas as pd
@@ -153,6 +156,8 @@ class HisQuotes(Base):
             self.deleteData(ts_code, start, end)
             data = self.pullData(ts_code, start, end)
 
+        # 需要对data按日期拍下序
+        data.sort(columns=['trade_date'], axis=0, ascending=True)
         # 添加两列，MAS：短期均线值，MAL长期均线值
         data['MAS'] = 0.0
         data['MAL'] = 0.0
@@ -166,7 +171,8 @@ class HisQuotes(Base):
                     data.loc[i, 'MAS'] = mas / 5
                     mas = mas - float(data.loc[i + 5, 'close'])
                 mas = mas + float(data.loc[i, 'close'])
-                print(mas)
+                # print(mas)
+
         return data
 
     # sql查询，返回k线图字段，若无数据，则返回[]
