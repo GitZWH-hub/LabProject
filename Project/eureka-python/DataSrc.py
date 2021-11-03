@@ -163,6 +163,7 @@ class HisQuotes(Base):
                                      fut + " where ts_code = '" + ts_code + "' and trade_date between '"
                                      + start + "' and '" + end + "'",
                                      self.conn)
+            print(data)
         except:
             log.info("ERROR")
         return data
