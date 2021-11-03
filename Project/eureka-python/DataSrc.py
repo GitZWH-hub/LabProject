@@ -144,6 +144,7 @@ class HisQuotes(Base):
 
         with TradeCal() as tc:
             tradecal = tc.getTradeDay(start=start, end=end)
+        print(tradecal)
         # 库中存在完整数据
         if len(data) == len(tradecal):
             return data
