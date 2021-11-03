@@ -157,11 +157,11 @@ class HisQuotes(Base):
             data = self.pullData(ts_code, start, end)
 
         # 需要对data按日期拍下序
-        data.sort_values(columns=['trade_date'], axis=0, ascending=True)
+        data.sort_values(by="trade_date", ascending=True)
+        print(data)
         # 添加两列，MAS：短期均线值，MAL长期均线值
         data['MAS'] = 0.0
         data['MAL'] = 0.0
-        # data.loc[0, 'close']
         # 如果记录数大于4，需要计算均值返回，给前端显示,先计算5天的均值给前端显示试试
         data_length = len(data)
         if data_length >= 5:
