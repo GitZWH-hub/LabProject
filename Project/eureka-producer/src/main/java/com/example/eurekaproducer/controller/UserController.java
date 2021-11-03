@@ -32,7 +32,7 @@ public class UserController {
                 + "/" + req.getEnd(), String.class).getBody();
     }
     /*
-        8002:请求拉取数据from TuShare
+        8002
     */
     @PostMapping("/Req8002")
     public String pullData(@RequestBody Req8002 req) {
@@ -44,7 +44,7 @@ public class UserController {
     }
 
     /*
-    8005:请求拉取数据from TuShare
+    8008:请求拉取数据from TuShare
     */
     @PostMapping("/Req8008")
     public String getData(@RequestBody Req8008 req) {
