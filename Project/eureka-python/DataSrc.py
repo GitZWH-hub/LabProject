@@ -115,6 +115,8 @@ class HisQuotes(Base):
         except:
             log.error("to_sql ERROR")
         log.info('-- 拉取历史行情结束(HisQuotes) --')
+        # print(data)
+        return data
 
     def getKData(self, fut, futEnd, start, end):
         try:
@@ -139,9 +141,9 @@ class HisQuotes(Base):
         # （1）如果库中没有数据（data=[]），则拉取
         if 0 == len(data):
             print("库中没有一条数据")
-            self.pullData(ts_code=ts_code, start_date=start, end_date=end)
+            pull = self.pullData(ts_code=ts_code, start_date=start, end_date=end)
+            print(pull)
             return self.sqlData(ts_code, start, end)
-        # （2）库中存在时间段内的一些数据或全部数据，需要结合交易日历来判断库中的数据是否完整
 
         with TradeCal() as tc:
             tradecal = tc.getTradeDay(start=start, end=end)
