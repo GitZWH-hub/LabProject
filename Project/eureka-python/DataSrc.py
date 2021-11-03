@@ -147,15 +147,16 @@ class HisQuotes(Base):
             tradecal = tc.getTradeDay(start=start, end=end)
 
         # 库中存在完整数据
-        if len(data) == len(tradecal):
-            print("库中有所有数据")
-            return data
-        else:
+        if len(data) != len(tradecal):
+            print("库中数据不完整")
             # 删除该库中所有该时间段的数据，并重新拉取tushare并append表
             self.deleteData(ts_code, start, end)
-            return self.pullData(ts_code, start, end)
+            data = self.pullData(ts_code, start, end)
 
-        # 怎么判断数据是否都存在？？？
+        # 这里要返回每日的五天均线值，供前端显示，那么怎么在dataFrame里添加一列呢？？
+        data['MAS'] = 0
+        data['MAL'] = 0
+        return data
 
     # sql查询，返回k线图字段，若无数据，则返回[]
     def sqlData(self, ts_code, start, end):
@@ -259,15 +260,3 @@ class TradePara(object):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.conn.close()
-
-# if __name__ == "__main__":
-#     with TradePara() as tp:
-#         tp.loadData(trade_date='20211008')
-#     conn = sql3.connect('DBData')
-#     data = [{'fut_code': 'cu', 'para': '铜'}, {'fut_code': 'bc', 'para': '铜BC'}, {'fut_code': 'al', 'para': '铝'}, {'fut_code': 'zn', 'para': '锌'},
-#             {'fut_code': 'pb', 'para': '铅'}, {'fut_code': 'ni', 'para': '镍'}, {'fut_code': 'sn', 'para': '锡'}, {'fut_code': 'au', 'para': '黄金'},
-#             {'fut_code': 'ag', 'para': '白银'}, {'fut_code': 'rb', 'para': '螺纹钢'}, {'fut_code': 'wr', 'para': '线材'}, {'fut_code': 'hc', 'para': '热轧卷板'},
-#             {'fut_code': 'ss', 'para': '不锈钢'}]
-#     df = pd.DataFrame(data)
-#     df.to_sql('FutCode', conn, index=True, if_exists='replace')
-#     conn.close()
