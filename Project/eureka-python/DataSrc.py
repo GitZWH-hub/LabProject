@@ -136,14 +136,13 @@ class HisQuotes(Base):
         self.pullData(ts_code=ts_code, start_date='20201001', end_date='20201001')
         # 库中获取数据
         data = self.sqlData(ts_code, start, end)
-        print("Im here")
-        print(data)
+
         # （1）如果库中没有数据（data=[]），则拉取
         if 0 == len(data):
             print("库中没有一条数据")
             pull = self.pullData(ts_code=ts_code, start_date=start, end_date=end)
-            print(pull)
-            return self.sqlData(ts_code, start, end)
+            return pull
+            # return self.sqlData(ts_code, start, end)
 
         with TradeCal() as tc:
             tradecal = tc.getTradeDay(start=start, end=end)
@@ -154,9 +153,9 @@ class HisQuotes(Base):
             return data
         else:
             # 删除该库中所有该时间段的数据，并重新拉取append库
-            self.deleteData(ts_code, start, end)
-            self.pullData(ts_code, start, end)
-            return self.sqlData(ts_code, start, end)
+            # self.deleteData(ts_code, start, end)
+            return self.pullData(ts_code, start, end)
+            # return self.sqlData(ts_code, start, end)
         # 怎么判断数据是否都存在？？？
 
     # sql查询，返回k线图字段，若无数据，则返回[]
