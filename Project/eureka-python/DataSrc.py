@@ -166,6 +166,7 @@ class HisQuotes(Base):
                     data.loc[i, 'MAS'] = mas / 5
                     mas = mas - float(data.loc[i + 5, 'close'])
                 mas = mas + float(data.loc[i, 'close'])
+                print(mas)
         return data
 
     # sql查询，返回k线图字段，若无数据，则返回[]
