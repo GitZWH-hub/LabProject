@@ -88,8 +88,10 @@ class TradeCal(Base):
 
     # 获取某段时间内的所有交易日
     def getTradeDay(self, start, end):
+        print("select cal_date from " + self.TABLENAME +
+              " where is_open = '1' and cal_date between '" + start + "' and '" + end + "'")
         data = pd.read_sql_query("select cal_date from " + self.TABLENAME +
-                                 " where is_open = '1' and cal_date between '" + start + "' and '" + end + "'")
+                                 " where is_open = '1' and cal_date between '" + start + "' and '" + end + "'", self.conn)
         return data
 
 
