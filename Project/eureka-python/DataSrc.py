@@ -166,7 +166,7 @@ class HisQuotes(Base):
         data_length = len(data)
         if data_length >= 5:
             mas = mal = 0.0
-            for i in range(data_length - 1, 1, -1):
+            for i in range(data_length - 1, -1, -1):
                 if i < data_length - 5:  # 第6天开始有前五日均值
                     data.loc[i, 'MAS'] = mas / 5
                     mas = mas - float(data.loc[i + 5, 'close'])
