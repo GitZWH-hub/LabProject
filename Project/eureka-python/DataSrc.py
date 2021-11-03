@@ -155,10 +155,11 @@ class HisQuotes(Base):
         print("库中数据左边界{}".format(data.loc[len(data) - 1, 'trade_date']))
         print("库中数据右边界{}".format(data.loc[0, 'trade_date']))
         print(tradecal)
-        if tradecal.loc[0, 'cal_date'] != start:
-            self.pullData(ts_code=ts_code, start_date=data.loc[len(data) - 1, 'trade_date'], end_date=end)
-        if tradecal.loc[len(tradecal)-1, 'cal_date'] != end:
-            self.pullData(ts_code=ts_code, start_date=start, end_date=data.loc[0, 'trade_date'])
+        # 如果交易日的起始值 ！= 库中数据起始值
+        if tradecal.loc[0, 'cal_date'] != data.loc[len(data) - 1, 'trade_date']:
+            self.pullData(ts_code=ts_code, start_date=start, end_date=data.loc[len(data) - 1, 'trade_date'])
+        if tradecal.loc[len(tradecal)-1, 'cal_date'] != data.loc[0, 'trade_date']:
+            self.pullData(ts_code=ts_code, start_date=data.loc[0, 'trade_date'], end_date=end)
 
         return self.sqlData(ts_code, start, end)
         # 怎么判断数据是否都存在？？？
