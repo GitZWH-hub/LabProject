@@ -153,9 +153,19 @@ class HisQuotes(Base):
             self.deleteData(ts_code, start, end)
             data = self.pullData(ts_code, start, end)
 
-        # 这里要返回每日的五天均线值，供前端显示，那么怎么在dataFrame里添加一列呢？？
+        # 添加两列，MAS：短期均线值，MAL长期均线值
         data['MAS'] = 0
         data['MAL'] = 0
+        # data.loc[0, 'close']
+        # 如果记录数大于4，需要计算均值返回，给前端显示,先计算5天的均值给前端显示试试
+        data_length = len(data)
+        if data_length >= 5:
+            mas = mal = 0
+            for i in range(data_length):
+                if i > 4:  # 第6天开始有前五日均值
+                    data.loc[i, 'MAS'] = mas / 5
+                    mas -= data.loc[i - 5, 'close']
+                mas += data.loc[i, 'close']
         return data
 
     # sql查询，返回k线图字段，若无数据，则返回[]
