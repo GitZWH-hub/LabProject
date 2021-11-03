@@ -153,6 +153,7 @@ class HisQuotes(Base):
 
     # sql查询，返回k线图字段，若无数据，则返回[]
     def sqlData(self, ts_code, start, end):
+        data = []
         try:
             fut = ts_code[:2].upper()
             print("select trade_date,ts_code,open,close,high,low from " +
