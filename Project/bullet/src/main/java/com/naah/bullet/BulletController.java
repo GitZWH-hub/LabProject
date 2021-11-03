@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import com.alibaba.fastjson.JSON;
 import javax.annotation.Resource;
 
-@Controller
+//@Controller
 @CrossOrigin
 @RestController
 public class BulletController {

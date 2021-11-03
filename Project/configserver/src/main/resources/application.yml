@@ -13,10 +13,11 @@ spring:
           search-locations:
            - classpath:/yml/bullet/         # java服务（websocket+入口）
            - classpath:/yml/gateway/        # 前端接入网关
+           - classpath:/yml/eureka-producer/
 #           - classpath:/yml/sidecar/ # python
            - classpath:/yml/game/
            - classpath:/yml/admin/
-#           - classpath:/yml/
+
 server:
   port: 1026
 eureka:

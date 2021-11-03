@@ -1,5 +1,6 @@
 package com.example.eurekaproducer.controller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -41,8 +42,6 @@ public class UserController {
                 + "/" + req.getStart()
                 + "/" + req.getEnd(), String.class).getBody();
     }
-
-
 }
 
 

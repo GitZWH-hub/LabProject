@@ -71,6 +71,8 @@ def pullData(type, fut=None, start=None, end=None):
 
     return rsp
 
+@app.route("/8005")
+
 
 # 8003 查询当下合约
 @app.route("/800")
