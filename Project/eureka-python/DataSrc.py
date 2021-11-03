@@ -149,7 +149,7 @@ class HisQuotes(Base):
         if len(data) == len(tradecal):
             return data
         # 库中数据不完整，左边界，右边界
-        self.pullData(ts_code=ts_code, start_date=start, end_date=data[0].trade_date)
+        self.pullData(ts_code=ts_code, start_date=start, end_date=data.cal_date[0])
         self.pullData(ts_code=ts_code, start_date=start, end_date=data[len(data)-1].trade_date)
         return self.sqlData(ts_code, start, end)
         # 怎么判断数据是否都存在？？？
