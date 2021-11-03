@@ -130,19 +130,18 @@ class HisQuotes(Base):
         except:
             log.info("ERROR")
 
-    # 用于回测（下载数据）功能，获得数据时要判断库中是否存在该时间段的合约数据
-    # (1)全部都存在，则只需查询数据库返回数据即可（2）只存在一部分，则需拉取（3）不存在，则需拉取
+    # 用于回测（下载数据）功能，
+    # 先查询库，若库中有需要的所有数据，则直接从库中查询。
+    # 若库中数据不全，则from tushare and delete table data
     def getData(self, ts_code, start, end):
         self.pullData(ts_code=ts_code, start_date='20201001', end_date='20201001')
         # 库中获取数据
         data = self.sqlData(ts_code, start, end)
 
-        # （1）如果库中没有数据（data=[]），则拉取
         if 0 == len(data):
             print("库中没有一条数据")
             pull = self.pullData(ts_code=ts_code, start_date=start, end_date=end)
             return pull
-            # return self.sqlData(ts_code, start, end)
 
         with TradeCal() as tc:
             tradecal = tc.getTradeDay(start=start, end=end)
@@ -152,10 +151,10 @@ class HisQuotes(Base):
             print("库中有所有数据")
             return data
         else:
-            # 删除该库中所有该时间段的数据，并重新拉取append库
-            # self.deleteData(ts_code, start, end)
+            # 删除该库中所有该时间段的数据，并重新拉取tushare并append表
+            self.deleteData(ts_code, start, end)
             return self.pullData(ts_code, start, end)
-            # return self.sqlData(ts_code, start, end)
+
         # 怎么判断数据是否都存在？？？
 
     # sql查询，返回k线图字段，若无数据，则返回[]
