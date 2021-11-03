@@ -131,27 +131,29 @@ class HisQuotes(Base):
     # 用于回测（下载数据）功能，获得数据时要判断库中是否存在该时间段的合约数据
     # (1)全部都存在，则只需查询数据库返回数据即可（2）只存在一部分，则需拉取（3）不存在，则需拉取
     def getData(self, ts_code, start, end):
-        self.pullData(ts_code=ts_code, start_date='20201008', end_date='20201008')
+        self.pullData(ts_code=ts_code, start_date='20201001', end_date='20201001')
         # 库中获取数据
         data = self.sqlData(ts_code, start, end)
         print("Im here")
         print(data)
         # （1）如果库中没有数据（data=[]），则拉取
         if 0 == len(data):
+            print("库中没有一条数据")
             self.pullData(ts_code=ts_code, start_date=start, end_date=end)
             return self.sqlData(ts_code, start, end)
         # （2）库中存在时间段内的一些数据或全部数据，需要结合交易日历来判断库中的数据是否完整
 
         with TradeCal() as tc:
             tradecal = tc.getTradeDay(start=start, end=end)
-        print(tradecal)
+
         # 库中存在完整数据
         if len(data) == len(tradecal):
+            print("库中有所有数据")
             return data
         # 库中数据不完整，左边界，右边界
         print(data)
-        print(data.loc[0, 'trade_date'])
-        print(data.loc[len(data) - 1, 'trade_date'])
+        print("库中数据左边界{}".format(data.loc[0, 'trade_date']))
+        print("库中数据右边界{}".format(data.loc[len(data) - 1, 'trade_date']))
         self.pullData(ts_code=ts_code, start_date=start, end_date=data.loc[0, 'trade_date'])
         self.pullData(ts_code=ts_code, start_date=data.loc[len(data) - 1, 'trade_date'], end_date=end)
         return self.sqlData(ts_code, start, end)
