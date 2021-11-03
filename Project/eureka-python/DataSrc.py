@@ -150,18 +150,11 @@ class HisQuotes(Base):
         if len(data) == len(tradecal):
             print("库中有所有数据")
             return data
-        # 库中数据不完整，左边界，右边界
-        print(data)
-        print("库中数据左边界{}".format(data.loc[len(data) - 1, 'trade_date']))
-        print("库中数据右边界{}".format(data.loc[0, 'trade_date']))
-        print(tradecal)
-        # 如果交易日的起始值 ！= 库中数据起始值
-        if tradecal.loc[0, 'cal_date'] != data.loc[len(data) - 1, 'trade_date']:
-            self.pullData(ts_code=ts_code, start_date=start, end_date=data.loc[len(data) - 1, 'trade_date'])
-        if tradecal.loc[len(tradecal)-1, 'cal_date'] != data.loc[0, 'trade_date']:
-            self.pullData(ts_code=ts_code, start_date=data.loc[0, 'trade_date'], end_date=end)
-
-        return self.sqlData(ts_code, start, end)
+        else:
+            # 删除该库中所有该时间段的数据，并重新拉取append库
+            self.deleteData(ts_code, start, end)
+            self.pullData(ts_code, start, end)
+            return self.sqlData(ts_code, start, end)
         # 怎么判断数据是否都存在？？？
 
     # sql查询，返回k线图字段，若无数据，则返回[]
@@ -181,6 +174,15 @@ class HisQuotes(Base):
             log.info("ERROR")
         return data
 
+    def deleteData(self, ts_code, start, end):
+        try:
+            fut = ts_code[:2].upper()
+            print("delete from " + fut + " where ts_code = '" + ts_code.upper() +
+                  "' and trade_date between '" + start + "' and '" + end + "'",)
+            pd.read_sql_query("delete from " + fut + " where ts_code = '" + ts_code.upper() +
+                              "' and trade_date between '" + start + "' and '" + end + "'", self.conn)
+        except:
+            log.info("ERROR")
 
 '''
 获取SHFE结算参数: TuShare
