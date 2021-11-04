@@ -157,12 +157,13 @@ class HisQuotes(Base):
             data = self.pullData(ts_code, start, end)
 
         # 需要对data按日期拍下序
-        data = data.sort_values(by="trade_date", ascending=False)
+        data = data.sort_values(by="trade_date", ascending=True)
+        print(data)
         # 添加两列，MAS：短期均线值，MAL长期均线值
         # data['MAS'] = 0.0
         # data['MAL'] = 0.0
         # data_length = len(data)
-        data.iloc[::-1]
+        data = data.iloc[::-1]
         print(data)
         data['MAS'] = round(data.close.rolling(5).mean(), 2)
         data['MAL'] = round(data.close.rolling(10).mean(), 2)
@@ -183,8 +184,7 @@ class HisQuotes(Base):
         #         if i >= data_length - 10:
         #             data.loc[i, 'MAL'] = round(mal / (data_length - i), 2)
         #         # print(mas)
-        data.iloc[::-1]
-        return data
+        return data.iloc[::-1]
 
     # sql查询，返回k线图字段，若无数据，则返回[]
     def sqlData(self, ts_code, start, end):
