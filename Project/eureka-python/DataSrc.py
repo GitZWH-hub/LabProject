@@ -177,9 +177,9 @@ class HisQuotes(Base):
                 mal = mal + float(data.loc[i, 'close'])
 
                 if i >= data_length - 5:
-                    data.loc[i, 'MAS'] = mas / (data_length - i + 1)
+                    data.loc[i, 'MAS'] = mas / (data_length - i)
                 if i >= data_length - 10:
-                    data.loc[i, 'MAL'] = mal/ (data_length - i + 1)
+                    data.loc[i, 'MAL'] = mal / (data_length - i)
                 # print(mas)
 
         return data
