@@ -130,7 +130,7 @@ def exchangeEV(flag):
 
 
 # 8105  双均线回测
-@app.route("/8105/<fut>/<start>/<end>/<short>/<long>/<cash>", methods=["GET, ""POST"])
+@app.route("/8105/<fut>/<start>/<end>/<short>/<long>/<cash>", methods=["GET", "POST"])
 def doubleMABackTest(fut, start, end, short, long, cash):
     print("开始双均线回测")
     start = start.replace('-', '')
