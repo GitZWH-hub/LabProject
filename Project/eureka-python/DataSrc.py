@@ -163,8 +163,8 @@ class HisQuotes(Base):
         # data['MAL'] = 0.0
         # data_length = len(data)
         print(data)
-        data['MAS'] = data.close.rolling(5, min_periods=1).mean()
-        data['MAL'] = data.close.rolling(10, min_periods=1).mean()
+        data['MAS'] = round(data.close.rolling(5).mean(), 2)
+        data['MAL'] = round(data.close.rolling(10).mean(), 2)
         # if data_length >= 5:
         #     mas = mal = 0.0
         #     for i in range(data_length - 1, -1, -1):
