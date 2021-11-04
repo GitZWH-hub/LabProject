@@ -3,13 +3,13 @@ package com.naah.bullet;
 import com.naah.bullet.request.Req8101;
 import com.naah.bullet.request.Req8102;
 import com.naah.bullet.request.Req8103;
+import com.naah.bullet.request.Req8105;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import com.alibaba.fastjson.JSON;
@@ -58,5 +58,14 @@ public class BulletController {
         System.out.println("8103更改环境");
         //这里调用行情ctp api获取行情
         return restTemplate.getForEntity("http://sidecar/8103" + "/" + req.getFlag(), String.class).getBody();
+    }
+
+    @MessageMapping("/Req8105")
+    public String doubleMABackTest(@RequestBody Req8105 req) {
+        System.out.println("8105双均线回测");
+        //这里调用行情ctp api获取行情
+        return restTemplate.getForEntity("http://sidecar/8105"
+                + "/" + req.getFut()+ "/" + req.getStart()+ "/" + req.getEnd()
+                + "/" + req.getShortT()+ "/" + req.getLongT()+ "/" + req.getCash(), String.class).getBody();
     }
 }
