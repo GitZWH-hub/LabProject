@@ -28,7 +28,8 @@ class CFtdcMdSpi(mdapi.CThostFtdcMdSpi):
         self.date = datetime.strftime(datetime.now(), '%Y%m%d')
         self.__create()
         self.subID = subID
-        self.url = "http://localhost:5678/sendQuotes"
+        # self.url = "http://localhost:5678/sendQuotes"
+        self.url = "http://bullet/sendQuotes"
         self.headers = {'Content-type': 'application/json'}
 
     def __create(self):
