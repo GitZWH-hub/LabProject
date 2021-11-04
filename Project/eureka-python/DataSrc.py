@@ -164,23 +164,25 @@ class HisQuotes(Base):
         data['MAL'] = 0.0
         # 如果记录数大于4，需要计算均值返回，给前端显示,先计算5天的均值给前端显示试试
         data_length = len(data)
-        if data_length >= 5:
-            mas = mal = 0.0
-            for i in range(data_length - 1, -1, -1):
-                if i < data_length - 5:   # 第6天开始有前五日均值
-                    data.loc[i, 'MAS'] = mas / 5
-                    mas = mas - float(data.loc[i + 5, 'close'])
-                if i < data_length - 10:  # 第十天开始有前10日均值
-                    data.loc[i, 'MAL'] = mal / 10
-                    mal = mal - float(data.loc[i + 10, 'close'])
-                mas = mas + float(data.loc[i, 'close'])
-                mal = mal + float(data.loc[i, 'close'])
-
-                if i >= data_length - 5:
-                    data.loc[i, 'MAS'] = round(mas / (data_length - i), 2)
-                if i >= data_length - 10:
-                    data.loc[i, 'MAL'] = round(mal / (data_length - i), 2)
-                # print(mas)
+        data['MAS'] = data.close.rolling(5, min_periods=0).mean()
+        data['MAL'] = data.close.rolling(10, min_periods=0).mean()
+        # if data_length >= 5:
+        #     mas = mal = 0.0
+        #     for i in range(data_length - 1, -1, -1):
+        #         if i < data_length - 5:   # 第6天开始有前五日均值
+        #             data.loc[i, 'MAS'] = mas / 5
+        #             mas = mas - float(data.loc[i + 5, 'close'])
+        #         if i < data_length - 10:  # 第十天开始有前10日均值
+        #             data.loc[i, 'MAL'] = mal / 10
+        #             mal = mal - float(data.loc[i + 10, 'close'])
+        #         mas = mas + float(data.loc[i, 'close'])
+        #         mal = mal + float(data.loc[i, 'close'])
+        #
+        #         if i >= data_length - 5:
+        #             data.loc[i, 'MAS'] = round(mas / (data_length - i), 2)
+        #         if i >= data_length - 10:
+        #             data.loc[i, 'MAL'] = round(mal / (data_length - i), 2)
+        #         # print(mas)
 
         return data
 
@@ -189,14 +191,11 @@ class HisQuotes(Base):
         data = []
         try:
             fut = ts_code[:2].upper()
-            print("select trade_date,ts_code,open,close,high,low from " +
-                  fut + " where ts_code = '" + ts_code.upper() + "' and trade_date between '" +
-                  start + "' and '" + end + "'")
-            data = pd.read_sql_query("select trade_date,ts_code,open,close,high,low from " +
-                                     fut + " where ts_code = '" + ts_code.upper() + "' and trade_date between '"
-                                     + start + "' and '" + end + "'",
+            print("select trade_date,ts_code,open,close,high,low from " + fut + " where ts_code = '" +
+                  ts_code.upper() + "' and trade_date between '" + start + "' and '" + end + "'")
+            data = pd.read_sql_query("select trade_date,ts_code,open,close,high,low from " + fut + " where ts_code = '"
+                                     + ts_code.upper() + "' and trade_date between '" + start + "' and '" + end + "'",
                                      self.conn)
-            print(data)
         except:
             log.info("ERROR")
         return data
@@ -210,6 +209,7 @@ class HisQuotes(Base):
                               "' and trade_date between '" + start + "' and '" + end + "'", self.conn)
         except:
             log.info("ERROR")
+
 
 '''
 获取SHFE结算参数: TuShare
