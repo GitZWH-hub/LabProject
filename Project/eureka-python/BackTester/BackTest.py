@@ -1,3 +1,4 @@
+import time
 from datetime import datetime
 import requests
 import json
@@ -31,11 +32,13 @@ class BackTester(object):
     # 初始化历史数据
     def init_data(self):
         self.sendTo("开始加载历史数据")
+        time.sleep(2)
         self.sendTo("历史数据加载完成")
 
     # 历史数据回放
     def handle_data(self):
         self.sendTo("开始回放历史数据")
+        time.sleep(5)
         self.sendTo("历史数据回放结束")
 
     def sendTo(self, info):
