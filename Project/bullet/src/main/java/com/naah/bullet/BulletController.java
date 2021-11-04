@@ -60,11 +60,11 @@ public class BulletController {
     //SendTo 发送至 Broker 下的指定订阅路径
     @MessageMapping("/Req8105")
     @SendTo("/toAll/DoubleMABackTester")
-    public String doubleMABackTest(@RequestBody Req8105 req) {
+    public void doubleMABackTest(@RequestBody Req8105 req) {
         System.out.println("8105双均线回测");
-        System.out.println(req.getCash());
+        System.out.println(req);
         //这里调用行情ctp api获取行情
-        return restTemplate.getForEntity("http://sidecar/8105"
+        restTemplate.getForEntity("http://sidecar/8105"
                 + "/" + req.getFut()+ "/" + req.getStart()+ "/" + req.getEnd()
                 + "/" + req.getShortT()+ "/" + req.getLongT()+ "/" + req.getCash(), String.class).getBody();
     }
