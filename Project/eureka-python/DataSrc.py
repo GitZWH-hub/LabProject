@@ -160,11 +160,15 @@ class HisQuotes(Base):
         data = data.sort_values(by="trade_date", ascending=True)
         print(data)
         # 添加两列，MAS：短期均线值，MAL长期均线值
+        # 这里当天的五日均线，包含了当天的结算价（后续需要确定五日均线是否是包含当日，按理说应该是包含的，结算价就是当日的平均价）
+        data['MAS'] = round(data.close.rolling(5, min_periods=1).mean(), 2)
+        data['MAL'] = round(data.close.rolling(10, min_periods=1).mean(), 2)
+        # 再查询库中的相关数据，并计算均价放到返回的数据data中（因为前4天的五日均价无法通过当前的data得来）
+        # 暂时先不实现。。。。。
+
         # data['MAS'] = 0.0
         # data['MAL'] = 0.0
         # data_length = len(data)
-        data['MAS'] = round(data.close.rolling(5, min_periods=1).mean(), 2)
-        data['MAL'] = round(data.close.rolling(10, min_periods=1).mean(), 2)
         # if data_length >= 5:
         #     mas = mal = 0.0
         #     for i in range(data_length - 1, -1, -1):
