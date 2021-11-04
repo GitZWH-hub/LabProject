@@ -5,7 +5,7 @@ import json
 
 # 获取当前系统时间
 def getNowTime():
-    return datetime.strptime(datetime.now(), "%H:%M:%S")
+    return datetime.strftime(datetime.now(), "%H:%M:%S")
 
 
 class BackTester(object):
