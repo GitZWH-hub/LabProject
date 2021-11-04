@@ -162,6 +162,7 @@ class HisQuotes(Base):
         # data['MAS'] = 0.0
         # data['MAL'] = 0.0
         # data_length = len(data)
+        data.iloc[::-1]
         print(data)
         data['MAS'] = round(data.close.rolling(5).mean(), 2)
         data['MAL'] = round(data.close.rolling(10).mean(), 2)
@@ -182,7 +183,7 @@ class HisQuotes(Base):
         #         if i >= data_length - 10:
         #             data.loc[i, 'MAL'] = round(mal / (data_length - i), 2)
         #         # print(mas)
-
+        data.iloc[::-1]
         return data
 
     # sql查询，返回k线图字段，若无数据，则返回[]
