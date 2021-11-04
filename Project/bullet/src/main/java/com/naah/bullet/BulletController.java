@@ -62,6 +62,7 @@ public class BulletController {
     @SendTo("/toMe/DoubleMABackTester")
     public String doubleMABackTest(@RequestBody Req8105 req) {
         System.out.println("8105双均线回测");
+        System.out.println(req.getCash());
         //这里调用行情ctp api获取行情
         return restTemplate.getForEntity("http://sidecar/8105"
                 + "/" + req.getFut()+ "/" + req.getStart()+ "/" + req.getEnd()

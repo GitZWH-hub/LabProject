@@ -13,7 +13,7 @@ public class Req8105 {
 
     private int shortT;
 
-    private long cash;
+    private int cash;
 
     public void setStart(String start) {
         this.start = start;
@@ -39,7 +39,7 @@ public class Req8105 {
         return shortT;
     }
 
-    public long getCash() {
+    public int getCash() {
         return cash;
     }
 
@@ -47,7 +47,7 @@ public class Req8105 {
         return fut;
     }
 
-    public void setCash(long cash) {
+    public void setCash(int cash) {
         this.cash = cash;
     }
 
