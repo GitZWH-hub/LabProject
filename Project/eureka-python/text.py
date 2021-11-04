@@ -4,6 +4,8 @@ import json
 import matplotlib.pyplot as plt
 from DataSrc import Futures, TradeCal, HisQuotes, FutSettle
 from flask import Flask, Response
+from BackTester.BackTest import BackTester
+from BackTester.Strategy import DoubleMovingAverage
 
 app = Flask(__name__)
 plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']  # 用来正常显示中文标签
@@ -126,6 +128,17 @@ def exchangeEV(flag):
     controller.setEV(flag=flag)
     return "success"
 
+
+# 8105  双均线回测
+@app.route("/8105/<fut>/<start>/<end>/<short>/<long>/<cash>", methods=["GET, ""POST"])
+def doubleMABackTest(fut, start, end, short, long, cash):
+    print("开始双均线回测")
+    start = start.replace('-', '')
+    end = end.replace('-', '')
+    doubleMABT = DoubleMovingAverage(long=long, short=short)
+    backTester = BackTester(start_date=start, end_date=end, ts_code=fut, cash=cash, strategy=doubleMABT)
+    backTester.start_backtester()
+    return 'success'
 
 if __name__ == "__main__":
     app.run(port=3000, host='0.0.0.0')
