@@ -186,7 +186,7 @@ class HisQuotes(Base):
         #         if i >= data_length - 10:
         #             data.loc[i, 'MAL'] = round(mal / (data_length - i), 2)
         #         # print(mas)
-        return data.iloc[::-1]
+        return data
 
     # sql查询，返回k线图字段，若无数据，则返回[]
     def sqlData(self, ts_code, start, end):
