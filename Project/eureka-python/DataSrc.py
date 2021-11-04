@@ -157,14 +157,11 @@ class HisQuotes(Base):
             data = self.pullData(ts_code, start, end)
 
         # 需要对data按日期拍下序
-        data.sort_values(by="trade_date", ascending=True)
-        print(data)
+        data.sort_values(by="trade_date", ascending=False)
         # 添加两列，MAS：短期均线值，MAL长期均线值
         # data['MAS'] = 0.0
         # data['MAL'] = 0.0
         # data_length = len(data)
-        print(data)
-        data = data.iloc[:-1]
         print(data)
         data['MAS'] = data.close.rolling(5, min_periods=1).mean()
         data['MAL'] = data.close.rolling(10, min_periods=1).mean()
