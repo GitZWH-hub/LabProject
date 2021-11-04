@@ -138,7 +138,7 @@ def doubleMABackTest(fut, start, end, short, long, cash):
     doubleMABT = DoubleMovingAverage(long=long, short=short)
     backTester = BackTester(start_date=start, end_date=end, ts_code=fut, cash=cash, strategy=doubleMABT)
     backTester.start_backtester()
-    return 'success'
+    # return 'success'
 
 if __name__ == "__main__":
     app.run(port=3000, host='0.0.0.0')
