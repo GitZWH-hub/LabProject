@@ -160,12 +160,12 @@ class HisQuotes(Base):
         data.sort_values(by="trade_date", ascending=True)
         print(data)
         # 添加两列，MAS：短期均线值，MAL长期均线值
-        data['MAS'] = 0.0
-        data['MAL'] = 0.0
-        # 如果记录数大于4，需要计算均值返回，给前端显示,先计算5天的均值给前端显示试试
-        data_length = len(data)
-        data['MAS'] = data.close.rolling(5, min_periods=0).mean()
-        data['MAL'] = data.close.rolling(10, min_periods=0).mean()
+        # data['MAS'] = 0.0
+        # data['MAL'] = 0.0
+        # data_length = len(data)
+        data = data.iloc[:-1]
+        data['MAS'] = data.close.rolling(5, min_periods=5).mean()
+        data['MAL'] = data.close.rolling(10, min_periods=10).mean()
         # if data_length >= 5:
         #     mas = mal = 0.0
         #     for i in range(data_length - 1, -1, -1):
