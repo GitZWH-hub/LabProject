@@ -1,9 +1,6 @@
 package com.naah.bullet;
 
-import com.naah.bullet.request.Req8101;
-import com.naah.bullet.request.Req8102;
-import com.naah.bullet.request.Req8103;
-import com.naah.bullet.request.Req8105;
+import com.naah.bullet.request.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,12 +57,23 @@ public class BulletController {
         return restTemplate.getForEntity("http://sidecar/8103" + "/" + req.getFlag(), String.class).getBody();
     }
 
+    //SendTo 发送至 Broker 下的指定订阅路径
     @MessageMapping("/Req8105")
+    @SendTo("/toMe/DoubleMABackTester")
     public String doubleMABackTest(@RequestBody Req8105 req) {
         System.out.println("8105双均线回测");
         //这里调用行情ctp api获取行情
         return restTemplate.getForEntity("http://sidecar/8105"
                 + "/" + req.getFut()+ "/" + req.getStart()+ "/" + req.getEnd()
                 + "/" + req.getShortT()+ "/" + req.getLongT()+ "/" + req.getCash(), String.class).getBody();
+    }
+    //这里是API收到行情主动调用的函数，与前台链接测试成功
+    @PostMapping("/sendDoubleMABackTestInfo")
+    public String sendMessage(@RequestBody Req8100 req) throws Exception{
+        System.out.println("bullet 收到信息");
+        String json=JSON.toJSONString(req);//关键
+        System.out.println(json);
+        template.convertAndSend("/toMe/DoubleMABackTester", json);
+        return "yes";
     }
 }
