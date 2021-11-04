@@ -59,7 +59,7 @@ public class BulletController {
 
     //SendTo 发送至 Broker 下的指定订阅路径
     @MessageMapping("/Req8105")
-    @SendTo("/toMe/DoubleMABackTester")
+    @SendTo("/toAll/DoubleMABackTester")
     public String doubleMABackTest(@RequestBody Req8105 req) {
         System.out.println("8105双均线回测");
         System.out.println(req.getCash());
@@ -74,7 +74,7 @@ public class BulletController {
         System.out.println("bullet 收到信息");
         String json=JSON.toJSONString(req);//关键
         System.out.println(json);
-        template.convertAndSend("/toMe/DoubleMABackTester", json);
+        template.convertAndSend("/toAll/DoubleMABackTester", json);
         return "yes";
     }
 }
