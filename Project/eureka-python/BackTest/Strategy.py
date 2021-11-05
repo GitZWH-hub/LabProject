@@ -118,11 +118,9 @@ class DoubleMovingAverage(BaseStrategy):
         print("双均线收到行情:{}次".format(self.num))
         # （2）bar推送到缓存bar_df
         if self.bar_df is None:
-            print(bar)
             self.bar_df = bar
         else:
-            print("******")
-            self.bar_df.append(bar)
+            self.bar_df = self.bar_df.append(bar)
         print(self.bar_df)
         # （3）判断bar_df的数据是否足够11条，如果不足够，则不做处理；如果足够，进入（4）
         if len(self.bar_df) < 11:
