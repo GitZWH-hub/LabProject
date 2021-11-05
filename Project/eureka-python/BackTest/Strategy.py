@@ -85,6 +85,7 @@ class DoubleMovingAverage(BaseStrategy):
         self.short_term = 5
         # 缓存的行情数据，根据long_term缓存条数
         self.bar_list = []
+        self.num = 0
 
     def set_long(self, long):
         """
@@ -113,12 +114,13 @@ class DoubleMovingAverage(BaseStrategy):
         :return:
         """
         # （1）获取bar
-        print("双均线收到行情：{}".format(bar))
+        self.num += 1
+        print("双均线收到行情:{}次".format(self.num))
         # （2）bar推送到缓存bar_list
         self.bar_list.append(bar)
-        # （3）判断bar_list的数据是否足够10条，如果不足够，则不做处理；如果足够，进入（4）
-        if len(self.bar_list) < 10:
-            print("reeturn 1 次")
+        # （3）判断bar_list的数据是否足够11条，如果不足够，则不做处理；如果足够，进入（4）
+        if len(self.bar_list) < 11:
+            print("reeturn {} 次".format(self.num))
             return
         # （4）取bar_list的最后long_term个元素：bar_list = bat_list[-self.long_term:]
         self.bar_list = self.bar_list[- self.long_term:]
