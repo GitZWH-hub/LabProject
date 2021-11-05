@@ -208,7 +208,7 @@ class BackTester(object):
 
         for index, candle in self.backtest_data.iterrows():
             # print(type(bar))
-            can = [[candle['trade_date'], candle['open'], candle['close'],candle['high'], candle['low'], candle['vol']]]
+            can = [[candle['trade_date'], candle['open'], candle['close'], candle['high'], candle['low'], candle['vol']]]
             bar = pd.DataFrame(can, columns=['trade_date', 'open', 'close', 'high', 'low', 'volume'])
             self.check_order(bar)                   # 检查该行情bar是否满足成交条件
             self.strategy_instance.on_bar(bar)      # 给到策略（用户）
