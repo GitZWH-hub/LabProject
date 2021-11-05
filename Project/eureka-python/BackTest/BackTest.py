@@ -226,7 +226,7 @@ class BackTester(object):
         # 当前这比行情的价格
         print("查看当前的已报单情况{}".format(self.active_orders))
         for order in self.active_orders:
-            price = bar.close
+            price = bar.close.iloc[0]
             match = False
             print('报单价格：{}'.format(order.price), '行情价格：{}'.format(price))
             if order.operation == OPEN:
