@@ -224,6 +224,7 @@ class BackTester(object):
         :return:
         """
         # 当前这比行情的价格
+        print("查看当前的已报单情况{}".format(self.active_orders))
         for order in self.active_orders:
             price = bar.close
             if order.operation == OPEN:
@@ -237,14 +238,15 @@ class BackTester(object):
             else:
                 if order.direction == LONG and price >= order.prcie:   # 平多仓
                     self.cash += order.price * order.volume
-                    self.pos_long.pop(order)
+                    self.pos_long.remove(order)
                 if order.direction == SHORT and price <= order.price:
                     self.cash -= order.price * order.volume
-                    self.pos_short.pop(order)
+                    self.pos_short.remove(order)
             # 报单记录都是需要pop掉
-            self.active_orders.pop(order)
+            self.active_orders.remove(order)
             # 成交单都是要push进来
             self.trades.append(order)
+        print("查看当前的已报单情况{}".format(self.active_orders))
 
     def calculate(self):
         """
