@@ -4,7 +4,7 @@ import time
 import requests
 import collections
 from datetime import datetime
-from Strategy import BaseStrategy
+from BackTest.Strategy import BaseStrategy
 from DataSrc import HisQuotes
 
 OPEN = 'OPEN'
