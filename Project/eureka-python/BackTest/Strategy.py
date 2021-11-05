@@ -118,6 +118,7 @@ class DoubleMovingAverage(BaseStrategy):
         print("双均线收到行情:{}次".format(self.num))
         # （2）bar推送到缓存bar_df
         if self.bar_df is None:
+            print(bar)
             self.bar_df = bar
         else:
             self.bar_df.append(bar)
