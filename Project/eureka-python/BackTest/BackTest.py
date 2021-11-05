@@ -203,7 +203,10 @@ class BackTester(object):
         self.strategy_instance.on_start()
 
         # for index, bar in self.backtest_data.iterrows():
+        print(self.backtest_data)
         for bar in self.backtest_data:
+            print(type(bar))
+            print(bar)
             # bar = BarData(candle['trade_date'], candle['open'], candle['close'],
             #               candle['high'], candle['low'], candle['vol'])
             self.check_order(bar)                   # 检查该行情bar是否满足成交条件
