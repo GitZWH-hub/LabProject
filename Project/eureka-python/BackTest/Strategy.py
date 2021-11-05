@@ -138,8 +138,8 @@ class DoubleMovingAverage(BaseStrategy):
         # （5）查询持仓
         pos_long, pos_short = self.broker.select_posList()
         # （6）双均线逻辑
-        # 报单价格
-        order_price = self.bar_df.close.iloc[9]
+        # 报单价格,以当天的均价报单
+        order_price = self.long_term.iloc[-1]
         print(order_price)
 
         # 短均线上穿长均线，做多（即当前时间点短均线处于长均线上方，前一时间点短均线处于长均线下方）
