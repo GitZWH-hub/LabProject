@@ -114,7 +114,6 @@ class DoubleMovingAverage(BaseStrategy):
         :return:
         """
         # （1）获取bar
-
         self.num += 1
         print("双均线收到行情:{}次".format(self.num))
         # （2）bar推送到缓存bar_df
