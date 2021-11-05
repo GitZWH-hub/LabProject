@@ -128,7 +128,7 @@ class DoubleMovingAverage(BaseStrategy):
             return
         # （4）取bar_df的最后long_term个元素：bar_df = bat_list.ix[-self.long_term:]
         print(self)
-        self.bar_df = self.bar_df[-self.long_term:]
+        self.bar_df = self.bar_df.ix[-self.long_term:]
         print("打印bar_df:{}".format(self.bar_df))
         # （4）计算barlist的5日均线和10日均线
         short_avg = round(self.bar_df.close.rolling(self.short_term, min_periods=1).mean(), 2)
