@@ -114,6 +114,7 @@ class DoubleMovingAverage(BaseStrategy):
         :return:
         """
         # （1）获取bar
+
         self.num += 1
         print("双均线收到行情:{}次".format(self.num))
         # （2）bar推送到缓存bar_list
@@ -123,6 +124,7 @@ class DoubleMovingAverage(BaseStrategy):
             print("reeturn {} 次".format(self.num))
             return
         # （4）取bar_list的最后long_term个元素：bar_list = bat_list[-self.long_term:]
+        print(self)
         self.bar_list = self.bar_list[- self.long_term:]
         print("打印bar_list:{}".format(self.bar_list))
         # （4）计算barlist的5日均线和10日均线
