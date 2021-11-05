@@ -121,21 +121,19 @@ class DoubleMovingAverage(BaseStrategy):
             self.bar_df = bar
         else:
             self.bar_df = self.bar_df.append(bar)
-        print(self.bar_df)
         # （3）判断bar_df的数据是否足够11条，如果不足够，则不做处理；如果足够，进入（4）
         if len(self.bar_df) < 11:
             print("return {} 次".format(self.num))
             return
         # （4）取bar_df的最后long_term个元素：bar_df = bat_list.ix[-self.long_term:]
-        print(self)
-        self.bar_df = self.bar_df.iloc[1:self.long_term + 1]
-        print("打印bar_df:{}".format(self.bar_df))
+        # 这里不应该截取，截取了后后面的值都不对
+        # self.bar_df = self.bar_df.iloc[1:self.long_term + 1]
         # （4）计算barlist的5日均线和10日均线
         short_avg = round(self.bar_df.close.rolling(self.short_term, min_periods=1).mean(), 2)
-        long_avg = round(self.bar_df.close.rolling(self.short_term, min_periods=1).mean(), 2)
-        print(short_avg)
-        print(long_avg)
-        print(type(long_avg))
+        long_avg = round(self.bar_df.close.rolling(self.long_term, min_periods=1).mean(), 2)
+
+        long_avg = long_avg.iloc[1: self.long_term + 1]
+        short_avg = short_avg.iloc[1: self.long_term + 1]
         ######################### 以上已测试没问题
         # （5）查询持仓
         pos_long, pos_short = self.broker.select_posList()
