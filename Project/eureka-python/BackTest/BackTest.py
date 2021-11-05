@@ -29,12 +29,12 @@ def iterize(iterable):
 
 
 class Order(object):
-    def __init__(self, price, volume, direction, operation):
+    def __init__(self, price, volume, operation, direction):
         super(Order, self).__init__()
         self.price = price
         self.volume = volume
-        self.direction = direction
         self.operation = operation
+        self.direction = direction
 
 
 """
