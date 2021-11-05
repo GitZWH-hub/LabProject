@@ -115,7 +115,7 @@ class DoubleMovingAverage(BaseStrategy):
         # （1）获取bar
         print("双均线收到行情：{}".format(bar))
         # （2）bar推送到缓存bar_list
-        self.bar_list.push(bar)
+        self.bar_list.append(bar)
         # （3）判断bar_list的数据是否足够10条，如果不足够，则不做处理；如果足够，进入（4）
         if len(self.bar_list) < 10:
             print("reeturn 1 次")
