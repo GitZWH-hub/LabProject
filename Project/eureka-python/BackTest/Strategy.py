@@ -131,9 +131,6 @@ class DoubleMovingAverage(BaseStrategy):
         # （4）计算barlist的5日均线和10日均线
         short_avg = round(self.bar_df.close.rolling(self.short_term, min_periods=1).mean(), 2)
         long_avg = round(self.bar_df.close.rolling(self.long_term, min_periods=1).mean(), 2)
-
-        long_avg = long_avg.iloc[1: self.long_term + 1]
-        short_avg = short_avg.iloc[1: self.long_term + 1]
         ######################### 以上已测试没问题
         # （5）查询持仓
         pos_long, pos_short = self.broker.select_posList()
@@ -142,11 +139,11 @@ class DoubleMovingAverage(BaseStrategy):
         order_price = self.bar_df.close.iloc[-1]
         print(order_price)
         if self.num in [14]:
-            print(short_avg.iloc[8], long_avg.iloc[8], short_avg.iloc[9], long_avg.iloc[9])
-            print(long_avg.iloc[8], short_avg.iloc[8], long_avg.iloc[9], short_avg.iloc[9])
+            print(short_avg.iloc[-2], long_avg.iloc[-2], short_avg.iloc[-1], long_avg.iloc[-1])
+            print(long_avg.iloc[-2], short_avg.iloc[-2], long_avg.iloc[-1], short_avg.iloc[-1])
             print(self.bar_df)
         # 短均线上穿长均线，做多（即当前时间点短均线处于长均线上方，前一时间点短均线处于长均线下方）
-        if short_avg.iloc[8] < long_avg.iloc[8] and short_avg.iloc[9] >= long_avg.iloc[9]:
+        if short_avg.iloc[-2] < long_avg.iloc[-2] and short_avg.iloc[-1] >= long_avg.iloc[-1]:
             print("开多仓")
             # 无空仓情况下，直接开多
             if not pos_short:
@@ -158,7 +155,7 @@ class DoubleMovingAverage(BaseStrategy):
                 # 以市价平空仓
                 self.cover(price=order_price, volume=1)
         # 短均线下穿长均线，做空(即当前时间点短均线处于长均线下方，前一时间点短均线处于长均线上方)
-        if long_avg.iloc[8] < short_avg.iloc[8] and long_avg.iloc[9] >= short_avg.iloc[9]:
+        if long_avg.iloc[-2] < short_avg.iloc[-2] and long_avg.iloc[-1] >= short_avg.iloc[-1]:
             print("开空仓")
             # 无多仓持仓情况下，直接开空
             if not pos_long:
