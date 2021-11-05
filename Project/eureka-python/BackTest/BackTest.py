@@ -246,7 +246,8 @@ class BackTester(object):
             self.active_orders.remove(order)
             # 成交单都是要push进来
             self.trades.append(order)
-        print("查看当前的已报单情况{}".format(self.active_orders))
+        print("查看当前的已报单情况:{}".format(self.active_orders))
+        print("查看当前现金:{}".format(self.cash))
 
     def calculate(self):
         """
