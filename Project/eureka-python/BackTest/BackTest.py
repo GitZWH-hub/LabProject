@@ -78,8 +78,11 @@ class BackTester(object):
         # 是否是运行策略优化的方法。
         self.is_optimizing_strategy = False
 
-    # 开始回测
     def start(self):
+        """
+        开始回测：外围回测调用本方法
+        :return:
+        """
         # 先加载数据
         self.init_data()
         # 回放数据
@@ -217,7 +220,7 @@ class BackTester(object):
         """
         # 当前这比行情的价格
         for order in self.active_orders:
-            price = bar.close_price
+            price = bar.close
             if order.operation == OPEN:
                 if order.direction == LONG and price <= order.price:   # 开多仓
                     # （1）报单记录去掉该单子（2）持仓记录添加该单子 （3）trades成交单+1（4）处理cash，cash-=成交价格*成交量

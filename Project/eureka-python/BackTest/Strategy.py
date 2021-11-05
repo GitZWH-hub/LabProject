@@ -117,13 +117,17 @@ class DoubleMovingAverage(BaseStrategy):
         # （2）bar推送到缓存bar_list
         self.bar_list.push(bar)
         # （3）判断bar_list的数据是否足够10条，如果不足够，则不做处理；如果足够，进入（4）
-        if len(self.bar_list < 10):
+        if len(self.bar_list) < 10:
+            print("reeturn 1 次")
             return
         # （4）取bar_list的最后long_term个元素：bar_list = bat_list[-self.long_term:]
         self.bar_list = self.bar_list[-self.long_term:]
+        print("打印bar_list:{}".format(self.bar_list))
         # （4）计算barlist的5日均线和10日均线
         short_avg = round(self.bar_list.close.rolling(self.short_term, min_periods=1).mean(), 2)
         long_avg = round(self.bar_list.close.rolling(self.short_term, min_periods=1).mean(), 2)
+        print(short_avg)
+        print(long_avg)
         # （5）查询持仓
         pos_long, pos_short = self.broker.select_posList()
         # （6）双均线逻辑
