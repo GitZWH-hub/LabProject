@@ -112,13 +112,13 @@ class HisQuotes(Base):
 
     def pullData(self, ts_code, start_date, end_date):
         log.info('-- 开始拉取历史行情(HisQuotes) --')
+        data = []
         try:
             data = self.pro.fut_daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
             data.to_sql(ts_code[:2].upper(), self.conn, index=True, if_exists='append')
         except:
             log.error("to_sql ERROR")
         log.info('-- 拉取历史行情结束(HisQuotes) --')
-        # print(data)
         return data
 
     def getKData(self, fut, futEnd, start, end):
