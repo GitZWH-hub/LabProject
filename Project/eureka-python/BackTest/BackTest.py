@@ -227,31 +227,37 @@ class BackTester(object):
         print("查看当前的已报单情况{}".format(self.active_orders))
         for order in self.active_orders:
             price = bar.close
+            match = False
+            print('报单价格：{}'.format(order.price), '行情价格：{}'.format(price))
             if order.operation == OPEN:
-                print("开仓报单能成交吗？")
                 if order.direction == LONG and price <= order.price:   # 开多仓
                     print("开多仓报单成交")
                     # （1）报单记录去掉该单子（2）持仓记录添加该单子 （3）trades成交单+1（4）处理cash，cash-=成交价格*成交量
                     self.cash -= order.price * order.volume
                     self.pos_long.append(order)
-                if order.direction == SHORT and price >= order.price:   # 开空仓单子成交
+                    match = True
+                if order.direction == SHORT and price >= order.price:   # 开空仓
                     print("开空仓报单成交")
                     self.cash += order.price * order.volume
                     self.pos_short.append(order)
-                    # 报单记录都是需要pop掉
-                    self.active_orders.remove(order)
-                    # 成交单都是要push进来
-                    self.trades.append(order)
+                    match = True
             else:
                 if order.direction == LONG and price >= order.prcie:   # 平多仓
                     print("平多仓报单成交")
                     self.cash += order.price * order.volume
                     self.pos_long.remove(order)
+                    match = True
                 if order.direction == SHORT and price <= order.price:
                     print("平空仓报单成交")
                     self.cash -= order.price * order.volume
                     self.pos_short.remove(order)
-
+                    match = True
+            # 如果成交了
+            # 报单记录都是需要pop掉
+            if match:
+                self.active_orders.remove(order)
+                # 成交单都是要push进来
+                self.trades.append(order)
         print("查看当前的已报单情况:{}".format(self.active_orders))
         print("查看当前现金:{}".format(self.cash))
 
