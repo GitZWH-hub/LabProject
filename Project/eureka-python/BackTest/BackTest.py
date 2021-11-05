@@ -102,7 +102,7 @@ class BackTester(object):
         self.sendInfo("开始加载历史数据")
         time.sleep(1)
         with HisQuotes() as hq:
-            self.backtest_data = hq.pullData(ts_code=self.ts_code, start_date=self.start_date, end_date=self.end_date)
+            self.backtest_data = hq.getData(ts_code=self.ts_code, start=self.start_date, end=self.end_date)
         self.sendInfo("历史数据加载完成")
 
     # 历史数据回放
