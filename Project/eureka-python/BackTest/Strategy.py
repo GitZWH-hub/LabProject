@@ -141,9 +141,11 @@ class DoubleMovingAverage(BaseStrategy):
         pos_long, pos_short = self.broker.select_posList()
         # （6）双均线逻辑
         # 报单价格
-        order_price = self.bar_df.iloc[9]
+        order_price = self.bar_df.close.iloc[9]
+        print(order_price)
+
         # 短均线上穿长均线，做多（即当前时间点短均线处于长均线上方，前一时间点短均线处于长均线下方）
-        if short_avg[8] < long_avg[8] and short_avg[9] >= long_avg[9]:
+        if short_avg.iloc[8] < long_avg.iloc[8] and short_avg.iloc[9] >= long_avg.iloc[9]:
             print("开多仓")
             # 无空仓情况下，直接开多
             if not pos_short:
@@ -155,7 +157,7 @@ class DoubleMovingAverage(BaseStrategy):
                 # 以市价平空仓
                 self.cover(price=order_price, volume=1)
         # 短均线下穿长均线，做空(即当前时间点短均线处于长均线下方，前一时间点短均线处于长均线上方)
-        if long_avg[8] < short_avg[8] and long_avg[9] >= short_avg[9]:
+        if long_avg.iloc[8] < short_avg.iloc[8] and long_avg.iloc[9] >= short_avg.iloc[9]:
             print("开空仓")
             # 无多仓持仓情况下，直接开空
             if not pos_long:
