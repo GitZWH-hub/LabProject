@@ -83,7 +83,7 @@ class DoubleMovingAverage(BaseStrategy):
         self.long_term = 10
         # 短线周期默认5天
         self.short_term = 5
-        # 缓存的行情数据，根据long_term缓存条数
+        # 缓存的行情数据(是DataFrame类型)，根据long_term缓存条数
         self.bar_df = None
         self.num = 0
 
@@ -121,6 +121,7 @@ class DoubleMovingAverage(BaseStrategy):
             self.bar_df = bar
         else:
             self.bar_df.append(bar)
+        print(self.bar_df)
         # （3）判断bar_df的数据是否足够11条，如果不足够，则不做处理；如果足够，进入（4）
         if len(self.bar_df) < 11:
             print("return {} 次".format(self.num))
