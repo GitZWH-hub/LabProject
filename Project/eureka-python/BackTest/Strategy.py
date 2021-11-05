@@ -135,25 +135,34 @@ class DoubleMovingAverage(BaseStrategy):
         long_avg = round(self.bar_df.close.rolling(self.short_term, min_periods=1).mean(), 2)
         print(short_avg)
         print(long_avg)
+        print(type(long_avg))
+        ######################### 以上已测试没问题
         # （5）查询持仓
         pos_long, pos_short = self.broker.select_posList()
         # （6）双均线逻辑
-        order_price = self.bar_df[9].close
-        # 短均线下穿长均线，做空(即当前时间点短均线处于长均线下方，前一时间点短均线处于长均线上方)
-        if long_avg[9] < short_avg[10] and long_avg[9] >= short_avg[10]:
-            # 无多仓持仓情况下，直接开空
-            if not pos_long:
-                self.short(price=order_price, volume=1)
-            # 有多仓情况下，先平多，再开空(开空命令放在on_order_status里面)
-            else:
-                # 以市价平多仓
-                self.sell(price=order_price, volume=1)
+        # 报单价格
+        order_price = self.bar_df.iloc[10]
         # 短均线上穿长均线，做多（即当前时间点短均线处于长均线上方，前一时间点短均线处于长均线下方）
-        if short_avg[9] < long_avg[10] and short_avg[9] >= long_avg[10]:
+        if short_avg[9] < long_avg[9] and short_avg[10] >= long_avg[10]:
+            print("开多仓")
             # 无空仓情况下，直接开多
             if not pos_short:
+                print("无空仓，直接开多仓")
                 self.buy(price=order_price, volume=1)
             # 有空仓的情况下，先平空，再开多(开多命令放在on_order_status里面)
             else:
+                print("有空仓，先平空仓")
                 # 以市价平空仓
                 self.cover(price=order_price, volume=1)
+        # 短均线下穿长均线，做空(即当前时间点短均线处于长均线下方，前一时间点短均线处于长均线上方)
+        if long_avg[9] < short_avg[9] and long_avg[10] >= short_avg[10]:
+            print("开空仓")
+            # 无多仓持仓情况下，直接开空
+            if not pos_long:
+                print("无多仓，直接开空")
+                self.short(price=order_price, volume=1)
+            # 有多仓情况下，先平多，再开空(开空命令放在on_order_status里面)
+            else:
+                print("有多仓，平多仓")
+                # 以市价平多仓
+                self.sell(price=order_price, volume=1)
