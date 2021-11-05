@@ -229,6 +229,7 @@ class BackTester(object):
             price = bar.close.iloc[0]
             match = False
             print('报单价格：{}'.format(order.price), '行情价格：{}'.format(price))
+            print(order.direction, order.operation)
             if order.operation == OPEN:
                 if order.direction == LONG and price <= order.price:   # 开多仓
                     print("开多仓报单成交")
