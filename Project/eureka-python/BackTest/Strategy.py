@@ -128,7 +128,7 @@ class DoubleMovingAverage(BaseStrategy):
             return
         # （4）取bar_df的最后long_term个元素：bar_df = bat_list.ix[-self.long_term:]
         print(self)
-        self.bar_df = self.bar_df.iloc[1:self.long_term]
+        self.bar_df = self.bar_df.iloc[1:self.long_term + 1]
         print("打印bar_df:{}".format(self.bar_df))
         # （4）计算barlist的5日均线和10日均线
         short_avg = round(self.bar_df.close.rolling(self.short_term, min_periods=1).mean(), 2)
@@ -138,9 +138,9 @@ class DoubleMovingAverage(BaseStrategy):
         # （5）查询持仓
         pos_long, pos_short = self.broker.select_posList()
         # （6）双均线逻辑
-        order_price = self.bar_df[-2].close
+        order_price = self.bar_df[9].close
         # 短均线下穿长均线，做空(即当前时间点短均线处于长均线下方，前一时间点短均线处于长均线上方)
-        if long_avg[-2] < short_avg[-2] and long_avg[-1] >= short_avg[-1]:
+        if long_avg[9] < short_avg[10] and long_avg[9] >= short_avg[10]:
             # 无多仓持仓情况下，直接开空
             if not pos_long:
                 self.short(price=order_price, volume=1)
@@ -149,7 +149,7 @@ class DoubleMovingAverage(BaseStrategy):
                 # 以市价平多仓
                 self.sell(price=order_price, volume=1)
         # 短均线上穿长均线，做多（即当前时间点短均线处于长均线上方，前一时间点短均线处于长均线下方）
-        if short_avg[-2] < long_avg[-2] and short_avg[-1] >= long_avg[-1]:
+        if short_avg[9] < long_avg[10] and short_avg[9] >= long_avg[10]:
             # 无空仓情况下，直接开多
             if not pos_short:
                 self.buy(price=order_price, volume=1)
