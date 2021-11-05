@@ -84,7 +84,7 @@ class DoubleMovingAverage(BaseStrategy):
         # 短线周期默认5天
         self.short_term = 5
         # 缓存的行情数据，根据long_term缓存条数
-        self.bar_list = []
+        self.bar_df = None
         self.num = 0
 
     def set_long(self, long):
@@ -93,7 +93,7 @@ class DoubleMovingAverage(BaseStrategy):
         :param long:
         :return:
         """
-        self.long_term = long
+        self.long_term = int(long)
 
     def set_short(self, short):
         """
@@ -101,7 +101,7 @@ class DoubleMovingAverage(BaseStrategy):
         :param short:
         :return:
         """
-        self.short_term = short
+        self.short_term = int(short)
 
     # 实现父类方法，这里是核心，整个策略都在这里。相当于用户报单的逻辑，就是实现什么时候报单、报哪种单(开、平)
     def on_bar(self, bar):
@@ -117,25 +117,25 @@ class DoubleMovingAverage(BaseStrategy):
 
         self.num += 1
         print("双均线收到行情:{}次".format(self.num))
-        # （2）bar推送到缓存bar_list
-        self.bar_list.append(bar)
-        # （3）判断bar_list的数据是否足够11条，如果不足够，则不做处理；如果足够，进入（4）
-        if len(self.bar_list) < 11:
+        # （2）bar推送到缓存bar_df
+        self.bar_df.append(bar)
+        # （3）判断bar_df的数据是否足够11条，如果不足够，则不做处理；如果足够，进入（4）
+        if len(self.bar_df) < 11:
             print("reeturn {} 次".format(self.num))
             return
-        # （4）取bar_list的最后long_term个元素：bar_list = bat_list[-self.long_term:]
+        # （4）取bar_df的最后long_term个元素：bar_df = bat_list.ix[-self.long_term:]
         print(self)
-        self.bar_list = self.bar_list[-int(self.long_term):]
-        print("打印bar_list:{}".format(self.bar_list))
+        self.bar_df = self.bar_df.ix[-self.long_term:]
+        print("打印bar_df:{}".format(self.bar_df))
         # （4）计算barlist的5日均线和10日均线
-        short_avg = round(self.bar_list.close.rolling(self.short_term, min_periods=1).mean(), 2)
-        long_avg = round(self.bar_list.close.rolling(self.short_term, min_periods=1).mean(), 2)
+        short_avg = round(self.bar_df.close.rolling(self.short_term, min_periods=1).mean(), 2)
+        long_avg = round(self.bar_df.close.rolling(self.short_term, min_periods=1).mean(), 2)
         print(short_avg)
         print(long_avg)
         # （5）查询持仓
         pos_long, pos_short = self.broker.select_posList()
         # （6）双均线逻辑
-        order_price = self.bar_list[-2].close
+        order_price = self.bar_df[-2].close
         # 短均线下穿长均线，做空(即当前时间点短均线处于长均线下方，前一时间点短均线处于长均线上方)
         if long_avg[-2] < short_avg[-2] and long_avg[-1] >= short_avg[-1]:
             # 无多仓持仓情况下，直接开空
