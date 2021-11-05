@@ -144,6 +144,7 @@ class DoubleMovingAverage(BaseStrategy):
         if self.num in [14]:
             print(short_avg.iloc[8], long_avg.iloc[8], short_avg.iloc[9], long_avg.iloc[9])
             print(long_avg.iloc[8], short_avg.iloc[8], long_avg.iloc[9], short_avg.iloc[9])
+            print(self.bar_df)
         # 短均线上穿长均线，做多（即当前时间点短均线处于长均线上方，前一时间点短均线处于长均线下方）
         if short_avg.iloc[8] < long_avg.iloc[8] and short_avg.iloc[9] >= long_avg.iloc[9]:
             print("开多仓")
