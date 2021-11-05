@@ -4,8 +4,8 @@ import json
 import matplotlib.pyplot as plt
 from DataSrc import Futures, TradeCal, HisQuotes, FutSettle
 from flask import Flask, Response
-from BackTester.BackTest import BackTester
-from BackTester.Strategy import DoubleMovingAverage
+from BackTest.BackTest import BackTester
+from BackTest.Strategy import DoubleMovingAverage
 
 app = Flask(__name__)
 plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']  # 用来正常显示中文标签
