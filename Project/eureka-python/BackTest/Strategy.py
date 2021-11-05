@@ -124,11 +124,11 @@ class DoubleMovingAverage(BaseStrategy):
             self.bar_df.append(bar)
         # （3）判断bar_df的数据是否足够11条，如果不足够，则不做处理；如果足够，进入（4）
         if len(self.bar_df) < 11:
-            print("reeturn {} 次".format(self.num))
+            print("return {} 次".format(self.num))
             return
         # （4）取bar_df的最后long_term个元素：bar_df = bat_list.ix[-self.long_term:]
         print(self)
-        self.bar_df = self.bar_df.ix[-self.long_term:]
+        self.bar_df = self.bar_df[-self.long_term:]
         print("打印bar_df:{}".format(self.bar_df))
         # （4）计算barlist的5日均线和10日均线
         short_avg = round(self.bar_df.close.rolling(self.short_term, min_periods=1).mean(), 2)
