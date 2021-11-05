@@ -100,7 +100,7 @@ class BackTester(object):
         :return:
         """
         self.sendInfo("开始加载历史数据")
-        time.sleep(2)
+        time.sleep(1)
         with HisQuotes() as hq:
             self.backtest_data = hq.pullData(ts_code=self.ts_code, start_date=self.start_date, end_date=self.end_date)
         self.sendInfo("历史数据加载完成")
@@ -108,7 +108,9 @@ class BackTester(object):
     # 历史数据回放
     def handle_data(self):
         self.sendInfo("开始回放历史数据")
-        time.sleep(5)
+        # 这里对数据按照日期进行排序
+        self.backtest_data = self.backtest_data.sort_values(by="trade_date", ascending=True)
+        time.sleep(1)
         self.sendInfo("历史数据回放结束")
 
     def finish(self):
