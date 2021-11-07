@@ -252,10 +252,9 @@ class BackTester(object):
             bar = pd.DataFrame(can, columns=['trade_date', 'open', 'close', 'high', 'low', 'volume'])
             self.check_order(bar)                   # 检查该行情bar是否满足成交条件
             self.strategy_instance.on_bar(bar)      # 给到策略（用户）
-            self.strategy_instance.on_bar(bar)      # 给到策略（用户）
+            self.print_allInfo()
 
         self.strategy_instance.on_stop()
-        self.print_allInfo()
         # 统计成交的信息..,可以先在暂时不考虑
         # self.calculate()
 
@@ -280,7 +279,6 @@ class BackTester(object):
         :return:
         """
         # 当前这比行情的价格
-        print("查看当前的已报单情况{}".format(self.active_orders))
         for order in self.active_orders:
             price = bar.close.iloc[0]
             # 成交单
