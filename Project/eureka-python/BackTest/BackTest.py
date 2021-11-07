@@ -230,7 +230,7 @@ class BackTester(object):
         for index, candle in self.backtest_data.iterrows():
             # print(type(bar))
             can = [[candle['trade_date'], float(candle['open']), float(candle['close']),
-                    float(candle['high']), float(candle['low']), float(candle['vol'])]]
+                    float(candle['high']), float(candle['low']), int(candle['vol'])]]
             bar = pd.DataFrame(can, columns=['trade_date', 'open', 'close', 'high', 'low', 'volume'])
             self.check_order(bar)                   # 检查该行情bar是否满足成交条件
             self.strategy_instance.on_bar(bar)      # 给到策略（用户）
@@ -255,6 +255,7 @@ class BackTester(object):
             if order.operation == OPEN:
                 if order.direction == LONG and price <= order.price:   # 开多仓
                     print("开多仓报单成交")
+                    print(bar)
                     # （1）报单记录去掉该单子（2）持仓记录添加该单子 （3）trades成交单+1（4）处理cash，cash-=成交价格*成交量
                     self.cash -= order.price * order.volume
                     self.pos_long.append(order)
