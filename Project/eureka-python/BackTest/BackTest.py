@@ -309,10 +309,10 @@ class BackTester(object):
         print("*" * 55)
         print("当前报单：")
         for i in self.active_orders:
-            print("  {}".format(i))
+            print("      {}".format(i))
         print("当前成交单：")
         for i in self.trades:
-            print("  {}".format(i))
+            print("      {}".format(i))
         print("当前多仓仓位: {}".format(self.pos_long))
         print("当前空仓仓位: {}".format(self.pos_short))
         print("当前现金cash: {}".format(self.cash))
