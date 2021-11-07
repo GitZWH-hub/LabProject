@@ -43,6 +43,21 @@ class Order(object):
         return f"{self.order_no} {self.price} {self.volume} {self.direction} {self.operation}"
 
 
+# 成交单信息
+class Match(object):
+    def __init__(self, order_no, match_no, price, volume, operation, direction):
+        super(Match, self).__init__()
+        self.order_no = order_no
+        self.match_no = match_no
+        self.price = price
+        self.volume = volume
+        self.operation = operation
+        self.direction = direction
+
+    def __str__(self):
+        return f"{self.order_no} {self.match_no} {self.price} {self.volume} {self.direction} {self.operation}"
+
+
 """
 这个类的目的是：模拟交易所，推送行情给用户（策略），并实现撮合成交
 """
@@ -257,7 +272,8 @@ class BackTester(object):
         print("查看当前的已报单情况{}".format(self.active_orders))
         for order in self.active_orders:
             price = bar.close.iloc[0]
-            match = False
+            # 成交单
+            match = None
             print('报单价格：{}'.format(order.price), '行情价格：{}'.format(price))
             print(order.direction, order.operation)
             if order.operation == OPEN:
@@ -265,34 +281,47 @@ class BackTester(object):
                     print("开多仓报单成交")
                     # （1）报单记录去掉该单子（2）持仓记录添加该单子 （3）trades成交单+1（4）处理cash，cash-=成交价格*成交量
                     self.cash -= order.price * order.volume
-                    self.pos_long.append(order)
-                    match = True
+                    # 生成成交单
+                    match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
+                    # 仓位append
+                    self.pos_long.append(match)
                 if order.direction == SHORT and price >= order.price:   # 开空仓
                     print("开空仓报单成交")
                     self.cash += order.price * order.volume
                     self.pos_short.append(order)
-                    match = True
+                    # 生成成交单
+                    match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
+                    # 仓位append
+                    self.pos_short.append(match)
             else:
                 if order.direction == LONG and price >= order.prcie:   # 平多仓
                     print("平多仓报单成交")
                     self.cash += order.price * order.volume
-                    self.pos_long.remove(order)
-                    match = True
+                    # 生成成交单
+                    match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
+                    # 平多仓成交，需要将多仓remove掉该仓位, 根据报单号删除这个成交仓位
+                    self.pos_long = self.delete_pos(self.pos_long, order.order_no)
                 if order.direction == SHORT and price <= order.price:
                     print("平空仓报单成交")
                     self.cash -= order.price * order.volume
-                    for i in self.pos_short:
-                        print(i)
-                    print(order)
-                    self.pos_short.remove(order)
-                    match = True
+                    # 生成成交单
+                    match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
+                    self.delete_pos(self.pos_short, order.order_no)
             # 如果成交了，报单记录都是需要remove掉
-            if match:
+            if match is not None:
                 self.active_orders.remove(order)
                 # 成交单都是要push进来
-                self.trades.append(order)
+                self.trades.append(match)
         print("查看当前的已报单情况:{}".format(self.active_orders))
         print("查看当前现金:{}".format(self.cash))
+
+    def delete_pos(self, pos_list, order_no):
+        for pos in pos_list:
+            if pos.order_no == order_no:
+                print("删除仓位")
+                pos_list.remove(pos)
+                break
+        return pos_list
 
     def calculate(self):
         """
