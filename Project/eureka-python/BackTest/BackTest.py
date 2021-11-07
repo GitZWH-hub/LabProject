@@ -39,6 +39,8 @@ class Order(object):
         self.operation = operation
         self.direction = direction
 
+    def __str__(self):
+        return f"{self.order_no} {self.price} {self.volume} {self.direction} {self.operation}"
 
 """
 这个类的目的是：模拟交易所，推送行情给用户（策略），并实现撮合成交
