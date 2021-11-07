@@ -258,6 +258,8 @@ class BackTester(object):
         print("查看结束后所有的报单和成交单")
         print(self.active_orders)
         print(self.trades)
+        print("当前多仓仓位: {}".format(self.pos_long))
+        print("当前空仓仓位: {}".format(self.pos_short))
 
         # 统计成交的信息..,可以先在暂时不考虑
         # self.calculate()
