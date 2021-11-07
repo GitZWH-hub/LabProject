@@ -1,11 +1,7 @@
-import json
-import itertools
-import random
-import time
-
+import json, time, random
+import itertools, collections
 import pandas as pd
 import requests
-import collections
 from datetime import datetime
 from BackTest.Strategy import BaseStrategy
 from DataSrc import HisQuotes
@@ -27,6 +23,14 @@ def iterize(iterable):
         niterable.append(elem)
 
     return niterable
+
+
+def get_now():
+    """
+    获取当前系统时间
+    :return: 返回 "时：分：秒"
+    """
+    return datetime.strftime(datetime.now(), "%H:%M:%S")
 
 
 # 报单信息
@@ -58,12 +62,11 @@ class Match(object):
         return f"{self.order_no} {self.match_no} {self.price} {self.volume} {self.direction} {self.operation}"
 
 
-"""
-这个类的目的是：模拟交易所，推送行情给用户（策略），并实现撮合成交
-"""
-
-
 class BackTester(object):
+    """
+    这个类的目的是：模拟交易所。
+    【推送行情给用户（策略）】、【撮合成交】、【记录报单、成交信息】、【计算策略评价指标】、【策略优化】
+    """
     def __init__(self):
         super(BackTester, self).__init__()
         # 回测策略类
@@ -96,7 +99,7 @@ class BackTester(object):
         self.pos_long = 0
         # 持空仓数量
         self.pos_short = 0
-        # 回测的数据 dataframe数据
+        # 回测的数据 dataframe格式
         self.backtest_data = None
         # 是否是运行策略优化的方法。
         self.is_optimizing_strategy = False
@@ -106,7 +109,7 @@ class BackTester(object):
         开始回测：外围回测调用本方法
         :return:
         """
-        # 先加载数据
+        # 加载数据
         self.init_data()
         # 回放数据
         self.handle_data()
@@ -114,37 +117,39 @@ class BackTester(object):
         self.run()
         # 回测完成
         self.finish()
+        # 策略优化
 
     def init_data(self):
         """
         从数据库初始化数据
         :return:
         """
-        self.sendInfo("开始加载历史数据")
+        self.send_info("开始加载历史数据")
         time.sleep(1)
         with HisQuotes() as hq:
             self.backtest_data = hq.getData(ts_code=self.ts_code, start=self.start_date, end=self.end_date)
-        self.sendInfo("历史数据加载完成")
+        self.send_info("历史数据加载完成")
 
     # 历史数据回放
     def handle_data(self):
-        self.sendInfo("开始回放历史数据")
+        self.send_info("开始回放历史数据")
         # 这里对数据按照日期进行排序
         self.backtest_data = self.backtest_data.sort_values(by="trade_date", ascending=True)
+        # 还要观察数据有没有坏点（TuShare拉下来的数据有的字段是NULL，需要预处理一下）
         time.sleep(1)
-        self.sendInfo("历史数据回放结束")
+        self.send_info("历史数据回放结束")
 
     def finish(self):
         """
         回测结束调用，发送回测指标【资金收益率、最大回撤】等
         :return:
         """
-        time.sleep(2)
-        self.sendInfo("回测完成")
+        time.sleep(1)
+        self.send_info("回测完成")
 
     def set_strategy(self, strategy_class: BaseStrategy):
         """
-        设置要跑的策略类.
+        设置要跑的策略类
         :param strategy_class:
         :return:
         """
@@ -160,7 +165,7 @@ class BackTester(object):
 
     def set_data(self, start_date, end_date):
         """
-        设置合约起始结束日期
+        设置回测起始日期、结束日期
         :param start_date: 开始日期
         :param end_date: 结束日期
         :return:
@@ -178,7 +183,7 @@ class BackTester(object):
 
     def set_leverage(self, leverage: float):
         """
-        设置杠杆率.
+        设置杠杆率
         :param leverage:
         :return:
         """
@@ -186,38 +191,70 @@ class BackTester(object):
 
     def set_commission(self, commission: float):
         """
-        设置手续费.
+        设置手续费率
         :param commission:
         :return:
         """
         self.commission = commission
 
     def buy(self, price, volume):
+        """
+        开多仓报单
+        :param price: 报单价格
+        :param volume: 报单手数
+        :return:
+        """
         print(f"开多仓下单: {volume}@{price}")
         order = Order(self.generate_orderNo(), price, volume, OPEN, LONG)
         self.active_orders.append(order)
 
     def sell(self, price, volume):
+        """
+        平多仓下单
+        平仓报单的价格要看之前开仓成交的成交价：
+        如开多仓成交的成交价是70000，则如果要赚钱的话，平仓报单的价格应该要大于70000；所以这里可能要查看成交信息确定自己的报单价格。
+        :param price: 报单价格
+        :param volume: 报单手数
+        :return:
+        """
         print(f"平多仓下单: {volume}@{price}")  #
         order = Order(self.generate_orderNo(), price, volume, CLOSE, LONG)
         self.active_orders.append(order)
 
     def short(self, price, volume):
+        """
+        开空仓下单
+        :param price: 报单价格
+        :param volume: 报单手数
+        :return:
+        """
         print(f"开空仓下单: {volume}@{price}")
         order = Order(self.generate_orderNo(), price, volume, OPEN, SHORT)
         self.active_orders.append(order)
 
     def cover(self, price, volume):
+        """
+        平空仓下单
+        平仓报单的价格要看之前开仓成交的成交价：
+        如开多仓成交的成交价是70000，则如果要赚钱的话，平仓报单的价格应该要大于70000；所以这里可能要查看成交信息确定自己的报单价格。
+        :param price: 报单价格
+        :param volume: 报单手数
+        :return:
+        """
         print(f"平空仓下单: {volume}@{price}")
         order = Order(self.generate_orderNo(), price, volume, CLOSE, SHORT)
         self.active_orders.append(order)
 
     def select_posList(self):
+        """
+        返回多仓和空仓仓位数量
+        :return: 多仓仓位量、空仓仓位量
+        """
         return self.pos_long, self.pos_short
 
     def generate_orderNo(self):
         """
-        生成报单号: 由'O'+ 豪秒级时间戳13位 + 2位随机数
+        生成报单号。报单号：'O' + 13位豪秒级时间戳 + 2位随机数
         :return: 返回报单号
         """
         now = str(int(round(time.time() * 1000)))
@@ -226,7 +263,7 @@ class BackTester(object):
 
     def generate_matchNo(self):
         """
-        生成成交单号：由'M' + 豪秒级时间戳13位 + 三位随机数
+        生成成交单号。成交单号：'M' + 13位豪秒级时间戳 + 2位随机数
         :return: 返回成交单号
         """
         now = str(int(round(time.time() * 1000)))
@@ -241,21 +278,21 @@ class BackTester(object):
         self.strategy_instance = strategy_instance
 
     def run(self):
-        # self.strategy_instance = self.strategy_class(self.backtest_data)
         self.strategy_instance.broker = self
         self.strategy_instance.on_start()
 
         for index, candle in self.backtest_data.iterrows():
-            # print(type(bar))
             can = [[candle['trade_date'], float(candle['open']), float(candle['close']),
                     float(candle['high']), float(candle['low']), float(candle['vol'])]]
             bar = pd.DataFrame(can, columns=['trade_date', 'open', 'close', 'high', 'low', 'volume'])
-            self.check_order(bar)                   # 检查该行情bar是否满足成交条件
-            self.strategy_instance.on_bar(bar)      # 给到策略（用户）
+            self.check_order(bar)                       # 检查该行情bar是否满足成交条件
+            self.strategy_instance.on_bar(bar)          # 给到策略（用户）
+            # 打印相关信息
             self.print_allInfo()
 
+        # 停止策略
         self.strategy_instance.on_stop()
-        # 统计成交的信息..,可以先在暂时不考虑
+        # 计算策略指标
         # self.calculate()
 
     def print_allInfo(self):
@@ -271,7 +308,7 @@ class BackTester(object):
             print(i)
         print("当前多仓仓位: {}".format(self.pos_long))
         print("当前空仓仓位: {}".format(self.pos_short))
-        print("现金cash: {}".format(self.cash))
+        print("当前现金cash: {}".format(self.cash))
 
     def check_order(self, bar):
         """
@@ -285,7 +322,8 @@ class BackTester(object):
             # 成交单
             match = None
             """
-            这里撮合成交的价格仍有待考虑和修改，目前就以报单价格成交
+            这里撮合成交的价格仍有待考虑和修改，目前就以报单价格成交。
+            【实际上的成交价】计算机在撮合时实际上是依据前一笔成交价而定出最新成交价的。如果前一笔成交价低于或等于卖出价，则最新成交价就是卖出价；如果前一笔成交价高于或等于买入价，则最新成交价就是买入价；如果前一笔成交价在卖出价与买入价之间，则最新成交价就是前一笔的成交价。
             """
             if order.operation == OPEN:
                 if order.direction == LONG and price <= order.price:   # 开多仓
@@ -325,26 +363,26 @@ class BackTester(object):
 
     def calculate(self):
         """
-        # 拿到成交的信息，把成交的记录统计出来.夏普率、 盈亏比、胜率、 最大回撤 年化率/最大回撤
+        计算策略评价指标。如夏普率、盈亏比、胜率、最大回撤、年化率等
+        这边可能需要根据成交单来计算，或者添加其他的记录。
         :return:
         """
         for trade in self.trades:
-
             pass
 
     def optimize_strategy(self, **kwargs):
         """
-        优化策略， 参数遍历进行..，如双均线策略，遍历长短周期值
-        :param kwargs:
+        优化策略。参数遍历进行，如双均线策略，遍历长短周期值
+        :param kwargs: 策略个性化参数
         :return:
         """
         self.is_optimizing_strategy = True
-
+        self.send_info("运行策略优化")
         optkeys = list(kwargs)
         vals = iterize(kwargs.values())
         optvals = itertools.product(*vals)
         optkwargs = map(zip, itertools.repeat(optkeys), optvals)
-        optkwargs = map(dict, optkwargs)  # dict value...
+        optkwargs = map(dict, optkwargs)
 
         for params in optkwargs:
             print(params)
@@ -360,13 +398,13 @@ class BackTester(object):
             self.set_commission(commission)
             self.run()
 
-    # 获取当前系统时间(时：分：秒)
-    def getNowTime(self):
-        return datetime.strftime(datetime.now(), "%H:%M:%S")
-
-    def sendInfo(self, info):
-        re = {'info': ' [' + self.getNowTime() + '] ' + info}
+    def send_info(self, info):
+        """
+        推送消息给客户端
+        :param info: 消息内容
+        :return:
+        """
+        re = {'info': '[' + get_now() + ']:' + info}
         url = "http://localhost:5678/sendDoubleMABackTestInfo"
         headers = {'Content-type': 'application/json'}
         requests.post(url, data=json.dumps(re), headers=headers)
-
