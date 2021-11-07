@@ -115,7 +115,6 @@ class DoubleMovingAverage(BaseStrategy):
         """
         # （1）获取bar
         self.num += 1
-        print("双均线收到行情:{}次".format(self.num))
         # （2）bar推送到缓存bar_df
         if self.bar_df is None:
             self.bar_df = bar
@@ -123,7 +122,6 @@ class DoubleMovingAverage(BaseStrategy):
             self.bar_df = self.bar_df.append(bar)
         # （3）判断bar_df的数据是否足够11条，如果不足够，则不做处理；如果足够，进入（4）
         if len(self.bar_df) < 11:
-            print("return {} 次".format(self.num))
             return
         # （4）取bar_df的最后long_term个元素：bar_df = bat_list.ix[-self.long_term:]
         # 这里不应该截取，截取了后后面的值都不对
@@ -137,14 +135,8 @@ class DoubleMovingAverage(BaseStrategy):
         # （6）双均线逻辑
         # 报单价格,以当天的均价报单
         order_price = self.bar_df.close.iloc[-1]
-        print(order_price)
-        if self.num in [14]:
-            print(short_avg.iloc[-2], long_avg.iloc[-2], short_avg.iloc[-1], long_avg.iloc[-1])
-            print(long_avg.iloc[-2], short_avg.iloc[-2], long_avg.iloc[-1], short_avg.iloc[-1])
-            print(self.bar_df)
         # 短均线上穿长均线，做多（即当前时间点短均线处于长均线上方，前一时间点短均线处于长均线下方）
         if short_avg.iloc[-2] < long_avg.iloc[-2] and short_avg.iloc[-1] >= long_avg.iloc[-1]:
-            print("开多仓")
             # 无空仓情况下，直接开多
             if not pos_short:
                 print("无空仓，直接开多仓")
@@ -156,7 +148,6 @@ class DoubleMovingAverage(BaseStrategy):
                 self.cover(price=order_price, volume=1)
         # 短均线下穿长均线，做空(即当前时间点短均线处于长均线下方，前一时间点短均线处于长均线上方)
         if long_avg.iloc[-2] < short_avg.iloc[-2] and long_avg.iloc[-1] >= short_avg.iloc[-1]:
-            print("开空仓")
             # 无多仓持仓情况下，直接开空
             if not pos_long:
                 print("无多仓，直接开空")

@@ -252,6 +252,7 @@ class BackTester(object):
             bar = pd.DataFrame(can, columns=['trade_date', 'open', 'close', 'high', 'low', 'volume'])
             self.check_order(bar)                   # 检查该行情bar是否满足成交条件
             self.strategy_instance.on_bar(bar)      # 给到策略（用户）
+            self.strategy_instance.on_bar(bar)      # 给到策略（用户）
 
         self.strategy_instance.on_stop()
         self.print_allInfo()
@@ -263,10 +264,10 @@ class BackTester(object):
         打印查看信息
         :return:
         """
-        print("报单：")
+        print("当前报单：")
         for i in self.active_orders:
             print(i)
-        print("成交单：")
+        print("当前成交单：")
         for i in self.trades:
             print(i)
         print("当前多仓仓位: {}".format(self.pos_long))
