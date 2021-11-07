@@ -135,14 +135,15 @@ def doubleMABackTest(fut, start, end, short, long, cash):
     print("开始双均线回测")
     start = start.replace('-', '')
     end = end.replace('-', '')
-
+    """
+    设置策略实例参数
+    """
     # 双均线策略
     doubleMABT = DoubleMovingAverage()
     # 设置长线周期
     doubleMABT.set_long(long)
     # 设置短线周期
     doubleMABT.set_short(short)
-
     """
     设置回测模块相关的参数
     """
@@ -155,7 +156,7 @@ def doubleMABackTest(fut, start, end, short, long, cash):
     # 设置期货代码
     backTester.set_tsCode(fut)
     # 设置起始结束日期
-    backTester.set_data(start, end)
+    backTester.set_date(start, end)
     # 启动回测
     backTester.start()
 

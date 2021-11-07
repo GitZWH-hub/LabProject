@@ -141,10 +141,13 @@ class BackTester(object):
 
     def finish(self):
         """
-        回测结束调用，发送回测指标【资金收益率、最大回撤】等
+        回测结束调用，发送回测指标【资金收益率、最大回撤等】
         :return:
         """
         time.sleep(1)
+        # 推送策略评价结果
+        self.send_strategy_result()
+        # 回测完成
         self.send_info("回测完成")
 
     def set_strategy(self, strategy_class: BaseStrategy):
@@ -163,7 +166,7 @@ class BackTester(object):
         """
         self.ts_code = ts_code
 
-    def set_data(self, start_date, end_date):
+    def set_date(self, start_date, end_date):
         """
         设置回测起始日期、结束日期
         :param start_date: 开始日期
@@ -408,3 +411,9 @@ class BackTester(object):
         url = "http://localhost:5678/sendDoubleMABackTestInfo"
         headers = {'Content-type': 'application/json'}
         requests.post(url, data=json.dumps(re), headers=headers)
+
+    def send_strategy_result(self):
+        """
+        推送策略指标给客户端
+        :return:
+        """
