@@ -263,10 +263,8 @@ class BackTester(object):
             if order.operation == OPEN:
                 if order.direction == LONG and price <= order.price:   # 开多仓
                     print("开多仓报单成交")
-                    print("行情bar：{}".format(bar))
-                    print("报单:{}".format(order))
                     # （1）报单记录去掉该单子（2）持仓记录添加该单子 （3）trades成交单+1（4）处理cash，cash-=成交价格*成交量
-                    self.cash = self.cash - order.price * order.volume
+                    self.cash -= order.price * order.volume
                     self.pos_long.append(order)
                     match = True
                 if order.direction == SHORT and price >= order.price:   # 开空仓
@@ -283,10 +281,12 @@ class BackTester(object):
                 if order.direction == SHORT and price <= order.price:
                     print("平空仓报单成交")
                     self.cash -= order.price * order.volume
+                    for i in self.pos_short:
+                        print(i)
+                    print(order)
                     self.pos_short.remove(order)
                     match = True
-            # 如果成交了
-            # 报单记录都是需要pop掉
+            # 如果成交了，报单记录都是需要remove掉
             if match:
                 self.active_orders.remove(order)
                 # 成交单都是要push进来
