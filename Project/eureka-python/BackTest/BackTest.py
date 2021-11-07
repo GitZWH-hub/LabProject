@@ -28,13 +28,15 @@ def iterize(iterable):
 def get_now():
     """
     获取当前系统时间
-    :return: 返回 "时：分：秒"
+    :return: 返回字符串 "时：分：秒"
     """
     return datetime.strftime(datetime.now(), "%H:%M:%S")
 
 
-# 报单信息
 class Order(object):
+    """
+    报单
+    """
     def __init__(self, order_no, price, volume, operation, direction):
         super(Order, self).__init__()
         self.order_no = order_no
@@ -47,8 +49,10 @@ class Order(object):
         return f"{self.order_no} {self.price} {self.volume} {self.direction} {self.operation}"
 
 
-# 成交单信息
 class Match(object):
+    """
+    成交单
+    """
     def __init__(self, order_no, match_no, price, volume, operation, direction):
         super(Match, self).__init__()
         self.order_no = order_no
@@ -64,8 +68,7 @@ class Match(object):
 
 class BackTester(object):
     """
-    这个类的目的是：模拟交易所。
-    【推送行情给用户（策略）】、【撮合成交】、【记录报单、成交信息】、【计算策略评价指标】、【策略优化】
+    这个类的目的是：模拟交易所的功能【推送行情给用户（策略）】、【撮合成交】、【记录报单、成交信息】、【计算策略评价指标】、【策略优化】
     """
     def __init__(self):
         super(BackTester, self).__init__()
@@ -306,10 +309,10 @@ class BackTester(object):
         print("*" * 55)
         print("当前报单：")
         for i in self.active_orders:
-            print(i)
+            print("  {}".format(i))
         print("当前成交单：")
         for i in self.trades:
-            print(i)
+            print("  {}".format(i))
         print("当前多仓仓位: {}".format(self.pos_long))
         print("当前空仓仓位: {}".format(self.pos_short))
         print("当前现金cash: {}".format(self.cash))
