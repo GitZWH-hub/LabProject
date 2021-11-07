@@ -92,10 +92,10 @@ class BackTester(object):
         self.trades = []
         # 报单列表  数据格式是dataframe格式
         self.active_orders = []
-        # 持多仓列表  数据格式是dataframe格式
-        self.pos_long = []
-        # 持空仓列表  数据格式是dataframe格式
-        self.pos_short = []
+        # 持多仓数量
+        self.pos_long = 0
+        # 持空仓数量
+        self.pos_short = 0
         # 回测的数据 dataframe数据
         self.backtest_data = None
         # 是否是运行策略优化的方法。
@@ -284,15 +284,14 @@ class BackTester(object):
                     # 生成成交单
                     match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
                     # 仓位append
-                    self.pos_long.append(match)
+                    self.pos_long += order.volume
                 if order.direction == SHORT and price >= order.price:   # 开空仓
                     print("开空仓报单成交")
                     self.cash += order.price * order.volume
-                    self.pos_short.append(order)
                     # 生成成交单
                     match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
                     # 仓位append
-                    self.pos_short.append(match)
+                    self.pos_short += order.volume
             else:
                 if order.direction == LONG and price >= order.price:   # 平多仓
                     print("平多仓报单成交")
@@ -300,13 +299,13 @@ class BackTester(object):
                     # 生成成交单
                     match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
                     # 平多仓成交，需要将多仓remove掉该仓位, 根据报单号删除这个成交仓位
-                    self.pos_long = self.delete_pos(self.pos_long, order.order_no)
+                    self.pos_long -= order.volume
                 if order.direction == SHORT and price <= order.price:
                     print("平空仓报单成交")
                     self.cash -= order.price * order.volume
                     # 生成成交单
                     match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
-                    self.delete_pos(self.pos_short, order.order_no)
+                    self.pos_short -= order.volume
             # 如果成交了，报单记录都是需要remove掉
             if match is not None:
                 self.active_orders.remove(order)
@@ -314,14 +313,6 @@ class BackTester(object):
                 self.trades.append(match)
         print("查看当前的已报单情况:{}".format(self.active_orders))
         print("查看当前现金:{}".format(self.cash))
-
-    def delete_pos(self, pos_list, order_no):
-        for pos in pos_list:
-            if pos.order_no == order_no:
-                print("删除仓位")
-                pos_list.remove(pos)
-                break
-        return pos_list
 
     def calculate(self):
         """
