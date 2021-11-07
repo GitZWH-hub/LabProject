@@ -404,7 +404,7 @@ class BackTester(object):
         :param info: 消息内容
         :return:
         """
-        re = {'info': '[' + get_now() + ']:' + info}
+        re = {'info': '[' + get_now() + '] ' + info}
         url = "http://localhost:5678/sendDoubleMABackTestInfo"
         headers = {'Content-type': 'application/json'}
         requests.post(url, data=json.dumps(re), headers=headers)
