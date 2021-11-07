@@ -254,15 +254,23 @@ class BackTester(object):
             self.strategy_instance.on_bar(bar)      # 给到策略（用户）
 
         self.strategy_instance.on_stop()
-
-        print("查看结束后所有的报单和成交单")
-        print(self.active_orders)
-        print(self.trades)
-        print("当前多仓仓位: {}".format(self.pos_long))
-        print("当前空仓仓位: {}".format(self.pos_short))
-
+        self.print_allInfo()
         # 统计成交的信息..,可以先在暂时不考虑
         # self.calculate()
+
+    def print_allInfo(self):
+        """
+        打印查看信息
+        :return:
+        """
+        print("报单：")
+        for i in self.active_orders:
+            print(i)
+        print("成交单：")
+        for i in self.trades:
+            print(i)
+        print("当前多仓仓位: {}".format(self.pos_long))
+        print("当前空仓仓位: {}".format(self.pos_short))
 
     def check_order(self, bar):
         """
