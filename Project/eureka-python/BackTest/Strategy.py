@@ -59,7 +59,7 @@ class BaseStrategy(object):
         :param volume: 数量
         :return:
         """
-        self.broker.shdort(price, volume)
+        self.broker.short(price, volume)
 
     def cover(self, price, volume):
         """
