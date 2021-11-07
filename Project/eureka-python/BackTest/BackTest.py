@@ -271,6 +271,7 @@ class BackTester(object):
             print(i)
         print("当前多仓仓位: {}".format(self.pos_long))
         print("当前空仓仓位: {}".format(self.pos_short))
+        print("现金cash: {}".format(self.cash))
 
     def check_order(self, bar):
         """
@@ -283,8 +284,9 @@ class BackTester(object):
             price = bar.close.iloc[0]
             # 成交单
             match = None
-            print('报单价格：{}'.format(order.price), '行情价格：{}'.format(price))
-            print(order.direction, order.operation)
+            """
+            这里撮合成交的价格仍有待考虑和修改，目前就以报单价格成交
+            """
             if order.operation == OPEN:
                 if order.direction == LONG and price <= order.price:   # 开多仓
                     print("开多仓报单成交")
@@ -315,13 +317,11 @@ class BackTester(object):
                     # 生成成交单
                     match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
                     self.pos_short -= order.volume
-            # 如果成交了，报单记录都是需要remove掉
+            # 如果成交了，报单记录需要remove掉
             if match is not None:
                 self.active_orders.remove(order)
                 # 成交单都是要push进来
                 self.trades.append(match)
-        print("查看当前的已报单情况:{}".format(self.active_orders))
-        print("查看当前现金:{}".format(self.cash))
 
     def calculate(self):
         """
@@ -365,7 +365,7 @@ class BackTester(object):
         return datetime.strftime(datetime.now(), "%H:%M:%S")
 
     def sendInfo(self, info):
-        re = {'info': '[' + self.getNowTime() + ']' + info}
+        re = {'info': ' [' + self.getNowTime() + '] ' + info}
         url = "http://localhost:5678/sendDoubleMABackTestInfo"
         headers = {'Content-type': 'application/json'}
         requests.post(url, data=json.dumps(re), headers=headers)
