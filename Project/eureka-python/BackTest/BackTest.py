@@ -1,5 +1,6 @@
 import json
 import itertools
+import random
 import time
 
 import pandas as pd
@@ -28,9 +29,11 @@ def iterize(iterable):
     return niterable
 
 
+# 报单信息
 class Order(object):
-    def __init__(self, price, volume, operation, direction):
+    def __init__(self, order_no, price, volume, operation, direction):
         super(Order, self).__init__()
+        self.order_no = order_no
         self.price = price
         self.volume = volume
         self.operation = operation
@@ -173,26 +176,44 @@ class BackTester(object):
 
     def buy(self, price, volume):
         print(f"开多仓下单: {volume}@{price}")
-        order = Order(price, volume, OPEN, LONG)
+        order = Order(self.generate_orderNo(), price, volume, OPEN, LONG)
         self.active_orders.append(order)
 
     def sell(self, price, volume):
         print(f"平多仓下单: {volume}@{price}")  #
-        order = Order(price, volume, CLOSE, LONG)
+        order = Order(self.generate_orderNo(), price, volume, CLOSE, LONG)
         self.active_orders.append(order)
 
     def short(self, price, volume):
         print(f"开空仓下单: {volume}@{price}")
-        order = Order(price, volume, OPEN, SHORT)
+        order = Order(self.generate_orderNo(), price, volume, OPEN, SHORT)
         self.active_orders.append(order)
 
     def cover(self, price, volume):
         print(f"平空仓下单: {volume}@{price}")
-        order = Order(price, volume, CLOSE, SHORT)
+        order = Order(self.generate_orderNo(), price, volume, CLOSE, SHORT)
         self.active_orders.append(order)
 
     def select_posList(self):
         return self.pos_long, self.pos_short
+
+    def generate_orderNo(self):
+        """
+        生成报单号: 由'O'+ 豪秒级时间戳13位 + 2位随机数
+        :return: 返回报单号
+        """
+        now = str(int(round(time.time() * 1000)))
+        order_no = "O" + now + str(random.randint(10, 99))
+        return order_no
+
+    def generate_matchNo(self):
+        """
+        生成成交单号：由'M' + 豪秒级时间戳13位 + 三位随机数
+        :return: 返回成交单号
+        """
+        now = str(int(round(time.time() * 1000)))
+        match_no = "M" + now + str(random.randint(10, 99))
+        return match_no
 
     def set_strategy_instance(self, strategy_instance):
         """
@@ -208,7 +229,8 @@ class BackTester(object):
 
         for index, candle in self.backtest_data.iterrows():
             # print(type(bar))
-            can = [[candle['trade_date'], candle['open'], candle['close'], candle['high'], candle['low'], candle['vol']]]
+            can = [[candle['trade_date'], float(candle['open']), float(candle['close']),
+                    float(candle['high']), float(candle['low']), float(candle['vol'])]]
             bar = pd.DataFrame(can, columns=['trade_date', 'open', 'close', 'high', 'low', 'volume'])
             self.check_order(bar)                   # 检查该行情bar是否满足成交条件
             self.strategy_instance.on_bar(bar)      # 给到策略（用户）
@@ -268,15 +290,7 @@ class BackTester(object):
         :return:
         """
         for trade in self.trades:
-            """
-             order_id 
-             trade_id
-             price,
-             volume 
-             
-             10000 --> 1BTC
-             12000 --> 1BTC  -- >  2000
-            """
+
             pass
 
     def optimize_strategy(self, **kwargs):
@@ -307,7 +321,7 @@ class BackTester(object):
             self.set_commission(commission)
             self.run()
 
-    # 获取当前系统时间
+    # 获取当前系统时间(时：分：秒)
     def getNowTime(self):
         return datetime.strftime(datetime.now(), "%H:%M:%S")
 
