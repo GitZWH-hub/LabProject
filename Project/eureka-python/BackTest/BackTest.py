@@ -303,7 +303,7 @@ class BackTester(object):
         打印查看信息
         :return:
         """
-        print("*" * 40)
+        print("*" * 55)
         print("当前报单：")
         for i in self.active_orders:
             print(i)
