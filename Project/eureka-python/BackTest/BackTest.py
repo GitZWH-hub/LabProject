@@ -42,6 +42,7 @@ class Order(object):
     def __str__(self):
         return f"{self.order_no} {self.price} {self.volume} {self.direction} {self.operation}"
 
+
 """
 这个类的目的是：模拟交易所，推送行情给用户（策略），并实现撮合成交
 """
@@ -59,7 +60,7 @@ class BackTester(object):
         # 结束日期
         self.end_date = None
         # 初始本金.
-        self.cash = 1_000_000
+        self.cash = 10000000
         # 策略实例
         self.strategy_instance = None
         # 手续费
@@ -158,7 +159,7 @@ class BackTester(object):
         :param cash: 本金
         :return:
         """
-        self.cash = cash
+        self.cash = int(cash)
 
     def set_leverage(self, leverage: float):
         """
