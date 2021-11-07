@@ -294,7 +294,7 @@ class BackTester(object):
                     # 仓位append
                     self.pos_short.append(match)
             else:
-                if order.direction == LONG and price >= order.prcie:   # 平多仓
+                if order.direction == LONG and price >= order.price:   # 平多仓
                     print("平多仓报单成交")
                     self.cash += order.price * order.volume
                     # 生成成交单
