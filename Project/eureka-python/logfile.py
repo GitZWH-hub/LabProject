@@ -18,7 +18,7 @@ from datetime import date
 
 class Logger(object):
     def __init__(self):
-        print(" ====================== 初始化日志 ====================")
+        # print(" ====================== 初始化日志 ====================")
         self.today_date = date.today()
         log.basicConfig(filename='log/' + str(self.today_date) + '.log',
                         level=log.INFO,  # 控制台打印的日志级别
