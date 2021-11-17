@@ -1,3 +1,8 @@
+"""
+created by ZWH 2021-11-01
+回测模块
+"""
+
 import json, time, random
 import itertools, collections
 import pandas as pd
@@ -72,15 +77,13 @@ class BackTester(object):
     """
     def __init__(self):
         super(BackTester, self).__init__()
-        # 回测策略类
-        self.strategy_class = None
         # 期货合约
         self.ts_code = None
         # 起始日期
         self.start_date = None
         # 结束日期
         self.end_date = None
-        # 初始本金.
+        # 初始本金
         self.cash = 10000000
         # 策略实例
         self.strategy_instance = None
@@ -90,13 +93,13 @@ class BackTester(object):
         self.leverage = 1.0
         # 滑点率，设置为万5
         self.slipper_rate = 5 / 10000
-        # 购买的资产的估值，作为计算爆仓的时候使用.
+        # 购买的资产的估值，作为计算爆仓的时候使用
         self.asset_value = 0
-        # 最低保证金比例, 使用bitfinex 的为例子.
+        # 最低保证金比例
         self.min_margin_rate = 0.15
-        # 成交单
+        # 成交单记录
         self.trades = []
-        # 报单列表  数据格式是dataframe格式
+        # 报单列表dataframe
         self.active_orders = []
         # 持多仓数量
         self.pos_long = 0
@@ -104,8 +107,10 @@ class BackTester(object):
         self.pos_short = 0
         # 回测的数据 dataframe格式
         self.backtest_data = None
-        # 是否是运行策略优化的方法。
+        # 是否是运行策略优化的方法
         self.is_optimizing_strategy = False
+        # 回测策略类，暂时不需要set
+        self.strategy_class = None
 
     def start(self):
         """
@@ -187,6 +192,14 @@ class BackTester(object):
         """
         self.cash = int(cash)
 
+    def set_is_optimizing_strategy(self, ifyes):
+        """
+        设置是否调优寻找最优参数
+        :param ifyes: bool型
+        :return:
+        """
+        self.is_optimizing_strategy = ifyes
+
     def set_leverage(self, leverage: float):
         """
         设置杠杆率
@@ -219,6 +232,7 @@ class BackTester(object):
         平多仓下单
         平仓报单的价格要看之前开仓成交的成交价：
         如开多仓成交的成交价是70000，则如果要赚钱的话，平仓报单的价格应该要大于70000；所以这里可能要查看成交信息确定自己的报单价格。
+        还有报单手数怎么确定？
         :param price: 报单价格
         :param volume: 报单手数
         :return:
@@ -284,7 +298,13 @@ class BackTester(object):
         self.strategy_instance = strategy_instance
 
     def run(self):
+        """
+        启动
+        :return:
+        """
+        # 策略实例绑定self
         self.strategy_instance.broker = self
+        # 启动策略
         self.strategy_instance.on_start()
 
         for index, candle in self.backtest_data.iterrows():
@@ -329,37 +349,35 @@ class BackTester(object):
             # 成交单
             match = None
             """
-            这里撮合成交的价格仍有待考虑和修改，目前就以报单价格成交。
-            【实际上的成交价】计算机在撮合时实际上是依据前一笔成交价而定出最新成交价的。如果前一笔成交价低于或等于卖出价，则最新成交价就是卖出价；如果前一笔成交价高于或等于买入价，则最新成交价就是买入价；如果前一笔成交价在卖出价与买入价之间，则最新成交价就是前一笔的成交价。
+            【这里撮合成交的价格仍有待考虑和修改，目前就以报单价格成交】
+            【实际上的成交价依据前一笔成交价而定出最新成交价】如果前一笔成交价低于或等于卖出价，则最新成交价就是卖出价；
+                                                     如果前一笔成交价高于或等于买入价，则最新成交价就是买入价；
+                                                     如果前一笔成交价在卖出价与买入价之间，则最新成交价就是前一笔的成交价。
             """
             if order.operation == OPEN:
-                if order.direction == LONG and price <= order.price:   # 开多仓
+                if order.direction == LONG and price <= order.price:    # 开多仓
                     print("开多仓报单成交")
-                    # （1）报单记录去掉该单子（2）持仓记录添加该单子 （3）trades成交单+1（4）处理cash，cash-=成交价格*成交量
+                    # （1）报单记录去掉该单子（2）持仓数+volume（3）trades成交单+1（4）处理cash，cash-=成交价格*成交量
                     self.cash -= order.price * order.volume
                     # 生成成交单
                     match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
-                    # 仓位append
+                    # 仓位数增加
                     self.pos_long += order.volume
                 if order.direction == SHORT and price >= order.price:   # 开空仓
                     print("开空仓报单成交")
                     self.cash += order.price * order.volume
-                    # 生成成交单
                     match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
-                    # 仓位append
                     self.pos_short += order.volume
             else:
-                if order.direction == LONG and price >= order.price:   # 平多仓
+                if order.direction == LONG and price >= order.price:    # 平多仓
                     print("平多仓报单成交")
                     self.cash += order.price * order.volume
-                    # 生成成交单
                     match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
                     # 平多仓成交，需要将多仓remove掉该仓位, 根据报单号删除这个成交仓位
                     self.pos_long -= order.volume
-                if order.direction == SHORT and price <= order.price:
+                if order.direction == SHORT and price <= order.price:   # 平空仓
                     print("平空仓报单成交")
                     self.cash -= order.price * order.volume
-                    # 生成成交单
                     match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
                     self.pos_short -= order.volume
             # 如果成交了，报单记录需要remove掉
@@ -380,30 +398,31 @@ class BackTester(object):
     def optimize_strategy(self, **kwargs):
         """
         优化策略。参数遍历进行，如双均线策略，遍历长短周期值
-        :param kwargs: 策略个性化参数
+        :param kwargs: 策略个性化参数（字典参数）
         :return:
         """
-        self.is_optimizing_strategy = True
-        self.send_info("运行策略优化")
-        optkeys = list(kwargs)
-        vals = iterize(kwargs.values())
-        optvals = itertools.product(*vals)
-        optkwargs = map(zip, itertools.repeat(optkeys), optvals)
-        optkwargs = map(dict, optkwargs)
+        if self.is_optimizing_strategy:
+            self.send_info("运行策略优化")
+            optkeys = list(kwargs)
+            vals = iterize(kwargs.values())
+            optvals = itertools.product(*vals)
+            optkwargs = map(zip, itertools.repeat(optkeys), optvals)
+            optkwargs = map(dict, optkwargs)
 
-        for params in optkwargs:
-            print(params)
+            for params in optkwargs:
+                print(params)
 
-        # 参数列表, 要优化的参数, 放在这里.
-        cash = self.cash
-        leverage = self.leverage
-        commission = self.commission
-        for params in optkwargs:
-            self.strategy_class.params = params
-            self.set_cash(cash)
-            self.set_leverage(leverage)
-            self.set_commission(commission)
-            self.run()
+            # 参数列表, 要优化的参数, 放在这里.
+            cash = self.cash
+            # leverage = self.leverage
+            # commission = self.commission
+            for params in optkwargs:
+                self.strategy_class.params = params
+                self.set_cash(cash)
+                # self.set_leverage(leverage)
+                # self.set_commission(commission)
+                self.run()
+            # 这边计算出最优的参数
 
     def send_info(self, info):
         """
@@ -411,10 +430,10 @@ class BackTester(object):
         :param info: 消息内容
         :return:
         """
-        re = {'info': '[' + get_now() + '] ' + info}
+        res = {'info': '[' + get_now() + '] ' + info}
         url = "http://localhost:5678/sendDoubleMABackTestInfo"
         headers = {'Content-type': 'application/json'}
-        requests.post(url, data=json.dumps(re), headers=headers)
+        requests.post(url, data=json.dumps(res), headers=headers)
 
     def send_strategy_result(self):
         """
