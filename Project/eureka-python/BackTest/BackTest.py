@@ -107,7 +107,7 @@ class BackTester(object):
         self.pos_short = 0
         # 回测的数据 dataframe格式
         self.backtest_data = None
-        # 是否是运行策略优化的方法
+        # 是否运行策略优化的方法
         self.is_optimizing_strategy = False
         # 回测策略类，暂时不需要set
         self.strategy_class = None
@@ -216,6 +216,10 @@ class BackTester(object):
         """
         self.commission = commission
 
+    '''
+    不需要计算报单手续费，正常情况下：报单，冻结手续费，如果撤单或成交需要解冻手续费
+    这里只需要在成交时计算成交手续费并扣除即可
+    '''
     def buy(self, price, volume):
         """
         开多仓报单
