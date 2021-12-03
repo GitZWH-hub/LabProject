@@ -27,6 +27,8 @@ public class CorsFilter extends AbstractGatewayFilterFactory implements Filter {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE,OPTIONS");
         response.addHeader("Access-Control-Allow-Headers", "*");
+        System.out.println("测试是否到达filter");
+        System.out.println(request.getMethod());
         //response.addHeader("Access-Control-Max-Age", "3628800"); //可选
         if(OPTIONS.equalsIgnoreCase(request.getMethod()))
             return;  // 或者直接输入204、HttpStatus.SC_OK、200，等这些都可以   import org.apache.http.HttpStatus;
