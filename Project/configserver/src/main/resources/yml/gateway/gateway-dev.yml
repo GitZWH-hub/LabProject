@@ -30,8 +30,8 @@ spring:
           uri: lb://eureka-producer
           predicates:
             - Path=/eureka-producer/**
-#          filters:
-#            - CorsFilter=true
+          filters:
+            - CorsFilter=true
 #          filters:
 #            - AccessControlAllowOriginFilter=true
 
