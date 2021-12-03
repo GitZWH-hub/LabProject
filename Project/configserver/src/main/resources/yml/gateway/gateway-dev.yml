@@ -5,6 +5,8 @@ spring:
   cloud:
     gateway:
       globalcors:
+        filters:
+          - CorsFilter=true
         add-to-simple-url-handler-mapping: true   # 解决options请求被拦截问题
         cors-configurations:
           '[/**]':
@@ -14,8 +16,6 @@ spring:
             allowedMethods: "*"
             maxAge: 360000
       routes:
-        filters:
-          - CorsFilter=true
         - id: bullet
           uri: lb://bullet
           predicates:
