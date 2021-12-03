@@ -9,7 +9,7 @@ import java.io.IOException;
 
 @Component
 @WebFilter(filterName = "CorsFilter", urlPatterns = "/*")
-public class CorsFilterGatewayFilterFactory implements Filter {
+public class CorsGatewayFilterFactory implements Filter {
     private static final String OPTIONS = "OPTIONS";
 
     @Override
