@@ -7,7 +7,9 @@ import org.springframework.web.client.RestTemplate;
 import com.example.eurekaproducer.request.Req8001;
 import com.example.eurekaproducer.request.Req8002;
 
-@CrossOrigin
+import static org.springframework.web.bind.annotation.RequestMethod.*;
+
+@CrossOrigin(origins = "http://localhost:63342", methods = {GET, POST, PUT, DELETE, OPTIONS}, maxAge = 60L)
 @RestController
 public class UserController {
 
