@@ -8,10 +8,6 @@ import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-import com.alibaba.fastjson.JSONObject;
-import org.springframework.core.io.buffer.DataBuffer;
-import java.nio.charset.StandardCharsets;
-
 /**
  * 自定义全局过滤器，需要实现GlobalFilter和Ordered接口
  */
@@ -22,17 +18,12 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpResponse response = exchange.getResponse();
-        if (OPTIONS.equalsIgnoreCase(String.valueOf(exchange.getRequest().getMethod()))) {
-            JSONObject message = new JSONObject();
-            message.put("status", 200);
-            message.put("data", "YES");
-            System.out.println("OPTIONS鉴定...");
-            byte[] bits = message.toJSONString().getBytes(StandardCharsets.UTF_8);
-            DataBuffer buffer = response.bufferFactory().wrap(bits);
-            response.setStatusCode(HttpStatus.OK);
-            return response.writeWith(Mono.just(buffer));
-        }
         System.out.println(String.valueOf(exchange.getRequest().getMethod()));
+        if (OPTIONS.equalsIgnoreCase(String.valueOf(exchange.getRequest().getMethod()))) {
+            System.out.println("OPTIONS鉴定...");
+            response.setStatusCode(HttpStatus.OK);
+            return response.setComplete();
+        }
         // 继续执行filter链
         return chain.filter(exchange);
     }
