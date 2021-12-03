@@ -1,4 +1,8 @@
 package com.naah.gateway.filter;
+import org.springframework.cloud.gateway.filter.GatewayFilter;
+import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -8,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@WebFilter(filterName = "CorsFilter", urlPatterns = "/*")
-public class CorsGatewayFilterFactory implements Filter {
+//@WebFilter(filterName = "CorsFilter", urlPatterns = "/*")
+public class CorsGatewayFilterFactory extends AbstractGatewayFilterFactory implements Filter {
     private static final String OPTIONS = "OPTIONS";
 
     @Override
@@ -39,5 +43,20 @@ public class CorsGatewayFilterFactory implements Filter {
 
     }
 
+    @Override
+    public GatewayFilter apply(Object config) {
+        return (exchange, chain) -> {
+            //1. 获取请求
+            HttpServletRequest request = (HttpServletRequest) exchange.getRequest();
+            //2. 则获取响应
+            HttpServletResponse response = (HttpServletResponse) exchange.getResponse();
+            response.addHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE,OPTIONS");
+            response.addHeader("Access-Control-Allow-Headers", "*");
+            System.out.println("测试是否到达filter");
+            System.out.println(request.getMethod());
+            return chain.filter(exchange);
+        };
+    }
 }
 
