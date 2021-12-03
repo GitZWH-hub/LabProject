@@ -14,18 +14,18 @@ spring:
             allowedMethods: "*"
             maxAge: 360000
       routes:
-        - id: bullet
-          uri: lb://bullet
-          predicates:
-            - Path=/bullet/**
-          filters:
-            - CorsFilter=true
-        - id: bulletscreen
-          uri: lb:ws://bullet
-          predicates:
-            - Path=/bullet/**
-          filters:
-            - CorsFilter=true
+#        - id: bullet
+#          uri: lb://bullet
+#          predicates:
+#            - Path=/bullet/**
+#          filters:
+#            - CorsFilter=true
+#        - id: bulletscreen
+#          uri: lb:ws://bullet
+#          predicates:
+#            - Path=/bullet/**
+#          filters:
+#            - CorsFilter=true
         - id: eureka-producer
           uri: lb://eureka-producer
           predicates:
