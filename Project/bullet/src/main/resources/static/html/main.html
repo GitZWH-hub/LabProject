@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册登录</title>
+    <!-- 使用jquery框架 这里没有下载jquery，如果要下载，使用# npm install jquery命令-->
+    <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery/jquery-1.4.min.js"></script>
+    <!-- JS实现AJAX部分-->
+    <script type="text/javascript" src="html.js"></script>
+</head>
+<body>
+    <div align="center" style="width: 500px; margin-left: 200px; margin-top: 100px">
+        <select id="type" required="True" style="float: left">
+            <option value=1>管理员</option>
+            <option value=2>卖家</option>
+            <option value=3>买家</option>
+        </select>
+        <br>
+        <div style="float: left;font-size: 15px">
+            <input id="name">用户名</input>
+            <input id="pwd">密码</input>
+        </div>
+        <br>
+        <br>
+        <div style="float: left">
+            <button id="register">注册</button>
+            <button id="login">登录</button>
+        </div>
+    </div>
+</body>
+</html>

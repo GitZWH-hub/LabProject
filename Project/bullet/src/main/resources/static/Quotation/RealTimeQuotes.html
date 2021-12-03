@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>行情订阅</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="quotes.css">
+</head>
+<body onload="disconnect()">
+    <div>
+        <div class="firstline">
+            <button id="connect" onclick="connect()">连接行情服务</button>
+            <button id="disconnect" onclick="disconnect();">断开连接</button>
+            <button id="testEv" onclick="env(0)">7*24环境</button>
+            <button id="tradeEv" onclick="env(1)">交易环境</button>
+        </div>
+        <div id="conversationDiv">
+            <label>输入合约</label>
+            <select id="fut" required="False" style="width: 142px">
+                <option value="CU">铜Cu</option>
+                <option value="AU">黄金Au</option>
+                <option value="AG">白银Ag</option>
+            </select>
+            <br>
+            <label>合约日期</label>
+            <input id="futEnd" type="month" class="date-picker"/>
+            <button id="send" onclick="send();">订阅行情</button>
+            <button id="stop" onclick="stop()">取消订阅</button>
+        </div>
+    </div>
+    <div align="center" style="float: inside">
+        <div style="float: left">
+            <br>
+            <table class="tb2" id="tb2" width="500" border="1" cellspacing="0" cellpadding="0" bordercolor="#FFFFFF"></table>
+        </div>
+        <div style="float: left" >
+            <canvas id="chart" height="500" width="500"  align="center"> 你的浏览器不支持HTML5 canvas </canvas>
+        </div>
+    </div>
+    <!-- 显示合约实时行情信息（五档）-->
+    <div>
+        <table class="tb1" id="tb1"></table>
+    </div>
+    <!--下面的script使date组件默认显示当前日期-->
+    <script>
+        var defaultDate = document.querySelectorAll('.date-picker');
+        for (var i = 0; i < defaultDate.length; i++) {
+            defaultDate[i].valueAsDate = new Date();
+        }
+    </script>
+    <script type="text/javascript">
+        var chartData = []
+        var stompClient = null;
+        var host= "http://10.177.31.53:8888";
+        table1 = document.getElementById('tb1');
+        table2 = document.getElementById('tb2')
+        table1.innerHTML = ""
+        table2.innerHTML = ""
+        table2.innerHTML =  "" +
+            "<th class='th2'>序号</th>\n" +
+            "<th class='th2'>合约</th>\n" +
+            "<th class='th2'>开盘价</th>" +
+            "<th class='th2'>收盘价</th>" +
+            "<th class='th2'>最高价</th>" +
+            "<th class='th2'>最低价</th>";
+        table1.innerHTML = "" +
+            "<th>序号</th>\n" +
+            // "<th>交易日</th>" +
+            "<th>合约代码</th>" +
+            "<th>最新价</th>" +
+            // "<th>上次结算价</th>" +
+            // "<th>昨收盘</th>" +
+            // "<th>昨持仓量</th>" +
+            // "<th>今开盘</th>" +
+            // "<th>最高价</th>" +
+            // "<th>最低价</th>" +
+            "<th>数量</th>" +
+            "<th>成交金额</th>" +
+            // "<th>持仓量</th>" +
+            // "<th>今收盘</th>" +
+            // "<th>本次结算价</th>" +
+            // "<th>涨停板价</th>" +
+            // "<th>跌停板价</th>" +
+            // "<th>昨虚实度</th>" +
+            // "<th>今虚实度</th>" +
+            // "<th>最后修改时间</th>" +
+            // "<th>最后修改毫秒</th>" +
+            "<th>买价一</th>" +
+            "<th>买量一</th>" +
+            "<th>卖价一</th>" +
+            "<th>卖量一</th>" +
+            "<th>买价二</th>" +
+            "<th>买量二</th>" +
+            "<th>卖价二</th>" +
+            "<th>卖量二</th>" +
+            "<th>买价三</th>" +
+            "<th>买量三</th>" +
+            "<th>卖价三</th>" +
+            "<th>卖量三</th>" +
+            "<th>买价四</th>" +
+            "<th>买量四</th>" +
+            "<th>卖价四</th>" +
+            "<th>卖量四</th>" +
+            "<th>买价五</th>" +
+            "<th>买量五</th>" +
+            "<th>卖价五</th>" +
+            "<th>卖量五</th>" +
+            // "<th style='width: 4%'>当日均价</th>" +
+            // "<th>业务日期</th>"
+            "";
+        function env(flag){
+            // 交易环境
+            if(flag == 1) {
+                document.getElementById('testEv').disabled = false
+                document.getElementById('tradeEv').disabled = true
+                flag = 1
+            }
+            // 7*24环境
+            else{
+                document.getElementById('testEv').disabled = true
+                document.getElementById('tradeEv').disabled = false
+                flag = 0
+            }
+            data = {flag: flag}
+            stompClient.send("/Req8103", {}, JSON.stringify(data));
+        }
+        function setConnected(connected) {
+            document.getElementById('connect').disabled = connected;
+            document.getElementById('disconnect').disabled = !connected;
+            document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
+            document.getElementById('testEv').disabled = !connected
+            document.getElementById('tradeEv').disabled = !connected
+            $('#response').html();
+        }
+        function connect() {
+            var socket = new SockJS(host + '/bullet');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function(frame) {
+                setConnected(true);
+                console.log('Connected:' + frame);
+                stompClient.subscribe('/toAll/bulletScreen', function(response) {
+                    showResponse(response.body);
+                });
+            });
+        }
+        function disconnect() {
+            if (stompClient != null) {
+                stompClient.disconnect();
+            }
+            setConnected(false);
+            console.log("Disconnected");
+        }
+        // 发送订阅行情
+        function send() {
+            var fut = $('#fut').val();
+            var futEnd = $('#futEnd').val();
+            stompClient.send("/Req8101", {}, JSON.stringify({fut:fut, futEnd:futEnd}));
+            document.getElementById('testEv').disabled = true;
+            document.getElementById('tradeEv').disabled = true;
+        }
+        // 停止订阅
+        function stop(){
+            document.getElementById('testEv').disabled = false;
+            document.getElementById('tradeEv').disabled = false;
+            //第一步，发送停止服务的消息
+            stompClient.send("/Req8102", {})
+            //第二步，stompClient.disconnect();
+        }
+        function showResponse(message) {
+            let json = JSON.parse(message)
+
+            var data = [json.updateTime.substring(3), json.lastPrice]
+            chartData.push(data)
+
+            // 更新第一个表
+            var tr1 = table1.getElementsByTagName('tr')  //tr包含了表头
+            var nums_tb1 = tr1.length;
+            let i = 1;
+            if (nums_tb1 > 1) {
+                for (; i < nums_tb1; i++)
+                    if (tr1[i].cells[1].innerHTML == json.instrumentID) {
+                        tr1[i].innerHTML =
+                            "<tr>\n" +
+                            "        <td>" + tr1[i].cells[0].innerHTML + "</td>\n" +
+                            // "        <td  style='width: 3%'>" + json.tradingDay + "</td>\n" +
+                            "        <td>" + json.instrumentID + "</td>\n" +
+                            "        <td class='lp'>" + json.lastPrice + "</td>\n" +
+                            // "        <td>" + json.preSettlementPrice + "</td>\n" +
+                            // "        <td>" + json.preClosePrice + "</td>\n" +
+                            // "        <td>" + json.preOpenInterest + "</td>\n" +
+                            // "        <td>" + json.openPrice + "</td>\n" +
+                            // "        <td>" + json.highestPrice + "</td>\n" +
+                            // "        <td>" + json.lowestPrice + "</td>\n" +
+                            "        <td>" + json.volume + "</td>\n" +
+                            "        <td>" + json.turnover + "</td>\n" +
+                            // "        <td>" + json.openInterest + "</td>\n" +
+                            // "        <td>" + json.closePrice + "</td>\n" +
+                            // "        <td>" + json.settlementPrice + "</td>\n" +
+                            // "        <td>" + json.upperLimitPrice + "</td>\n" +
+                            // "        <td>" + json.lowerLimitPrice + "</td>\n" +
+                            // "        <td>" + json.preDelta + "</td>\n" +
+                            // "        <td>" + json.currDelta + "</td>\n" +
+                            // "        <td>" + json.updateTime + "</td>\n" +
+                            // "        <td>" + json.updateMillisec + "</td>\n" +
+                            "        <td class='bp'>" + json.bidPrice1 + "</td>\n" +
+                            "        <td class='bv'>" + json.bidVolume1 + "</td>\n" +
+                            "        <td class='ap'>" + json.askPrice1 + "</td>\n" +
+                            "        <td class='av'>" + json.askVolume1 + "</td>\n" +
+                            "        <td class='bp'>" + json.bidPrice2 + "</td>\n" +
+                            "        <td class='bv'>" + json.bidVolume2 + "</td>\n" +
+                            "        <td class='ap'>" + json.askPrice2 + "</td>\n" +
+                            "        <td class='av'>" + json.askVolume2 + "</td>\n" +
+                            "        <td class='bp'>" + json.bidPrice3 + "</td>\n" +
+                            "        <td class='bv'>" + json.bidVolume3 + "</td>\n" +
+                            "        <td class='ap'>" + json.askPrice3 + "</td>\n" +
+                            "        <td class='av'>" + json.askVolume3 + "</td>\n" +
+                            "        <td class='bp'>" + json.bidPrice4 + "</td>\n" +
+                            "        <td class='bv'>" + json.bidVolume4 + "</td>\n" +
+                            "        <td class='ap'>" + json.askPrice4 + "</td>\n" +
+                            "        <td class='av'>" + json.askVolume4 + "</td>\n" +
+                            "        <td class='bp'>" + json.bidPrice5 + "</td>\n" +
+                            "        <td class='bv'>" + json.bidVolume5 + "</td>\n" +
+                            "        <td class='ap'>" + json.askPrice5 + "</td>\n" +
+                            "        <td class='av'>" + json.askVolume5 + "</td>\n" +
+                            // "        <td style='width: 4%'>" + json.averagePrice + "</td>\n" +
+                            // "        <td>" + json.actionDay + "</td>\n" +
+                            "    </tr>";
+                        break;
+                    }
+            }
+            if(nums_tb1 <= 1 || i == nums_tb1) {
+                table1.innerHTML +=
+                    "<tr>\n" +
+                    "        <td>" + nums_tb1 + "</td>\n" +
+                    // "        <td  style='width: 3%'>" + json.tradingDay + "</td>\n" +
+                    "        <td  style='width: 4%'>" + json.instrumentID + "</td>\n" +
+                    "        <td class='lp'>" + json.lastPrice + "</td>\n" +
+                    // "        <td>" + json.preSettlementPrice + "</td>\n" +
+                    // "        <td>" + json.preClosePrice + "</td>\n" +
+                    // "        <td>" + json.preOpenInterest + "</td>\n" +
+                    // "        <td>" + json.openPrice + "</td>\n" +
+                    // "        <td>" + json.highestPrice + "</td>\n" +
+                    // "        <td>" + json.lowestPrice + "</td>\n" +
+                    "        <td>" + json.volume + "</td>\n" +
+                    "        <td style='width: 5%'>" + json.turnover + "</td>\n" +
+                    // "        <td>" + json.openInterest + "</td>\n" +
+                    // "        <td>" + json.closePrice + "</td>\n" +
+                    // "        <td>" + json.settlementPrice + "</td>\n" +
+                    // "        <td>" + json.upperLimitPrice + "</td>\n" +
+                    // "        <td>" + json.lowerLimitPrice + "</td>\n" +
+                    // "        <td>" + json.preDelta + "</td>\n" +
+                    // "        <td>" + json.currDelta + "</td>\n" +
+                    // "        <td>" + json.updateTime + "</td>\n" +
+                    // "        <td>" + json.updateMillisec + "</td>\n" +
+                    "        <td class='bp'>" + json.bidPrice1 + "</td>\n" +
+                    "        <td class='bv'>" + json.bidVolume1 + "</td>\n" +
+                    "        <td class='ap'>" + json.askPrice1 + "</td>\n" +
+                    "        <td class='av'>" + json.askVolume1 + "</td>\n" +
+                    "        <td class='bp'>" + json.bidPrice2 + "</td>\n" +
+                    "        <td class='bv'>" + json.bidVolume2 + "</td>\n" +
+                    "        <td class='ap'>" + json.askPrice2 + "</td>\n" +
+                    "        <td class='av'>" + json.askVolume2 + "</td>\n" +
+                    "        <td class='bp'>" + json.bidPrice3 + "</td>\n" +
+                    "        <td class='bv'>" + json.bidVolume3 + "</td>\n" +
+                    "        <td class='ap'>" + json.askPrice3 + "</td>\n" +
+                    "        <td class='av'>" + json.askVolume3 + "</td>\n" +
+                    "        <td class='bp'>" + json.bidPrice4 + "</td>\n" +
+                    "        <td class='bv'>" + json.bidVolume4 + "</td>\n" +
+                    "        <td class='ap'>" + json.askPrice4 + "</td>\n" +
+                    "        <td class='av'>" + json.askVolume4 + "</td>\n" +
+                    "        <td class='bp'>" + json.bidPrice5 + "</td>\n" +
+                    "        <td class='bv'>" + json.bidVolume5 + "</td>\n" +
+                    "        <td class='ap'>" + json.askPrice5 + "</td>\n" +
+                    "        <td class='av'>" + json.askVolume5 + "</td>\n" +
+                    // "        <td style='width: 4%'>" + json.averagePrice + "</td>\n" +
+                    // "        <td>" + json.actionDay + "</td>\n" +
+                    "    </tr>";
+
+            }
+            // 更新第二个表
+            var tr2 = table2.getElementsByTagName('tr')  //tr包含了表头
+            let nums_tb2 = tr2.length
+
+            i = 1
+            if (nums_tb2 > 1) {
+                for (; i < nums_tb2; i++)
+                    if (tr2[i].cells[1].innerHTML == json.instrumentID) {
+                        tr2[i].innerHTML =
+                            "<tr>\n" +
+                            "        <td class='td2'>" + tr2[i].cells[0].innerHTML + "</td>\n" +
+                            "        <td class='td2'>" + json.instrumentID + "</td>\n" +
+                            "        <td class='td2'>" + json.openPrice + "</td>\n" +
+                            "        <td class='td2'>" + json.closePrice + "</td>\n" +
+                            "        <td class='td2'>" + json.highestPrice + "</td>\n" +
+                            "        <td class='td2'>" + json.lowestPrice + "</td>\n" +
+                            "</tr>";
+                        break;
+                    }
+            }
+            if(nums_tb2 <= 1 || i == nums_tb2){
+                table2.innerHTML +=
+                    "<tr>\n" +
+                    "        <td class='td2'>" + nums_tb2 + "</td>\n" +
+                    "        <td class='td2'>" + json.instrumentID + "</td>\n" +
+                    "        <td class='td2'>" + json.openPrice+ "</td>\n" +
+                    "        <td class='td2'>" + json.closePrice+ "</td>\n" +
+                    "        <td class='td2'>" + json.highestPrice+ "</td>\n" +
+                    "        <td class='td2'>" + json.lowestPrice+ "</td>\n" +
+                    "</tr>";
+                    }
+
+            // 将数据映射到chart上
+            var num = chartData.length;
+            if(num >= 20) {
+                console.log("大于10了")
+                chartData = chartData.slice(1, 20)
+                console.log(chartData)
+            }
+            goChart(chartData);
+
+        }
+        function goChart(dataArr){
+            // 声明所需变量
+            var canvas,ctx;
+            // 图表属性
+            var cWidth, cHeight, cMargin, cSpace;
+            var originX, originY;
+            // 折线图属性
+            var tobalDots, dotSpace, maxValue, minValue;
+            var totalYNomber;
+            // 运动相关变量
+            var ctr, numctr, speed;
+            // 获得canvas上下文
+            canvas = document.getElementById("chart");
+            if(canvas && canvas.getContext){
+                ctx = canvas.getContext("2d");
+            }
+            initChart(); // 图表初始化
+            drawLineLabelMarkers(); // 绘制图表轴、标签和标记
+            drawLineAnimate(); // 绘制折线图的动画
+
+            //这边要监听鼠标移动，鼠标每次在canvas的，在鼠标右上方显示一个小框框显示具体信息（信息是离鼠标x坐标最近的一条数值线的数据）
+
+            //点击刷新图表
+            canvas.onclick = function(){
+                initChart(); // 图表初始化
+                drawLineLabelMarkers(); // 绘制图表轴、标签和标记
+                drawLineAnimate(); // 绘制折线图的动画
+            };
+            // 图表初始化
+            function initChart(){
+                // 图表信息
+                cMargin = 60;
+                cSpace = 80;
+                /*这里是对高清屏幕的处理，
+                     方法：先将canvas的width 和height设置成本来的两倍
+                     然后将style.height 和 style.width设置成本来的宽高
+                     这样相当于把两倍的东西缩放到原来的 1/2，这样在高清屏幕上 一个像素的位置就可以有两个像素的值
+                     这样需要注意的是所有的宽高间距，文字大小等都得设置成原来的两倍才可以。
+                */
+                canvas.width = Math.floor( (window.innerWidth-100)/2 ) * 2.5;
+                canvas.height = 740;
+                canvas.style.height = canvas.height/2 + "px";
+                canvas.style.width = canvas.width/2 + "px";
+                cHeight = canvas.height - cMargin - cSpace;
+                cWidth = canvas.width - cMargin - cSpace;
+                originX = cMargin + cSpace;
+                originY = cMargin + cHeight;
+                // 折线图信息
+                tobalDots = dataArr.length;
+                dotSpace = parseInt(cWidth/tobalDots );
+                maxValue = 0;
+                minValue = 9999999;
+                for(var i=0; i<dataArr.length; i++){
+                    var dotVal = parseInt(dataArr[i][1] );
+                    if(dotVal > maxValue ){
+                        maxValue = dotVal;
+                    }
+                    var minval = parseInt(dataArr[i][1]);
+                    if(minval < minValue){
+                        minValue = minval
+                    }
+                }
+                maxValue += 20;
+                minValue -= 20;
+                totalYNomber = 10;
+                // 运动相关
+                ctr = 1;
+                numctr = 1;
+                speed = 0;
+                ctx.translate(0.5,0.5);  // 当只绘制1像素的线的时候，坐标点需要偏移，这样才能画出1像素实线
+
+            }
+            // 绘制图表轴、标签和标记
+            function drawLineLabelMarkers(){
+                ctx.font = "24px Arial";
+                ctx.lineWidth = 2;
+                ctx.fillStyle = "#566a80";
+                ctx.strokeStyle = "#566a80";
+                // y轴
+                drawLine(originX, originY, originX, cMargin);
+                // x轴
+                drawLine(originX, originY, originX+cWidth, originY);
+                // 绘制标记
+                drawMarkers();
+            }
+            // 画线的方法
+            function drawLine(x, y, X, Y){
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(X, Y);
+                ctx.stroke();
+                ctx.closePath();
+            }
+            // 绘制标记
+            function drawMarkers(){
+                ctx.strokeStyle = "#E0E0E0";
+                // 绘制 y 轴 及中间横线
+                var oneVal = parseInt((maxValue - minValue)/totalYNomber);
+                ctx.textAlign = "right";
+                for(var i=0; i<=totalYNomber; i++){
+                    var markerVal =  i * oneVal + minValue;
+                    var xMarker = originX-5;
+                    // var yMarker = parseInt(cHeight*(1-markerVal/maxValue) ) + cMargin;
+                    var yMarker = parseInt(originY - cHeight * (markerVal - minValue)/ (maxValue - minValue));
+                    ctx.fillText(markerVal, xMarker, yMarker+3, cSpace); // 文字
+                    if(i>0){
+                        drawLine(originX+2, yMarker, originX+cWidth, yMarker);
+                    }
+                }
+                // 绘制 x 轴 及中间竖线
+                ctx.textAlign = "center";
+                for(var i=0; i<tobalDots; i++){
+                    var markerVal = dataArr[i][0];
+                    var xMarker = originX+i*dotSpace;
+                    var yMarker = originY + 30;
+                    ctx.fillText(markerVal, xMarker, yMarker, cSpace); // 文字
+                    if(i>0){
+                        drawLine(xMarker, originY-2, xMarker, cMargin	);
+                    }
+                }
+                // 绘制标题 y
+                ctx.save();
+                ctx.rotate(-Math.PI/2);
+                ctx.fillText("价格", -canvas.height/2, cSpace-30);
+                ctx.restore();
+                // 绘制标题 x
+                ctx.fillText("时间", originX+cWidth/2 - 100, originY+cSpace/2+20);
+            };
+            //绘制折线图
+            function drawLineAnimate(){
+                ctx.strokeStyle = "#566a80";  //"#49FE79";
+                //连线
+                ctx.beginPath();
+                for(var i=0; i<tobalDots; i++){
+                    var dotVal = dataArr[i][1];
+                    var barH = parseInt(cHeight * (dotVal - minValue)/ (maxValue - minValue) * ctr / numctr);
+                    var y = originY - barH;
+                    var x = originX + dotSpace * i;
+                    if(i==0){
+                        ctx.moveTo( x, y );
+                    }else{
+                        ctx.lineTo( x, y );
+                    }
+                }
+                ctx.stroke();
+                // 背景
+                ctx.lineTo( originX+dotSpace*(tobalDots-1), originY);
+                ctx.lineTo( originX, originY);
+                // 背景渐变色
+                // 柱状图渐变色
+                var gradient = ctx.createLinearGradient(0, 0, 0, 300);
+                gradient.addColorStop(0, 'rgba(133,171,212,0.6)');
+                gradient.addColorStop(1, 'rgba(133,171,212,0.1)');
+                ctx.fillStyle = gradient;
+                ctx.fill();
+                ctx.closePath();
+                ctx.fillStyle = "#566a80";
+                //绘制点
+                for(var i=0; i < tobalDots; i++){
+                    var dotVal = dataArr[i][1];
+                    var barH = parseInt( cHeight*(dotVal-minValue)/(maxValue-minValue) * ctr/numctr );
+                    var y = originY - barH;
+                    var x = originX + dotSpace*i;
+                    drawArc( x, y );  //绘制点
+                    ctx.fillText(parseInt(dotVal*ctr/numctr), x+40, y-8); // 文字
+                }
+                if(ctr<numctr){
+                    ctr++;
+                    setTimeout(function(){
+                        ctx.clearRect(0,0,canvas.width, canvas.height);
+                        drawLineLabelMarkers();
+                        drawLineAnimate();
+                    }, speed);
+                }
+            }
+            //绘制圆点
+            function drawArc( x, y, X, Y ){
+                ctx.beginPath();
+                ctx.arc( x, y, 3, 0, Math.PI*2 );
+                ctx.fill();
+                ctx.closePath();
+            }
+        }
+    </script>
+</body>
+</html>

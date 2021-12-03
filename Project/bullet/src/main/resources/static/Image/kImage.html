@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>历史K线</title>
+    <!-- 使用jquery框架 这里没有下载jquery，如果要下载，使用# npm install jquery命令-->
+    <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery/jquery-1.4.min.js"></script>
+    <!-- JS实现AJAX部分-->
+    <script type="text/javascript" src="KTest.js"></script>
+    <!-- 这边定义的style放到css文件中，并link连接-->
+    <link rel="stylesheet" type="text/css" href="img.css">
+    <meta http-equiv="Access-Control-Allow-Origin: *">
+</head>
+<body>
+    <div>
+        <div style="float: left; margin-left: 210px;" >
+                <div>
+                    <div style="float: right">
+                        <select id="fut" required="False" style="width: 142px">
+                            <option value="CU">铜Cu</option>
+                            <option value="AU">黄金Au</option>
+                            <option value="AG">白银Ag</option>
+                        </select>
+                    </div>
+                    <div>选择合约：</div>
+                </div>
+                <div style="margin-top: 10px">
+                    <div style="float: right">
+                        <input id="futEnd" type="month" class="date-picker"/>
+                    </div>
+                    <div style="float: right">合约时间：</div>
+                </div>
+        </div>
+        <div style="float: left; margin-left: 50px">
+            <div>
+                <div style="float: right">
+                    <input id="start" type="date" class="date-picker"/>
+                </div>
+                <div style="float: right">起始时间：</div>
+
+            </div>
+            <div style="margin-top: 30px">
+                <div style="float: right">
+                    <input id="end" type="date" class="date-picker"/>
+                </div>
+                <div style="float: right">截止时间：</div>
+            </div>
+        </div>
+        <div style="float: left; margin-left: 50px">
+            <input type="button" id="8001" style="width:100px;height:45px;" value="生成K线图"></input>
+        </div>
+    </div>
+    <!--创建html文件，然后我们在页面中写一个用于放图表的 div-->
+    <div id="chart" height="500" width="1200" style="margin:30px;" align="center"></div>
+    <!--创建显示具体信息的表格-->
+    <table id="tableKInfo"></table>
+    <!--下面的script使date组件默认显示当前日期-->
+    <script>
+        var defaultDate = document.querySelectorAll('.date-picker');
+        for (var i = 0; i < defaultDate.length; i++) {
+            defaultDate[i].valueAsDate = new Date();
+        }
+    </script>
+</body>
+</html>
