@@ -22,10 +22,10 @@ spring:
           uri: lb:ws://bullet
           predicates:
             - Path=/bullet/**
-        - id: eureka-producer
-          uri: lb://eureka-producer
-          predicates:
-            - Path=/**
+#        - id: eureka-producer
+#          uri: lb://eureka-producer
+#          predicates:
+#            - Path=/**
 #          filters:
 #            - AccessControlAllowOriginFilter=true
 
