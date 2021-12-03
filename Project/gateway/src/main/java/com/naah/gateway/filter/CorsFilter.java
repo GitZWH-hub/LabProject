@@ -1,5 +1,7 @@
 package com.naah.gateway.filter;
 
+import org.springframework.cloud.gateway.filter.GatewayFilter;
+import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -10,7 +12,7 @@ import java.io.IOException;
 
 @Component
 @WebFilter(filterName = "CorsFilter", urlPatterns = "/*")
-public class CorsFilter implements Filter {
+public class CorsFilter extends AbstractGatewayFilterFactory implements Filter {
     private static final String OPTIONS = "OPTIONS";
 
     @Override
@@ -34,6 +36,11 @@ public class CorsFilter implements Filter {
     @Override
     public void destroy() {
 
+    }
+
+    @Override
+    public GatewayFilter apply(Object config) {
+        return null;
     }
 }
 
