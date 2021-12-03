@@ -5,7 +5,7 @@ spring:
   cloud:
     gateway:
       globalcors:
-        add-to-simple-url-handler-mapping: true   # 解决options请求被拦截问题
+#        add-to-simple-url-handler-mapping: true   # 解决options请求被拦截问题
         cors-configurations:
           '[/**]':
             allowedCredentials: true
