@@ -5,14 +5,11 @@ spring:
   cloud:
     gateway:
       globalcors:
-        add-to-simple-url-handler-mapping: true   # 解决options请求被拦截问题
         cors-configurations:
           '[/**]':
             allowedCredentials: true
-            allowedOriginPatterns: '*'
             allowedOrigins: "*"
             allowedHeaders: "*"
-            exposedHeaders: '*'
             allowedMethods:
               - GET
               - POST
@@ -20,6 +17,7 @@ spring:
               - DELETE
               - OPTIONS
             maxAge: 3600
+        add-to-simple-url-handler-mapping: true   # 解决options请求被拦截问题
       routes:
         - id: bullet
           uri: lb://bullet
