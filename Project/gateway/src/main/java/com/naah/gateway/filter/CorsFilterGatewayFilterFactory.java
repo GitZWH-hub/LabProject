@@ -9,7 +9,7 @@ import java.io.IOException;
 
 @Component
 @WebFilter(filterName = "CorsFilter", urlPatterns = "/*")
-public class CorsFilter implements Filter {
+public class CorsFilterGatewayFilterFactory implements Filter {
     private static final String OPTIONS = "OPTIONS";
 
     @Override
@@ -29,8 +29,9 @@ public class CorsFilter implements Filter {
         //response.addHeader("Access-Control-Max-Age", "3628800"); //可选
 
         if(OPTIONS.equalsIgnoreCase(request.getMethod()))
-            filterChain.doFilter(servletRequest, response);
+
             return;  // 或者直接输入204、HttpStatus.SC_OK、200，等这些都可以   import org.apache.http.HttpStatus;
+        filterChain.doFilter(servletRequest, response);
     }
 
     @Override
