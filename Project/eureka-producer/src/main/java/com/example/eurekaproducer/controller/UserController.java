@@ -9,7 +9,7 @@ import com.example.eurekaproducer.request.Req8002;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
-@CrossOrigin(origins = "http://localhost:63342", methods = {GET, POST, PUT, DELETE, OPTIONS}, maxAge = 60L)
+@CrossOrigin
 @RestController
 public class UserController {
 
