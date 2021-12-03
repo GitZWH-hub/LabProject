@@ -5,8 +5,6 @@ spring:
   cloud:
     gateway:
       globalcors:
-        filters:
-          - CorsFilter=true
         add-to-simple-url-handler-mapping: true   # 解决options请求被拦截问题
         cors-configurations:
           '[/**]':
@@ -20,14 +18,20 @@ spring:
           uri: lb://bullet
           predicates:
             - Path=/bullet/**
+          filters:
+            - CorsFilter=true
         - id: bulletscreen
           uri: lb:ws://bullet
           predicates:
             - Path=/bullet/**
+          filters:
+            - CorsFilter=true
         - id: eureka-producer
           uri: lb://eureka-producer
           predicates:
             - Path=/**
+          filters:
+            - CorsFilter=true
 #          filters:
 #            - AccessControlAllowOriginFilter=true
 
