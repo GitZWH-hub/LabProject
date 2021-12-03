@@ -79,6 +79,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             exchange.getResponse().setStatusCode(HttpStatus.OK);
             return exchange.getResponse().setComplete();
         }
+        System.out.println(String.valueOf(exchange.getRequest().getMethod()));
         // 继续执行filter链
         return chain.filter(exchange);
     }
