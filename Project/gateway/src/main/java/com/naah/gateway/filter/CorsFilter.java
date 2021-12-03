@@ -1,7 +1,4 @@
 package com.naah.gateway.filter;
-
-import org.springframework.cloud.gateway.filter.GatewayFilter;
-import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -12,7 +9,7 @@ import java.io.IOException;
 
 @Component
 @WebFilter(filterName = "CorsFilter", urlPatterns = "/*")
-public class CorsFilter extends AbstractGatewayFilterFactory implements Filter {
+public class CorsFilter implements Filter {
     private static final String OPTIONS = "OPTIONS";
 
     @Override
@@ -30,9 +27,10 @@ public class CorsFilter extends AbstractGatewayFilterFactory implements Filter {
         System.out.println("测试是否到达filter");
         System.out.println(request.getMethod());
         //response.addHeader("Access-Control-Max-Age", "3628800"); //可选
+
         if(OPTIONS.equalsIgnoreCase(request.getMethod()))
+            filterChain.doFilter(servletRequest, response);
             return;  // 或者直接输入204、HttpStatus.SC_OK、200，等这些都可以   import org.apache.http.HttpStatus;
-        filterChain.doFilter(servletRequest, response);
     }
 
     @Override
@@ -40,9 +38,5 @@ public class CorsFilter extends AbstractGatewayFilterFactory implements Filter {
 
     }
 
-    @Override
-    public GatewayFilter apply(Object config) {
-        return null;
-    }
 }
 
