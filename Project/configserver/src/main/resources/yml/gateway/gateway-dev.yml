@@ -36,7 +36,7 @@ spring:
           predicates:
             - Path=/eureka-producer/**
           filters:
-            - CorsFilter=true
+            - Cors=true
 #          filters:
 #            - AccessControlAllowOriginFilter=true
 
