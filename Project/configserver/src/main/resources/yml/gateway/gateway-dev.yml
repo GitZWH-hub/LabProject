@@ -32,8 +32,8 @@ spring:
           predicates:
             - Path=/**
 # 以上通过postman可以跑通，但未解决options请求问题
-#          filters:
-#            - Cors=true
+          filters:
+            - Cors=true
 
 management:
   endpoints:
