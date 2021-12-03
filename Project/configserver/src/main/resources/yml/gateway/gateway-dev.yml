@@ -34,7 +34,7 @@ spring:
         - id: eureka-producer
           uri: lb://eureka-producer
           predicates:
-            - Path=/eureka-producer/**
+            - Path=/**
 #          filters:
 #            - Cors=true
 #          filters:
