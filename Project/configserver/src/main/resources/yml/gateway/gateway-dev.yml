@@ -19,26 +19,21 @@ spring:
               - OPTIONS
             maxAge: 360000
       routes:
-#        - id: bullet
-#          uri: lb://bullet
-#          predicates:
-#            - Path=/bullet/**
-#          filters:
-#            - CorsFilter=true
-#        - id: bulletscreen
-#          uri: lb:ws://bullet
-#          predicates:
-#            - Path=/bullet/**
-#          filters:
-#            - CorsFilter=true
+        - id: bullet
+          uri: lb://bullet
+          predicates:
+            - Path=/bullet/**
+        - id: bulletscreen
+          uri: lb:ws://bullet
+          predicates:
+            - Path=/bullet/**
         - id: eureka-producer
           uri: lb://eureka-producer
           predicates:
             - Path=/**
+# 以上通过postman可以跑通，但未解决options请求问题
 #          filters:
 #            - Cors=true
-#          filters:
-#            - AccessControlAllowOriginFilter=true
 
 management:
   endpoints:
