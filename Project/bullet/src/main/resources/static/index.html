@@ -1,78 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Spring Boot WebSocket+广播式</title>
-</head>
-<body onload="disconnect()">
+    <title>ZWH_TEST</title>
+    <meta charset="UTF-8">
+    <meta name="author" content="ZhangWeihua">
+    <!-- 如果浏览器不支持js，可以提示noscript-->
     <noscript>
-        <h2 style="color:#ff0000">貌似你的浏览器不支持websocket</h2>
+        <p>都什么年代了，还不支持js</p>
     </noscript>
-    <div>
-        <div>
-            <button id="connect" onclick="connect()">连接</button>
-            <button id="disconnect"  onclick="disconnect();">断开连接</button>
-            <button id="test" onclick="test()">哈哈哈</button>
-        </div>
-        <div id="conversationDiv">
-            <label>输入你的名字</label> <input type="text" id="name" />
-            <br>
-            <label>输入消息</label> <input type="text" id="messgae" />
-            <button id="send" onclick="send();">发送</button>
-            <p id="response"></p>
-        </div>
+    <!-- 这边定义的style放到css文件中，并link连接-->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- 指定打印样式，如果不制定，则打印的是上面的style-->
+    <style media="print"></style>
+</head>
+<body>
+    <h1>Web Test</h1>
+    <div style="margin-left: 50px">
+        <a href="testGetData/getData.html" target="_blank">拉取数据</a>
+        <br>
+        <a href="Image/kImage.html" target="_blank">历史行情K线图</a>
+        <br>
+        <a href="Quotation/RealTimeQuotes.html" target="_blank">实时行情</a>
+        <br>
+        <a href="BackTester/BackTester.html" target="_blank">回测模块</a>
     </div>
-    <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
-    <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
-    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript">
-        var stompClient = null;
-        var host="http://127.0.0.1:8888";
-        function setConnected(connected) {
-            document.getElementById('connect').disabled = connected;
-            document.getElementById('disconnect').disabled = !connected;
-            document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
-            $('#response').html();
-        }
-
-        function connect() {
-            var socket = new SockJS(host+'/bullet');
-            stompClient = Stomp.over(socket);
-            stompClient.connect({}, function(frame) {
-                setConnected(true);
-                console.log('Connected:' + frame);
-                stompClient.subscribe('/toAll/bulletScreen', function(response) {
-                    showResponse(response.body);
-                });
-
-            });
-        }
-
-
-        function disconnect() {
-            if (stompClient != null) {
-                stompClient.disconnect();
-            }
-            setConnected(false);
-            console.log("Disconnected");
-        }
-
-        function send() {
-            var name = $('#name').val();
-            var message = $('#messgae').val();
-            stompClient.send("/chat", {} );
-                //JSON.stringify({username:name,message:message}));
-        }
-        function test(){
-            console.log("已发送")
-            stompClient.send("/test", {})
-        }
-
-        function showResponse(message) {
-            var response = $('#response');
-            console.log(message)
-            response.html(message);
-        }
-    </script>
 </body>
 </html>
+
+<!--问题：跨域问题。解决：在后台加入@CrossOrigin解决-->
