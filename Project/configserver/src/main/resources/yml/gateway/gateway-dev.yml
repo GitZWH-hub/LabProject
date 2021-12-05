@@ -28,7 +28,7 @@ spring:
           predicates:
             - Path=/agent-bullet/**
         - id: agent-producer
-          uri: lb://agent--producer
+          uri: lb://agent-producer
           predicates:
             - Path=/**
 # 以上通过postman可以跑通，但未解决options请求问题
