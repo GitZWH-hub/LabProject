@@ -435,7 +435,7 @@ class BackTester(object):
         :return:
         """
         res = {'info': '[' + get_now() + '] ' + info}
-        url = "http://localhost:5678/sendDoubleMABackTestInfo"
+        url = "http://localhost:6002/sendDoubleMABackTestInfo"
         headers = {'Content-type': 'application/json'}
         requests.post(url, data=json.dumps(res), headers=headers)
 
