@@ -1,6 +1,6 @@
 spring:
   application:
-    name: eureka-producer
+    name: agent-producer
   cloud:
     config:
       uri: http://localhost:1026/

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: bullet
+    name: agent-bullet
   cloud:
     config:
       uri: http://localhost:1026/

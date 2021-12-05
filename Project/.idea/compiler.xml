@@ -8,30 +8,38 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="configserver" />
-        <module name="bullet" />
+        <module name="agent-producer" />
         <module name="eureka-server" />
-        <module name="eureka-producer" />
         <module name="eureka-sidecar" />
         <module name="gateway" />
+        <module name="agent-bullet" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="agent-backtest" target="1.8" />
+      <module name="agent-quotation" target="1.8" />
+      <module name="config-server" target="1.8" />
+      <module name="eureka" target="1.8" />
       <module name="eureka-config" target="1.8" />
       <module name="eureka-customer" target="1.8" />
       <module name="gateWay" target="1.8" />
+      <module name="producer" target="1.8" />
+      <module name="sc-backtest" target="1.6" />
+      <module name="sc-quotation" target="1.6" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="bullet" options="-parameters" />
+      <module name="agent-bullet" options="-parameters" />
+      <module name="agent-producer" options="-parameters" />
       <module name="configserver" options="-parameters" />
       <module name="eureka-config" options="-parameters" />
       <module name="eureka-customer" options="-parameters" />
-      <module name="eureka-producer" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="eureka-sidecar" options="" />
       <module name="gateWay" options="-parameters" />
       <module name="gateway" options="-parameters" />
+      <module name="producer" options="-parameters" />
     </option>
   </component>
 </project>

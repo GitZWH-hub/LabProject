@@ -20,15 +20,15 @@ spring:
 #        add-to-simple-url-handler-mapping: true   # 解决options请求被拦截问题
       routes:
         - id: bullet
-          uri: lb://bullet
+          uri: lb://agent-bullet
           predicates:
-            - Path=/bullet/**
+            - Path=/agent-bullet/**
         - id: bulletscreen
-          uri: lb:ws://bullet
+          uri: lb:ws://agent-bullet
           predicates:
-            - Path=/bullet/**
-        - id: eureka-producer
-          uri: lb://eureka-producer
+            - Path=/agent-bullet/**
+        - id: agent-producer
+          uri: lb://agent--producer
           predicates:
             - Path=/**
 # 以上通过postman可以跑通，但未解决options请求问题

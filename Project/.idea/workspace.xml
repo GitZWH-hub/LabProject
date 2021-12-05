@@ -4,39 +4,73 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a0b81a6-9f45-4d33-a5b7-9ef2d22ecd65" name="默认变更列表" comment="test git">
+    <list default="true" id="4a0b81a6-9f45-4d33-a5b7-9ef2d22ecd65" name="默认变更列表" comment="2021-12-05">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bullet/src/main/java/com/naah/bullet/BulletController.java" beforeDir="false" afterPath="$PROJECT_DIR$/bullet/src/main/java/com/naah/bullet/BulletController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/BulletApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/BulletApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/BulletController.class" beforeDir="false" afterPath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/BulletController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/WebSocketAutoConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/WebSocketAutoConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/request/Req8101.class" beforeDir="false" afterPath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/request/Req8101.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/request/Req8102.class" beforeDir="false" afterPath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/request/Req8102.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/request/Req8103.class" beforeDir="false" afterPath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/request/Req8103.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bullet/target/test-classes/com/naah/bullet/BulletApplicationTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/bullet/target/test-classes/com/naah/bullet/BulletApplicationTests.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/java/com/naah/bullet/BulletApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/java/com/naah/bullet/BulletApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/java/com/naah/bullet/BulletController.java" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/java/com/naah/bullet/BulletController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/java/com/naah/bullet/WebSocketAutoConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/java/com/naah/bullet/WebSocketAutoConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/java/com/naah/bullet/request/Req8100.java" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/java/com/naah/bullet/request/Req8100.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/java/com/naah/bullet/request/Req8101.java" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/java/com/naah/bullet/request/Req8101.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/java/com/naah/bullet/request/Req8102.java" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/java/com/naah/bullet/request/Req8102.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/java/com/naah/bullet/request/Req8103.java" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/java/com/naah/bullet/request/Req8103.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/java/com/naah/bullet/request/Req8105.java" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/java/com/naah/bullet/request/Req8105.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/resources/bootstrap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/resources/static/BackTester/BackTester.css" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/resources/static/BackTester/BackTester.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/resources/static/BackTester/BackTester.html" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/resources/static/BackTester/BackTester.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/resources/static/BackTester/BackTester.js" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/resources/static/BackTester/BackTester.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/resources/static/Image/KTest.js" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/resources/static/Image/KTest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/resources/static/Image/img.css" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/resources/static/Image/img.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/resources/static/Image/kImage.html" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/resources/static/Image/kImage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/resources/static/Quotation/RealTimeQuotes.html" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/resources/static/Quotation/RealTimeQuotes.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/resources/static/Quotation/RealTimeQuotes.js" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/resources/static/Quotation/RealTimeQuotes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/resources/static/Quotation/quotes.css" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/resources/static/Quotation/quotes.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/resources/static/Quotation/散点图-高清.html" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/resources/static/Quotation/散点图-高清.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/resources/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/resources/static/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/resources/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/resources/static/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/resources/static/testGetData/getData.html" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/resources/static/testGetData/getData.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/resources/static/testGetData/patch.js" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/resources/static/testGetData/patch.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/main/resources/static/testGetData/test.css" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/main/resources/static/testGetData/test.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/src/test/java/com/naah/bullet/BulletApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/src/test/java/com/naah/bullet/BulletApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/target/classes/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/target/classes/bootstrap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/BulletApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/target/classes/com/naah/bullet/BulletApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/BulletController.class" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/target/classes/com/naah/bullet/BulletController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/WebSocketAutoConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/target/classes/com/naah/bullet/WebSocketAutoConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/request/Req8101.class" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/target/classes/com/naah/bullet/request/Req8101.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/request/Req8102.class" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/target/classes/com/naah/bullet/request/Req8102.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/target/classes/com/naah/bullet/request/Req8103.class" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/target/classes/com/naah/bullet/request/Req8103.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/target/classes/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/target/classes/static/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bullet/target/test-classes/com/naah/bullet/BulletApplicationTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/agent-bullet/target/test-classes/com/naah/bullet/BulletApplicationTests.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/configserver/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/configserver/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configserver/src/main/resources/yml/bullet/bullet-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/configserver/src/main/resources/yml/agent-bullet/agent-bullet-dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configserver/src/main/resources/yml/eureka-producer/eureka-producer-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/configserver/src/main/resources/yml/agent-producer/agent-producer-dev.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/configserver/src/main/resources/yml/gateway/gateway-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/configserver/src/main/resources/yml/gateway/gateway-dev.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configserver/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/configserver/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configserver/target/classes/com/naah/configserver/ConfigserverApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/configserver/target/classes/com/naah/configserver/ConfigserverApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configserver/target/classes/yml/gateway/gateway-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/configserver/target/classes/yml/gateway/gateway-dev.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configserver/target/test-classes/com/naah/configserver/ConfigserverApplicationTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/configserver/target/test-classes/com/naah/configserver/ConfigserverApplicationTests.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-producer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-producer/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-producer/src/main/java/com/example/eurekaproducer/EurekaProducerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-producer/src/main/java/com/example/eurekaproducer/EurekaProducerApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-producer/src/main/java/com/example/eurekaproducer/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-producer/src/main/java/com/example/eurekaproducer/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-producer/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-producer/target/classes/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-producer/target/classes/com/example/eurekaproducer/EurekaProducerApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-producer/target/classes/com/example/eurekaproducer/EurekaProducerApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-producer/target/classes/com/example/eurekaproducer/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-producer/target/classes/com/example/eurekaproducer/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-producer/target/classes/com/example/eurekaproducer/request/Req8001.class" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-producer/target/classes/com/example/eurekaproducer/request/Req8001.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-producer/target/classes/com/example/eurekaproducer/request/Req8002.class" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-producer/target/classes/com/example/eurekaproducer/request/Req8002.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-python/TradingDay.con" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-python/TradingDay.con" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-python/text.py" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-python/text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-server/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-server/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-server/target/classes/com/example/eurekaserver/EurekaServerApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-server/target/classes/com/example/eurekaserver/EurekaServerApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-sidecar/target/classes/com/example/EurekaSidecarApplication/EurekaSidecarApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-sidecar/target/classes/com/example/EurekaSidecarApplication/EurekaSidecarApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway/target/classes/com/naah/gateway/GatewayApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/target/classes/com/naah/gateway/GatewayApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway/target/test-classes/com/naah/gateway/GatewayApplicationTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/target/test-classes/com/naah/gateway/GatewayApplicationTests.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/HELP.md" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/HELP.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/src/main/java/com/example/eurekaproducer/EurekaProducerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/src/main/java/com/example/eurekaproducer/EurekaProducerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/src/main/java/com/example/eurekaproducer/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/src/main/java/com/example/eurekaproducer/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/src/main/java/com/example/eurekaproducer/request/Req8001.java" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/src/main/java/com/example/eurekaproducer/request/Req8001.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/src/main/java/com/example/eurekaproducer/request/Req8002.java" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/src/main/java/com/example/eurekaproducer/request/Req8002.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/src/main/java/com/example/eurekaproducer/request/Req8008.java" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/src/main/java/com/example/eurekaproducer/request/Req8008.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/src/main/resources/bootstrap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/src/test/java/com/example/eurekaproducer/EurekaProducerApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/src/test/java/com/example/eurekaproducer/EurekaProducerApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/target/classes/com/example/eurekaproducer/EurekaProducerApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/target/classes/com/example/eurekaproducer/EurekaProducerApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/target/classes/com/example/eurekaproducer/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/target/classes/com/example/eurekaproducer/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/target/classes/com/example/eurekaproducer/request/Req8001.class" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/target/classes/com/example/eurekaproducer/request/Req8001.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-producer/target/classes/com/example/eurekaproducer/request/Req8002.class" beforeDir="false" afterPath="$PROJECT_DIR$/agent-producer/target/classes/com/example/eurekaproducer/request/Req8002.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-python/eureka-python.iml" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-python/eureka-python.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,6 +111,16 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
   <component name="ProjectId" id="1v9u6lv4zLPITps2ZIbnpTEBzJZ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -98,8 +142,8 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="jdk.selected.JAVA_MODULE" value="azul-1.8" />
     <property name="jdk.selected.PYTHON_MODULE" value="Python 3" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/eureka-sidecar/src/main/java" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/configserver/src/main/resources/yml/eureka-producer" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/gateway/src/test/java" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.13378906" />
@@ -113,18 +157,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/gateway/src/main/java/com/naah/gateway/filter" />
+      <recent name="$PROJECT_DIR$/bullet/src/main/resources/static" />
+      <recent name="$PROJECT_DIR$/producer/src/main/java/com/naah/producer/request" />
       <recent name="$PROJECT_DIR$/configserver/src/main/resources/yml/eureka-producer" />
-      <recent name="$PROJECT_DIR$/eureka-producer/src/main/resources" />
-      <recent name="$PROJECT_DIR$/eureka-python" />
-      <recent name="$PROJECT_DIR$/configserver/src/main/resources/yml/sidecar" />
-      <recent name="$PROJECT_DIR$/eureka-sidecar/src/main/resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/eureka-producer/src/main" />
       <recent name="$PROJECT_DIR$/bullet/src/main/resources/static" />
       <recent name="$PROJECT_DIR$/bullet/src/main/resources" />
       <recent name="$PROJECT_DIR$/eureka-python/linux" />
       <recent name="$PROJECT_DIR$/Bullet-WebSocket/src/main/resources/static" />
-      <recent name="$PROJECT_DIR$/eureka-python" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="com.naah.gateway.MyFilter" />
@@ -134,6 +178,7 @@
       <recent name="" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.naah.gateway.filter" />
       <recent name="com.naah.bullet.request" />
       <recent name="com.example.eurekaproducer.request" />
       <recent name="com.example.eurekaproducer.entity" />
@@ -217,8 +262,15 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="BulletApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="producer" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.naah.bullet.BulletApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="BulletApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="bullet" />
+      <module name="agent-bullet" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.naah.bullet.BulletApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -246,7 +298,7 @@
       </method>
     </configuration>
     <configuration name="EurekaProducerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="eureka-producer" />
+      <module name="agent-producer" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.eurekaproducer.EurekaProducerApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -384,29 +436,352 @@
       <workItem from="1635746368642" duration="8898000" />
       <workItem from="1635843168621" duration="14830000" />
       <workItem from="1635858025107" duration="10695000" />
+      <workItem from="1638513344891" duration="32102000" />
     </task>
-    <task id="LOCAL-00001" summary="test git">
-      <created>1635746430463</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
+    <task id="LOCAL-00021" summary="2021-12-03">
+      <created>1638520150714</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
       <option name="project" value="LOCAL" />
-      <updated>1635746430463</updated>
+      <updated>1638520150714</updated>
     </task>
-    <task id="LOCAL-00002" summary="test git lab">
-      <created>1635748059034</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
+    <task id="LOCAL-00022" summary="2021-12-03">
+      <created>1638520296034</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
       <option name="project" value="LOCAL" />
-      <updated>1635748059035</updated>
+      <updated>1638520296034</updated>
     </task>
-    <task id="LOCAL-00003" summary="test git">
-      <created>1635839237542</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
+    <task id="LOCAL-00023" summary="2021-12-03">
+      <created>1638520627776</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
       <option name="project" value="LOCAL" />
-      <updated>1635839237542</updated>
+      <updated>1638520627776</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00024" summary="2021-12-03">
+      <created>1638520639179</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1638520639179</updated>
+    </task>
+    <task id="LOCAL-00025" summary="2021-12-03">
+      <created>1638520920204</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1638520920204</updated>
+    </task>
+    <task id="LOCAL-00026" summary="2021-12-03">
+      <created>1638521131346</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1638521131346</updated>
+    </task>
+    <task id="LOCAL-00027" summary="2021-12-03">
+      <created>1638521522082</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1638521522082</updated>
+    </task>
+    <task id="LOCAL-00028" summary="2021-12-03">
+      <created>1638521635940</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1638521635940</updated>
+    </task>
+    <task id="LOCAL-00029" summary="2021-12-03">
+      <created>1638521986777</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1638521986777</updated>
+    </task>
+    <task id="LOCAL-00030" summary="2021-12-03">
+      <created>1638522495566</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1638522495566</updated>
+    </task>
+    <task id="LOCAL-00031" summary="2021-12-03">
+      <created>1638522831118</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1638522831118</updated>
+    </task>
+    <task id="LOCAL-00032" summary="2021-12-03">
+      <created>1638523058976</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1638523058976</updated>
+    </task>
+    <task id="LOCAL-00033" summary="2021-12-03">
+      <created>1638523203796</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1638523203796</updated>
+    </task>
+    <task id="LOCAL-00034" summary="2021-12-03">
+      <created>1638523393654</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1638523393654</updated>
+    </task>
+    <task id="LOCAL-00035" summary="2021-12-03">
+      <created>1638523717395</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1638523717395</updated>
+    </task>
+    <task id="LOCAL-00036" summary="2021-12-03">
+      <created>1638524206192</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1638524206192</updated>
+    </task>
+    <task id="LOCAL-00037" summary="2021-12-03">
+      <created>1638524541331</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1638524541331</updated>
+    </task>
+    <task id="LOCAL-00038" summary="2021-12-03">
+      <created>1638524839711</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1638524839711</updated>
+    </task>
+    <task id="LOCAL-00039" summary="2021-12-03">
+      <created>1638525334378</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1638525334378</updated>
+    </task>
+    <task id="LOCAL-00040" summary="2021-12-03">
+      <created>1638525369996</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1638525369996</updated>
+    </task>
+    <task id="LOCAL-00041" summary="2021-12-03">
+      <created>1638525848951</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1638525848951</updated>
+    </task>
+    <task id="LOCAL-00042" summary="2021-12-03">
+      <created>1638525944002</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1638525944002</updated>
+    </task>
+    <task id="LOCAL-00043" summary="2021-12-03">
+      <created>1638526214254</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1638526214254</updated>
+    </task>
+    <task id="LOCAL-00044" summary="2021-12-03">
+      <created>1638527285075</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1638527285075</updated>
+    </task>
+    <task id="LOCAL-00045" summary="2021-12-03">
+      <created>1638528726002</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1638528726002</updated>
+    </task>
+    <task id="LOCAL-00046" summary="2021-12-03">
+      <created>1638529457350</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1638529457350</updated>
+    </task>
+    <task id="LOCAL-00047" summary="2021-12-03">
+      <created>1638529769293</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1638529769293</updated>
+    </task>
+    <task id="LOCAL-00048" summary="2021-12-03">
+      <created>1638530183650</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1638530183650</updated>
+    </task>
+    <task id="LOCAL-00049" summary="2021-12-03">
+      <created>1638530834911</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1638530834911</updated>
+    </task>
+    <task id="LOCAL-00050" summary="2021-12-03">
+      <created>1638531014672</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1638531014675</updated>
+    </task>
+    <task id="LOCAL-00051" summary="2021-12-03">
+      <created>1638531692103</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1638531692103</updated>
+    </task>
+    <task id="LOCAL-00052" summary="2021-12-03">
+      <created>1638531745033</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1638531745033</updated>
+    </task>
+    <task id="LOCAL-00053" summary="2021-12-03">
+      <created>1638532673268</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1638532673268</updated>
+    </task>
+    <task id="LOCAL-00054" summary="2021-12-03">
+      <created>1638534742437</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1638534742437</updated>
+    </task>
+    <task id="LOCAL-00055" summary="2021-12-03">
+      <created>1638534929735</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1638534929735</updated>
+    </task>
+    <task id="LOCAL-00056" summary="2021-12-03">
+      <created>1638539916798</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1638539916798</updated>
+    </task>
+    <task id="LOCAL-00057" summary="2021-12-03">
+      <created>1638540351606</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1638540351607</updated>
+    </task>
+    <task id="LOCAL-00058" summary="2021-12-03">
+      <created>1638542619075</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1638542619075</updated>
+    </task>
+    <task id="LOCAL-00059" summary="2021-12-03">
+      <created>1638542630169</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1638542630169</updated>
+    </task>
+    <task id="LOCAL-00060" summary="2021-12-03">
+      <created>1638542753907</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1638542753907</updated>
+    </task>
+    <task id="LOCAL-00061" summary="2021-12-03">
+      <created>1638542858218</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1638542858218</updated>
+    </task>
+    <task id="LOCAL-00062" summary="2021-12-03">
+      <created>1638542884455</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1638542884455</updated>
+    </task>
+    <task id="LOCAL-00063" summary="2021-12-03">
+      <created>1638543712690</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1638543712690</updated>
+    </task>
+    <task id="LOCAL-00064" summary="2021-12-03">
+      <created>1638543821453</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1638543821453</updated>
+    </task>
+    <task id="LOCAL-00065" summary="2021-12-03 add CorsConfig">
+      <created>1638544254188</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1638544254188</updated>
+    </task>
+    <task id="LOCAL-00066" summary="2021-12-05">
+      <created>1638682185982</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1638682185983</updated>
+    </task>
+    <task id="LOCAL-00067" summary="2021-12-05">
+      <created>1638687220196</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1638687220196</updated>
+    </task>
+    <task id="LOCAL-00068" summary="2021-12-05">
+      <created>1638688319782</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1638688319782</updated>
+    </task>
+    <task id="LOCAL-00069" summary="2021-12-05">
+      <created>1638688382442</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1638688382442</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -415,18 +790,32 @@
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.log" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="test git lab" />
     <MESSAGE value="test git" />
-    <option name="LAST_COMMIT_MESSAGE" value="test git" />
+    <MESSAGE value="2021-12-03" />
+    <MESSAGE value="2021-12-03 add CorsConfig" />
+    <MESSAGE value="2021-12-05" />
+    <option name="LAST_COMMIT_MESSAGE" value="2021-12-05" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Project$DataSrc.coverage" NAME="DataSrc Coverage Results" MODIFIED="1633947625070" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eureka-python" />
     <SUITE FILE_PATH="coverage/Project$md_demo.coverage" NAME="md_demo Coverage Results" MODIFIED="1634124379506" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eureka-python/linux" />
+    <SUITE FILE_PATH="coverage/Project$DataSrc.coverage" NAME="DataSrc Coverage Results" MODIFIED="1633947625070" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eureka-python" />
     <SUITE FILE_PATH="coverage/Project$text.coverage" NAME="text Coverage Results" MODIFIED="1634192698549" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eureka-python" />
     <SUITE FILE_PATH="coverage/Project$text__1_.coverage" NAME="text (1) Coverage Results" MODIFIED="1635908200783" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/eureka-python" />
   </component>

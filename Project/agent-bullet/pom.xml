@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.naah</groupId>
-    <artifactId>bullet</artifactId>
+    <artifactId>agent-bullet</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>bullet</name>
+    <name>agent-bullet</name>
     <description>弹幕</description>
 
     <parent>
