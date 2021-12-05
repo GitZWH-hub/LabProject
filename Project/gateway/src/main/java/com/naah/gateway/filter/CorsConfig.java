@@ -10,7 +10,7 @@ import org.springframework.web.util.pattern.PathPatternParser;
 /**
  * @ClassName CorsConfig
  * @Description gateway跨域配置
- * @Date 2019/9/5 14:00
+ * @Date 2021/12/3 14:00
  **/
 
 @Configuration
