@@ -6,7 +6,7 @@ from DataSrc import Futures, TradeCal, HisQuotes, FutSettle
 from flask import Flask, Response
 from BackTest.BackTest import BackTester
 from BackTest.Strategy import DoubleMovingAverage
-
+from logfile import Logger, log
 app = Flask(__name__)
 plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']  # 用来正常显示中文标签
 plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
@@ -28,6 +28,7 @@ def getFuture():
     print("request")
     with Futures() as fut:
         res = fut.get_fut()
+    log.info('aiaiaaiaiai')
     # with TradeCal() as tradecal:
     #     res = tradecal.read_sql()
     return Response(json.dumps(res.to_json(orient='records')), mimetype='application/json')
@@ -164,4 +165,5 @@ def doubleMABackTest(fut, start, end, short, long, cash):
 
 
 if __name__ == "__main__":
+    Logger()
     app.run(port=3001, host='0.0.0.0')
