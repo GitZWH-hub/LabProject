@@ -77,7 +77,7 @@ class Model(object):
 
         # 分训练集和测试集
         # full = full.dropna()
-        train_len = int(50000 * int(scale))
+        train_len = int(50000 * float(scale))
         self.x_train = full.iloc[0:train_len, full.columns != '信用分']
         self.y_train = full.iloc[0:train_len, full.columns == '信用分']
         self.x_test = full.iloc[train_len:, full.columns != '信用分']
