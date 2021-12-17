@@ -204,7 +204,10 @@ class Model(object):
         res = {'info': '训练完成，预测结果见右图', 'mse': self.mse}
         requests.post(url, data=json.dumps(res), headers=headers)
 
-        res = {'info': info}
+        print('分包传送')
+        res = {'info': info[:39999]}
+        requests.post(url, data=json.dumps(res), headers=headers)
+        res = {'info': info[39999:]}
         requests.post(url, data=json.dumps(res), headers=headers)
 
         res = {'info': 'hahahaahha'}
