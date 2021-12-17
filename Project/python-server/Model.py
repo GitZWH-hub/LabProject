@@ -213,9 +213,10 @@ class Model(object):
             info = self.LGBM()
         elif int(flag) == 3:
             print('融合')
-            info = self.xgbAndLGBM()
             res = {'info': '[' + get_now() + '] 开始训练 融合模型'}
             requests.post(url, data=json.dumps(res), headers=headers)
+            info = self.xgbAndLGBM()
+
         res = {'info': '[' + get_now() + '] 训练完成，预测结果见右图'}
         requests.post(url, data=json.dumps(res), headers=headers)
 
