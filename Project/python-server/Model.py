@@ -1,5 +1,6 @@
 import time
 import warnings
+from io import BytesIO
 from matplotlib import colors
 import os, base64, json, requests
 warnings.filterwarnings('ignore')
@@ -107,12 +108,14 @@ class Model(object):
         plt.ylabel(u"信用分")
         plt.title(u"LGBM Model测试前100条")
         plt.legend()
-        plt.savefig('cache.png')
 
-        cached_img = open("cache.png")
-        cached_img_b64 = base64.b64encode(cached_img.read())
-        os.remove("cache.png")
-        return cached_img_b64
+        sio = BytesIO()
+        plt.savefig(sio, format='png', bbox_inches='tight', pad_inches=0.0)
+        data = base64.encodebytes(sio.getvalue()).decode()
+        src = 'data:image/png;base64,' + str(data)
+        # # 记得关闭，不然画出来的图是重复的
+        plt.close()
+        return src
 
     def LGBM(self):
         lgb = LGBMRegressor(n_estimators=1968,
