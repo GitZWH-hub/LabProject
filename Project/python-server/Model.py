@@ -106,7 +106,7 @@ class Model(object):
         plt.plot(pred_y[:99], label=u'predict')
         plt.plot(y_test[:99], label=u'true')
         plt.ylabel(u"信用分")
-        plt.title(u"LGBM Model测试前100条")
+        plt.title(u"xgboost Model (top 100)")
         plt.legend()
 
         sio = BytesIO()
@@ -115,7 +115,6 @@ class Model(object):
         src = 'data:image/png;base64,' + str(data)
         # # 记得关闭，不然画出来的图是重复的
         plt.close()
-        print(src)
         return src
 
     def LGBM(self):
@@ -139,14 +138,16 @@ class Model(object):
         plt.plot(pred_y[:99], label=u'predict')
         plt.plot(y_test[:99], label=u'true')
         plt.ylabel(u"信用分")
-        plt.title(u"xgboost Model测试前100条")
+        plt.title(u"LGBM Model (top 100)")
         plt.legend()
-        plt.savefig('save.png')
 
-        cached_img = open("cache.png")
-        cached_img_b64 = base64.b64encode(cached_img.read())
-        os.remove("cache.png")
-        return cached_img_b64
+        sio = BytesIO()
+        plt.savefig(sio, format='png', bbox_inches='tight', pad_inches=0.0)
+        data = base64.encodebytes(sio.getvalue()).decode()
+        src = 'data:image/png;base64,' + str(data)
+        # # 记得关闭，不然画出来的图是重复的
+        plt.close()
+        return src
 
     def xgbAndLGBM(self):
         lr = LinearRegression()
@@ -169,14 +170,16 @@ class Model(object):
         plt.plot(val_stack[:99], label=u'predict')
         plt.plot(y_test[:99], label=u'true')
         plt.ylabel(u"信用分")
-        plt.title(u"xgboost Model测试前100条")
+        plt.title(u"xgboost+LGBM Model (top 100)")
         plt.legend()
-        plt.save('save.png')
 
-        cached_img = open("cache.png")
-        cached_img_b64 = base64.b64encode(cached_img.read())
-        os.remove("cache.png")
-        return cached_img_b64
+        sio = BytesIO()
+        plt.savefig(sio, format='png', bbox_inches='tight', pad_inches=0.0)
+        data = base64.encodebytes(sio.getvalue()).decode()
+        src = 'data:image/png;base64,' + str(data)
+        # # 记得关闭，不然画出来的图是重复的
+        plt.close()
+        return src
 
     def buildAndFit(self, flag, scale):
 
