@@ -207,6 +207,9 @@ class Model(object):
         res = {'info': info}
         requests.post(url, data=json.dumps(res), headers=headers)
 
+        res = {'info': 'hahahaahha'}
+        requests.post(url, data=json.dumps(res), headers=headers)
+
 
 
 
