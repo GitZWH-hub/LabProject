@@ -1,13 +1,13 @@
 package com.naah.bullet.request;
 
 public class req9999 {
-    String info;
+    StringBuffer info;
     float mse;
-    public String getInfo() {
+    public StringBuffer getInfo() {
         return info;
     }
 
-    public void setInfo(String info) {
+    public void setInfo(StringBuffer info) {
         this.info = info;
     }
 
