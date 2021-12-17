@@ -106,13 +106,13 @@ class Model(object):
         model.fit(self.x_train, self.y_train)
         pred_y = model.predict(self.x_test)
         pred_y = pd.DataFrame(pred_y.round().astype(int))  # 整数格式
-        self.mse = metrics.mean_squared_error(self.y_test, pred_y)
+        self.mse = round(metrics.mean_squared_error(self.y_test, pred_y),2)
 
         y_test = self.y_test.reset_index(drop=True)
 
         plt.plot(pred_y[:99], label=u'predict')
         plt.plot(y_test[:99], label=u'true')
-        plt.ylabel(u"信用分")
+        plt.ylabel(u"Credit score")
         plt.title(u"xgboost Model (top 100) " + get_now())
         plt.legend()
 
@@ -139,12 +139,12 @@ class Model(object):
         pred_y = lgb.predict(self.x_test)
 
         pred_y = pd.DataFrame(pred_y.round().astype(int))  # 按整数格式保存
-        self.mse = metrics.mean_squared_error(self.y_test, pred_y)
+        self.mse = round(metrics.mean_squared_error(self.y_test, pred_y),2)
 
         y_test = self.y_test.reset_index(drop=True)
         plt.plot(pred_y[:99], label=u'predict')
         plt.plot(y_test[:99], label=u'true')
-        plt.ylabel(u"信用分")
+        plt.ylabel(u"Credit score")
         plt.title(u"LGBM Model (top 100) " + get_now())
         plt.legend()
 
@@ -169,14 +169,16 @@ class Model(object):
                            tree_method="hist", grow_policy="depthwise",
                            base_score=None)
         model_stack = StackingCVRegressor(regressors=(lgb, xgb), meta_regressor=lr)
+
         print(np.isnan(self.x_train).any())
         model_stack.fit(self.x_train, self.y_train)
         val_stack = model_stack.predict(self.x_test)
+        self.mse = round(metrics.mean_squared_error(self.y_test, val_stack), 2)
 
         y_test = self.y_test.reset_index(drop=True)
         plt.plot(val_stack[:99], label=u'predict')
         plt.plot(y_test[:99], label=u'true')
-        plt.ylabel(u"信用分")
+        plt.ylabel(u"Credit score")
         plt.title(u"xgboost+LGBM Model (top 100) " + get_now())
         plt.legend()
 
