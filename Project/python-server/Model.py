@@ -27,6 +27,7 @@ class Model(object):
         self.y_train = None
         self.x_test = None
         self.y_test = None
+        self.mse = -1
 
     def preHandelData(self, scale):
         train = pd.read_csv(self.csv)  # 读入数据
@@ -97,8 +98,7 @@ class Model(object):
         model.fit(self.x_train, self.y_train)
         pred_y = model.predict(self.x_test)
         pred_y = pd.DataFrame(pred_y.round().astype(int))  # 整数格式
-        print(metrics.mean_squared_error(self.y_test, pred_y))
-        print(metrics.mean_absolute_error(self.y_test, pred_y))
+        self.mse = metrics.mean_squared_error(self.y_test, pred_y)
 
         y_test = self.y_test.reset_index(drop=True)
 
@@ -129,11 +129,7 @@ class Model(object):
         pred_y = lgb.predict(self.x_test)
 
         pred_y = pd.DataFrame(pred_y.round().astype(int))  # 按整数格式保存
-        # submission = pd.concat([self.test['用户编码'], pred_y], axis=1)
-        # submission.columns = ['id', 'score']
-        # submission.to_csv(r'./submission1.csv')
-        print(metrics.mean_squared_error(self.y_test, pred_y))
-        print(metrics.mean_absolute_error(self.y_test, pred_y))
+        self.mse = metrics.mean_squared_error(self.y_test, pred_y)
 
         y_test = self.y_test.reset_index(drop=True)
         plt.plot(pred_y[:99], label=u'predict')
@@ -164,21 +160,19 @@ class Model(object):
         print(np.isnan(self.x_train).any())
         model_stack.fit(self.x_train, self.y_train)
         val_stack = model_stack.predict(self.x_test)
-        print(metrics.mean_squared_error(self.y_test, val_stack))
-        print(metrics.mean_absolute_error(self.y_test, val_stack))
 
-        return 1
-        # plt.plot(pred_y[:99], label=u'predict')
-        # plt.plot(y_test[:99], label=u'true')
-        # plt.ylabel(u"信用分")
-        # plt.title(u"xgboost Model测试前100条")
-        # plt.legend()
-        # plt.save()
-        #
-        # cached_img = open("cache.png")
-        # cached_img_b64 = base64.b64encode(cached_img.read())
-        # os.remove("cache.png")
-        # return cached_img_b64
+        y_test = self.y_test.reset_index(drop=True)
+        plt.plot(val_stack[:99], label=u'predict')
+        plt.plot(y_test[:99], label=u'true')
+        plt.ylabel(u"信用分")
+        plt.title(u"xgboost Model测试前100条")
+        plt.legend()
+        plt.save('save.png')
+
+        cached_img = open("cache.png")
+        cached_img_b64 = base64.b64encode(cached_img.read())
+        os.remove("cache.png")
+        return cached_img_b64
 
     def buildAndFit(self, flag, scale):
 
@@ -194,16 +188,16 @@ class Model(object):
 
         res = {'info': '开始训练模型'}
         requests.post(url, data=json.dumps(res), headers=headers)
-        if flag == 1:
+        if int(flag) == 1:
             print('xgboost')
             info = self.xgboost()
-        elif flag == 2:
+        elif int(flag) == 2:
             print('LGBM')
             info = self.LGBM()
-        else:
+        elif int(flag) == 3:
             print('融合')
             info = self.xgbAndLGBM()
-        res = {'info': '训练完成，预测结果见右图'}
+        res = {'info': '训练完成，预测结果见右图', 'mse': self.mse}
         requests.post(url, data=json.dumps(res), headers=headers)
 
         res = {'info': info}

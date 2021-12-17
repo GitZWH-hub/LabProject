@@ -44,8 +44,7 @@ model = Model()
 @app.route("/9999/<flag>/<scale>")
 def buildFit(flag, scale):
     model.buildAndFit(flag, scale)
-    res = {'status': 'success'}
-    return Response(json.dumps(res.to_json(orient='records')), mimetype='application/json')
+    return 'success'
 
 
 # 8001
