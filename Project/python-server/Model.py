@@ -77,7 +77,7 @@ class Model(object):
         full.drop('用户编码', axis=1, inplace=True)  # 删除无关的编码
 
         # 分训练集和测试集
-        # full = full.dropna()
+        full = full.dropna()
         train_len = int(50000 * float(scale))
         self.x_train = full.iloc[0:train_len, full.columns != '信用分']
         self.y_train = full.iloc[0:train_len, full.columns == '信用分']
