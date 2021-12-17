@@ -77,4 +77,24 @@ public class BulletController {
         template.convertAndSend("/toAll/DoubleMABackTester", json);
         return "yes";
     }
+
+    //数据挖掘课程demo
+    //SendTo 发送至 Broker 下的指定订阅路径
+    @MessageMapping("/Req9999")
+    @SendTo("/toAll/buildfit")
+    public void build(@RequestBody req9998 req) {
+        System.out.println("9999");
+        System.out.println(req);
+        //这里调用行情ctp api获取行情
+        restTemplate.getForEntity("http://sidecar/9999"
+                + "/" + req.getFlag(), String.class).getBody();
+    }
+    @PostMapping("/buildandfit")
+    public String buildandfit(@RequestBody req9999 req) throws Exception{
+        System.out.println("bullet 收到信息");
+        String json=JSON.toJSONString(req);//关键
+        System.out.println(json);
+        template.convertAndSend("/toAll/buildfit", json);
+        return "yes";
+    }
 }

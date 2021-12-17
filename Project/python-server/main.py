@@ -6,6 +6,10 @@ from DataSrc import Futures, TradeCal, HisQuotes, FutSettle
 from flask import Flask, Response
 from BackTest.BackTest import BackTester
 from BackTest.Strategy import DoubleMovingAverage
+
+# 数据挖掘，待删除
+from Model import Model
+
 app = Flask(__name__)
 plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']  # 用来正常显示中文标签
 plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
@@ -29,6 +33,18 @@ def getFuture():
         res = fut.get_fut()
     # with TradeCal() as tradecal:
     #     res = tradecal.read_sql()
+    return Response(json.dumps(res.to_json(orient='records')), mimetype='application/json')
+
+
+# 数据挖掘课程demo
+model = Model()
+# flag: 1:xgboost   2:LGBM   3: 融合
+
+
+@app.route("/9999/<flag>")
+def buildFit(flag):
+    model.buildAndFit(flag)
+    res = {'status': 'success'}
     return Response(json.dumps(res.to_json(orient='records')), mimetype='application/json')
 
 
@@ -83,13 +99,6 @@ def downFutHis(fut, start, end):
         data = hq.getData(ts_code=fut, start=start, end=end)
     # 同时需要将数据返回给web端
     return Response(json.dumps(data.to_json(orient='records')), mimetype='application/json')
-
-
-# 8003 查询当下合约
-@app.route("/800")
-def demandFutCode():
-    pass
-    # 这里不能使用TuShare，需要从交易所官网爬取
 
 
 from md_demo import Controller

@@ -8,7 +8,7 @@ import sqlite3 as sql3
 
 from pandas.core import frame
 
-from logfile import log, Logger
+# from logfile import log, Logger
 from datetime import datetime
 import pandas as pd
 
@@ -20,7 +20,7 @@ Created on Sept 27, 2021    @Author: zwh
 
 class Base(object):
     def __init__(self):
-        Logger()
+        # Logger()
         self.token = 'f0d2ecb5970c108c5959d1b445fb99e55690038748029204c0df86ec'
         self.pro = ts.pro_api(self.token)
         self.exchange = 'SHFE'
@@ -50,13 +50,14 @@ class Futures(Base):
         return self
 
     def pull_data(self):
-        log.info('-- 开始拉取合约信息(Future) --')
+        # log.info('-- 开始拉取合约信息(Future) --')
         data = self.pro.fut_basic(exchange=self.exchange, fut_type='1')
         try:  # index:是否插入索引，默认插入   if_exists:replace、append、fail
             data.to_sql(self.TABLENAME, self.conn, index=True, if_exists='replace')
         except:
-            log.error("to_sql ERROR")
-        log.info('-- 拉取合约信息结束(Future) --')
+            # log.error("to_sql ERROR")
+            pass
+        # log.info('-- 拉取合约信息结束(Future) --')
 
     def get_fut(self):
         futs = pd.read_sql_query("select * from " + self.TABLENAME, self.conn)
@@ -81,13 +82,14 @@ class TradeCal(Base):
         return self
 
     def pull_data(self, start_date, end_date):
-        log.info('-- 开始获取交易日历(TradeCal) --')
+        # log.info('-- 开始获取交易日历(TradeCal) --')
         try:
             data = self.pro.trade_cal(exchange=self.exchange, start_date=start_date, end_date=end_date)
             data.to_sql(self.TABLENAME, self.conn, index=True, if_exists='replace')
         except:
-            log.error('to_sql ERROR')
-        log.info('-- 拉取交易日历结束(TradeCal) --')
+            # log.error('to_sql ERROR')
+            pass
+        # log.info('-- 拉取交易日历结束(TradeCal) --')
 
     # 获取某段时间内的所有交易日
     def getTradeDay(self, start, end):
@@ -111,14 +113,15 @@ class HisQuotes(Base):
         return self
 
     def pullData(self, ts_code, start_date, end_date):
-        log.info('-- 开始拉取历史行情(HisQuotes) --')
+        # log.info('-- 开始拉取历史行情(HisQuotes) --')
         data = []
         try:
             data = self.pro.fut_daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
             data.to_sql(ts_code[:2].upper(), self.conn, index=True, if_exists='append')
         except:
-            log.error("to_sql ERROR")
-        log.info('-- 拉取历史行情结束(HisQuotes) --')
+            pass
+            # log.error("to_sql ERROR")
+        # log.info('-- 拉取历史行情结束(HisQuotes) --')
         return data
 
     def getKData(self, fut, futEnd, start, end):
@@ -131,7 +134,8 @@ class HisQuotes(Base):
             print("啊啊啊啊啊，出错了")
             return data
         except:
-            log.info("ERROR")
+            # log.info("ERROR")
+            pass
 
     # 用于回测（下载数据）功能，
     # 先查询库，若库中有需要的所有数据，则直接从库中查询。
@@ -198,7 +202,8 @@ class HisQuotes(Base):
                                      + ts_code.upper() + "' and trade_date between '" + start + "' and '" + end + "'",
                                      self.conn)
         except:
-            log.info("ERROR")
+            # log.info("ERROR")
+            pass
         return data
 
     def deleteData(self, ts_code, start, end):
@@ -209,7 +214,8 @@ class HisQuotes(Base):
             pd.read_sql_query("delete from " + fut + " where ts_code = '" + ts_code.upper() +
                               "' and trade_date between '" + start + "' and '" + end + "'", self.conn)
         except:
-            log.info("ERROR")
+            # log.info("ERROR")
+            pass
 
 
 '''
@@ -225,7 +231,7 @@ class FutSettle(Base):
         return self
 
     def pull_data(self, start_date=None, end_date=None, ts_code=None):
-        log.info('-- 开始获取结算参数(FutSettle)')
+        # log.info('-- 开始获取结算参数(FutSettle)')
         try:
             # fut_settle接口中，ts_code和trade_date至少需要一个
             # data = self.pro.fut_settle(trade_date=trade_date, ts_code=ts_code, exchange=self.exchange)
@@ -233,8 +239,9 @@ class FutSettle(Base):
                                        end_date=end_date)
             data.to_sql(self.TABLENAME, self.conn, index=True, if_exists='replace')
         except:
-            log.error('to_sql ERROR')
-        log.info('-- 拉取结算参数结束(FutSettle) --')
+            # log.error('to_sql ERROR')
+            pass
+        # log.info('-- 拉取结算参数结束(FutSettle) --')
 
 
 '''
@@ -283,7 +290,8 @@ class TradePara(object):
             data = pd.DataFrame(real)
             data.to_sql(self.TABLENAME, self.conn, index=True, if_exists='replace')
         except:
-            log.error("sql error")
+            pass
+            # log.error("sql error")
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.conn.close()
