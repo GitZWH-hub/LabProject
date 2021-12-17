@@ -41,9 +41,9 @@ model = Model()
 # flag: 1:xgboost   2:LGBM   3: 融合
 
 
-@app.route("/9999/<flag>")
-def buildFit(flag):
-    model.buildAndFit(flag)
+@app.route("/9999/<flag>/<scale>")
+def buildFit(flag, scale):
+    model.buildAndFit(flag, scale)
     res = {'status': 'success'}
     return Response(json.dumps(res.to_json(orient='records')), mimetype='application/json')
 

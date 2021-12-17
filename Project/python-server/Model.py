@@ -177,14 +177,14 @@ class Model(object):
         # os.remove("cache.png")
         # return cached_img_b64
 
-    def buildAndFit(self, flag):
+    def buildAndFit(self, flag, scale):
 
         url = "http://localhost:5001/buildandfit"
         headers = {'Content-type': 'application/json'}
         res = {'info': '开始预处理'}
         requests.post(url, data=json.dumps(res), headers=headers)
 
-        self.preHandelData()
+        self.preHandelData(scale)
         res = {'info': '预处理完成'}
 
         requests.post(url, data=json.dumps(res), headers=headers)

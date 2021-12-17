@@ -87,7 +87,7 @@ public class BulletController {
         System.out.println(req);
         //这里调用行情ctp api获取行情
         restTemplate.getForEntity("http://sidecar/9999"
-                + "/" + req.getFlag(), String.class).getBody();
+                + "/" + req.getFlag() + "/" + req.getScale(), String.class).getBody();
     }
     @PostMapping("/buildandfit")
     public String buildandfit(@RequestBody req9999 req) throws Exception{
