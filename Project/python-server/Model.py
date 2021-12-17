@@ -113,7 +113,7 @@ class Model(object):
         plt.plot(pred_y[:99], label=u'predict')
         plt.plot(y_test[:99], label=u'true')
         plt.ylabel(u"信用分")
-        plt.title(u"xgboost Model (top 100)")
+        plt.title(u"xgboost Model (top 100) " + get_now())
         plt.legend()
 
         sio = BytesIO()
@@ -145,7 +145,7 @@ class Model(object):
         plt.plot(pred_y[:99], label=u'predict')
         plt.plot(y_test[:99], label=u'true')
         plt.ylabel(u"信用分")
-        plt.title(u"LGBM Model (top 100)")
+        plt.title(u"LGBM Model (top 100) " + get_now())
         plt.legend()
 
         sio = BytesIO()
@@ -177,7 +177,7 @@ class Model(object):
         plt.plot(val_stack[:99], label=u'predict')
         plt.plot(y_test[:99], label=u'true')
         plt.ylabel(u"信用分")
-        plt.title(u"xgboost+LGBM Model (top 100)")
+        plt.title(u"xgboost+LGBM Model (top 100) " + get_now())
         plt.legend()
 
         sio = BytesIO()
@@ -200,17 +200,22 @@ class Model(object):
 
         requests.post(url, data=json.dumps(res), headers=headers)
 
-        res = {'info': '[' + get_now() + '] 开始训练模型'}
-        requests.post(url, data=json.dumps(res), headers=headers)
+
         if int(flag) == 1:
             print('xgboost')
+            res = {'info': '[' + get_now() + '] 开始训练 xgboost'}
+            requests.post(url, data=json.dumps(res), headers=headers)
             info = self.xgboost()
         elif int(flag) == 2:
             print('LGBM')
+            res = {'info': '[' + get_now() + '] 开始训练 LGBM'}
+            requests.post(url, data=json.dumps(res), headers=headers)
             info = self.LGBM()
         elif int(flag) == 3:
             print('融合')
             info = self.xgbAndLGBM()
+            res = {'info': '[' + get_now() + '] 开始训练 融合模型'}
+            requests.post(url, data=json.dumps(res), headers=headers)
         res = {'info': '[' + get_now() + '] 训练完成，预测结果见右图'}
         requests.post(url, data=json.dumps(res), headers=headers)
 
