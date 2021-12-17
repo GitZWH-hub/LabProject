@@ -115,6 +115,7 @@ class Model(object):
         src = 'data:image/png;base64,' + str(data)
         # # 记得关闭，不然画出来的图是重复的
         plt.close()
+        print(src)
         return src
 
     def LGBM(self):
