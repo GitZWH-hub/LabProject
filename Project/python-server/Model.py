@@ -1,3 +1,4 @@
+import time
 import warnings
 from matplotlib import colors
 import os, base64, json, requests
@@ -82,6 +83,8 @@ class Model(object):
         self.y_train = full.iloc[0:train_len, full.columns == '信用分']
         self.x_test = full.iloc[train_len:, full.columns != '信用分']
         self.y_test = full.iloc[train_len:, full.columns == '信用分']
+        print(self.y_train)
+        print(self.y_test)
 
     def xgboost(self):
         model = XGBRegressor(n_estimators=3000, learning_rate=0.01,
@@ -183,7 +186,7 @@ class Model(object):
         headers = {'Content-type': 'application/json'}
         res = {'info': '开始预处理'}
         requests.post(url, data=json.dumps(res), headers=headers)
-
+        time.sleep(3)
         self.preHandelData(scale)
         res = {'info': '预处理完成'}
 
@@ -192,10 +195,13 @@ class Model(object):
         res = {'info': '开始训练模型'}
         requests.post(url, data=json.dumps(res), headers=headers)
         if flag == 1:
+            print('xgboost')
             info = self.xgboost()
         elif flag == 2:
+            print('LGBM')
             info = self.LGBM()
         else:
+            print('融合')
             info = self.xgbAndLGBM()
         res = {'info': '训练完成，预测结果见右图'}
         requests.post(url, data=json.dumps(res), headers=headers)
