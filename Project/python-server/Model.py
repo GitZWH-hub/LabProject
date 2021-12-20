@@ -109,11 +109,13 @@ class Model(object):
         self.mse = round(metrics.mean_squared_error(self.y_test, pred_y),2)
 
         y_test = self.y_test.reset_index(drop=True)
-
+        plt.figure(figsize=(8, 4), frameon=False)
         plt.plot(pred_y[:99], label=u'predict')
         plt.plot(y_test[:99], label=u'true')
         plt.ylabel(u"Credit score")
         plt.title(u"xgboost Model (top 100) " + get_now())
+        # 设置网格线
+        plt.grid(True, ls=':', color='r', alpha=0.5)
         plt.legend()
 
         sio = BytesIO()
@@ -178,7 +180,7 @@ class Model(object):
         y_test = self.y_test.reset_index(drop=True)
         plt.figure(figsize=(8, 4), frameon=False)
         plt.plot(val_stack[:99], label=u'predict')
-        plt.plot(y_test[:199], label=u'true')
+        plt.plot(y_test[:99], label=u'true')
         plt.ylabel(u"Credit score")
         plt.title(u"xgboost+LGBM Model (top 200) " + get_now())
         # 设置网格线
@@ -226,9 +228,9 @@ class Model(object):
         requests.post(url, data=json.dumps(res), headers=headers)
 
         print('分包传送')
-        res = {'info': info[:39999], 'mse': self.mse}
+        res = {'info': info[:49999], 'mse': self.mse}
         requests.post(url, data=json.dumps(res), headers=headers)
-        res = {'info': info[39999:], 'mse': self.mse}
+        res = {'info': info[49999:], 'mse': self.mse}
         requests.post(url, data=json.dumps(res), headers=headers)
 
 
