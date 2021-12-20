@@ -176,8 +176,8 @@ class Model(object):
         self.mse = round(metrics.mean_squared_error(self.y_test, val_stack), 2)
 
         y_test = self.y_test.reset_index(drop=True)
-        plt.figure(figsize=(12, 6), frameon=False)
-        plt.plot(val_stack[:199], label=u'predict')
+        plt.figure(figsize=(8, 4), frameon=False)
+        plt.plot(val_stack[:99], label=u'predict')
         plt.plot(y_test[:199], label=u'true')
         plt.ylabel(u"Credit score")
         plt.title(u"xgboost+LGBM Model (top 200) " + get_now())
