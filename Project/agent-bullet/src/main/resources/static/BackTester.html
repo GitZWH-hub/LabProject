@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据挖掘</title>
+    <!-- 使用jquery框架 这里没有下载jquery，如果要下载，使用# npm install jquery命令-->
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+    <!-- JS实现AJAX部分-->
+    <script type="text/javascript" src="BackTester.js"></script>
+    <!-- 这边定义的style放到css文件中，并link连接-->
+    <link rel="stylesheet" type="text/css" href="BackTester.css">
+</head>
+<body>
+    <h2 align="center">数据挖掘2021</h2>
+    <div style="margin-left: 50px;">
+        <div style="width: 300px; float: left;margin-top: 10px;" >
+            <div>
+                <label>选择Model</label>
+                <select id="flag" style="font-size: 15px;width: 152px">
+                    <option value="1">xgboost</option>
+                    <option value="2">LGBM</option>
+                    <option value="3">融合model</option>
+                </select>
+            </div>
+            <p>
+            <div>
+                <label>训练集占比</label>
+                <input id="scale" value=0.8>
+            </div>
+            <p>
+            <div>
+                <label id="mse"></label>
+            </div>
+            <div style="margin-top: 10px">
+                <button id="build" style="width: 300px;margin-top: 10px;font-size: 15px;">Build and fit model</button>
+            </div>
+            <div class='labeldiv' style="margin-top: 10px;width: 300px; border: 1px dashed #898686">
+                <label id="ShowInfo" class="labelinfo"></label>
+            </div>
+        </div>
+        <div style="margin-left: 350px; width: 1000px">
+            <img id="show_img"/>
+        </div>
+    </div>
+</body>
+</html>

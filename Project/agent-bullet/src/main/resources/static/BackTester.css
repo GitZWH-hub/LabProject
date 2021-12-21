@@ -1,0 +1,38 @@
+/*暂时先不做css布局，这个比较次要，等后续再学习*/
+
+table{
+    /* 边框宽度、颜色 */
+    border: 1px solid white;
+    /* 表格字体大小 */
+    font-size: 15px;
+    /* 设置表格的边框是否被折叠成一个单一的边框或隔开 */
+    border-collapse: separate;
+    /* 表格宽度 */  /*表格高度：height*/
+    width: 900px;
+
+    margin: auto;
+}
+th{
+    /* th元素的文本和背景颜色*/
+    background-color: gainsboro;
+    color: #2d2b2b;
+}
+td{
+    /* 表格文字对齐方式 td属性*/
+    text-align: center;
+    /* td元素的文本和背景颜色*/
+    background-color: white;
+    color: black;
+}
+td.td3{
+    background-color: #2d2727;
+    color: white;
+}
+
+label.labelinfo{
+    font-size: 10px;
+}
+div.labeldiv{
+    max-height: 200px;
+    overflow-y: scroll;
+}
