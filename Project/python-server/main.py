@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 from DataSrc import Futures, TradeCal, HisQuotes, FutSettle
 from flask import Flask, Response
 from BackTest.BackTest import BackTester
-from BackTest.Strategy import DoubleMovingAverage
+from BackTest.DoubleMovingAverage import DoubleMovingAverage
+from BackTest.ARIMA import ARIMAStrategy
 
 # 数据挖掘，待删除
 from Model import Model
@@ -38,6 +39,8 @@ def getFuture():
 
 # 数据挖掘课程demo
 model = Model()
+
+
 # flag: 1:xgboost   2:LGBM   3: 融合
 
 
@@ -158,6 +161,36 @@ def doubleMABackTest(fut, start, end, short, long, cash):
     backTester = BackTester()
     # 设置策略类
     backTester.set_strategy_instance(doubleMABT)
+    # 设置初始资金
+    backTester.set_cash(cash)
+    # 设置期货代码
+    backTester.set_tsCode(fut)
+    # 设置起始结束日期
+    backTester.set_date(start, end)
+    # 启动回测
+    backTester.start()
+
+    return 'success'
+
+
+# 8106  ARIMA策略回测
+@app.route("/8106/<fut>/<start>/<end>/<cash>/<nums>", methods=["GET", "POST"])
+def ARIMAtest(fut, start, end, cash, nums):
+    print("开始ARIMA策略回测")
+    start = start.replace('-', '')
+    end = end.replace('-', '')
+    """
+    设置策略实例参数
+    """
+    ARIMA_instance = ARIMAStrategy()
+    ARIMA_instance.set_train_nums(int(nums))
+    """
+    设置回测模块相关的参数
+    """
+    # 回测
+    backTester = BackTester()
+    # 设置策略类
+    backTester.set_strategy_instance(ARIMA_instance)
     # 设置初始资金
     backTester.set_cash(cash)
     # 设置期货代码
