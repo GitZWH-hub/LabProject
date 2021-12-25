@@ -13,7 +13,7 @@ class DoubleMovingAverage(BaseStrategy):
         self.short_term = 5
         # 缓存的行情数据(是DataFrame类型)，根据long_term缓存条数
         self.bar_df = None
-        self.num = 0
+        self.counts = 0
 
     def set_long(self, long):
         """
@@ -42,7 +42,7 @@ class DoubleMovingAverage(BaseStrategy):
         :return:
         """
         # （1）获取bar
-        self.num += 1
+        self.counts += 1
         # （2）bar推送到缓存bar_df
         if self.bar_df is None:
             self.bar_df = bar

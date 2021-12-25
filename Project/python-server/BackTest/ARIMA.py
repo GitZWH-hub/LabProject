@@ -1,23 +1,23 @@
 from Strategy import BaseStrategy
 import pandas as pd
-import matplotlib.pyplot as plt
 import statsmodels.api as sm
 import itertools
 from statsmodels.tsa.arima.model import ARIMA
-import warnings
-from sklearn import metrics
 
 
 class ARIMAStrategy(BaseStrategy):
     """
     【ARIMA策略】 created by ZWH 2021-12-25
     """
+
     def __init__(self):
         super(ARIMAStrategy, self).__init__()
         # 训练个数
         self.train_nums = 0
-        # 存放训练个数的历史结算价格
-        self.train_orices = []
+        # 训练计数
+        self.counts = 0
+        # 存放训练个数的行情数据
+        self.bar_df = None
 
     def set_train_nums(self, train_nums):
         """
@@ -34,16 +34,21 @@ class ARIMAStrategy(BaseStrategy):
         :param bar:
         :return:
         """
-        # 1. 获取数据 —— CSV文件
-        data = pd.read_csv('./Data/AAPL.csv')
-        data = data.iloc[::-1]
-        print(data.head())
-        # 只保留时间和结算价
-        df = data[['Date', 'Close']]
-        df.Date = pd.to_datetime(df.Date)
-        df = df.set_index('Date')
+        # 应该从最开始存储train_nums条数据
+        if self.bar_df is None:
+            self.bar_df = bar
+        else:
+            self.bar_df = self.bar_df.append(bar)
+        self.counts += 1
+        # 训练数据到达指定数目，才开始回测
+        if self.counts < self.train_nums:
+            return
+        self.bar_df = self.bar_df[-self.train_nums:]
 
-        # 2. 求ARIMA最合适的阶数
+        df = self.bar_df[['trade_date'], ['close']]
+        df.trade_date = pd.to_datetime(df.trade_date)
+        df = df.set_index('trade_date')
+
         p = d = q = range(0, 3)
         pdq = list(itertools.product(p, d, q))
 
@@ -58,33 +63,36 @@ class ARIMAStrategy(BaseStrategy):
             except:
                 continue
         index_min = min(range(len(aic)), key=aic.__getitem__)
-        print('the optimal model is: ARIMA {} - AIC {}'.format(parameters[index_min], aic[index_min]))
-
-        # 训练集：取df总长度的 10分之9
-        TRAIN = int(len(df) * 9 / 10)
-        # 测试集：forecast剩余的 10分之2
-        TEST = len(df) - TRAIN
-
-        # 3. 构建并训练模型
-        model = ARIMA(df[:TRAIN], order=parameters[index_min])
+        print(' {} times the optimal model is: ARIMA {} - AIC {}'.format(self.counts - self.train_nums,
+                                                                         parameters[index_min],
+                                                                         aic[index_min]))
+        # 3. 构建并训练模型(df整个的数据拿来训练)
+        model = ARIMA(df, order=parameters[index_min])
         model_fit = model.fit()
+        # 4. 用这个模型预测bar行情的第二天的价格
+        pre_price = model_fit.forecast()
+        print('第{}次预测价格为: {}'.format(self.counts-self.train_nums, pre_price))
 
-        # 4. 模型预测
-        # 求df在前TRAIN数据的起始截止日期
-        pre_begin = (df.index[0]).strftime("%Y-%m-%d %H:%M:%S")[:7]
-        pre_end =  (df.index[TRAIN-1]).strftime("%Y-%m-%d %H:%M:%S")[:10]
-        # predict和forecast的区别：predict只能是训练集内部的数据，forecast可以预测外部数据
-        # 这里直接predict200条已训练数据，并forecast了df剩下的数据
-        pred = model_fit.predict(start=pre_begin, end=pre_end, typ='levels')
-        pred2 = model_fit.forecast(TEST)
+        # 查询当前持仓
+        pos_long, pos_short = self.broker.select_posList()
 
-        index_key = df.index[TRAIN:]
-        test = pd.Series(pred2.tolist(), index=index_key)
-        # pred = pred.append(pd.Series(test))
-        pred3 = pd.Series(test)
+        # 5. 预测的价格pre_price的当前行情bar的价格做比对 (业务逻辑)
+        if bar.close > pre_price:  # 如果预测第二天要涨
+            # 判断有无持空仓
+            if not pos_short:  # 没有空仓的话，就可以现在买了
+                print('无空仓，可开多')
+                # 这里有个问题是，应该报几手，暂时报一手单子
+                self.buy(price=bar.close, volume=1)
+            else:  # 有空仓的话，需要将现在的空仓平掉，防止明天涨价后平仓的话亏本儿
+                print('有空仓，平空仓')
+                # 统计当前空仓仓位
+                self.cover(price=bar.close, volume=pos_short)   # 这里应该要更改，是拿现在所有的仓位手数平
 
-        # 5. 模型评估
-        # 测试集真实值
-        y_true = df.Close[TRAIN:]
-        # 测试集预测值
-        y_pred = pred2.tolist()
+        if bar.close < pre_price:  # 如果预测第二天要跌
+            # 判断有无持多仓
+            if not pos_long:
+                print('无多仓，可开空')
+                self.short(price=bar.close, volume=1)
+            else:
+                print('有多仓，平多仓')
+                self.sell(price=bar.close, volume=pos_long)

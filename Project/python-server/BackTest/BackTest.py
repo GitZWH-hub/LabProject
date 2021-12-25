@@ -3,11 +3,16 @@ created by ZWH 2021-11-01
 回测模块
 """
 
-import json, time, random
-import itertools, collections
+import collections
+import itertools
+import json
+import random
+import time
+from datetime import datetime
+
 import pandas as pd
 import requests
-from datetime import datetime
+
 from BackTest.Strategy import BaseStrategy
 from DataSrc import HisQuotes
 
