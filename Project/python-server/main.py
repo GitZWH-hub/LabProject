@@ -83,7 +83,7 @@ def pullData(type, fut=None, start=None, end=None):
             tc.pull_data(start_date=start, end_date=end)
     elif type == '3':  # 拉取历史行情（拉取某个合约或全部合约的某时间段的历史行情）
         with HisQuotes() as hq:
-            hq.pull_data(start_date=start, end_date=end, ts_code=fut)
+            hq.pullData(start_date=start, end_date=end, ts_code=fut)
     elif type == '4':  # 拉取结算参数（拉取某合约或全部合约的某时间段的结算参数）
         with FutSettle() as fs:
             fs.pull_data(start_date=start, end_date=end, ts_code=fut)
