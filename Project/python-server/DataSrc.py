@@ -96,7 +96,8 @@ class TradeCal(Base):
         print("select cal_date from " + self.TABLENAME +
               " where is_open = '1' and cal_date between '" + start + "' and '" + end + "'")
         data = pd.read_sql_query("select cal_date from " + self.TABLENAME +
-                                 " where is_open = '1' and cal_date between '" + start + "' and '" + end + "'", self.conn)
+                                 " where is_open = '1' and cal_date between '" + start + "' and '" + end + "'",
+                                 self.conn)
         return data
 
 
@@ -117,6 +118,7 @@ class HisQuotes(Base):
         data = []
         try:
             data = self.pro.fut_daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
+            print(data)
             data.to_sql(ts_code[:2].upper(), self.conn, index=True, if_exists='append')
         except:
             pass
@@ -198,9 +200,10 @@ class HisQuotes(Base):
             fut = ts_code[:2].upper()
             print("select trade_date,ts_code,open,close,high,low,vol from " + fut + " where ts_code = '" +
                   ts_code.upper() + "' and trade_date between '" + start + "' and '" + end + "'")
-            data = pd.read_sql_query("select trade_date,ts_code,open,close,high,low,vol from " + fut + " where ts_code = '"
-                                     + ts_code.upper() + "' and trade_date between '" + start + "' and '" + end + "'",
-                                     self.conn)
+            data = pd.read_sql_query(
+                "select trade_date,ts_code,open,close,high,low,vol from " + fut + " where ts_code = '"
+                + ts_code.upper() + "' and trade_date between '" + start + "' and '" + end + "'",
+                self.conn)
         except:
             # log.info("ERROR")
             pass
@@ -210,7 +213,7 @@ class HisQuotes(Base):
         try:
             fut = ts_code[:2].upper()
             print("delete from " + fut + " where ts_code = '" + ts_code.upper() +
-                  "' and trade_date between '" + start + "' and '" + end + "'",)
+                  "' and trade_date between '" + start + "' and '" + end + "'", )
             pd.read_sql_query("delete from " + fut + " where ts_code = '" + ts_code.upper() +
                               "' and trade_date between '" + start + "' and '" + end + "'", self.conn)
         except:
