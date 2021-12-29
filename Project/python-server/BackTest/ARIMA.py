@@ -1,4 +1,4 @@
-from Strategy import BaseStrategy
+from BackTest.Strategy import BaseStrategy
 import pandas as pd
 import statsmodels.api as sm
 import itertools
