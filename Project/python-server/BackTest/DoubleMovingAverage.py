@@ -1,4 +1,4 @@
-from Strategy import BaseStrategy
+from BackTest.Strategy import BaseStrategy
 
 
 class DoubleMovingAverage(BaseStrategy):

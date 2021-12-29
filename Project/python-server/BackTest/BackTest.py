@@ -320,7 +320,7 @@ class BackTester(object):
             can = [[candle['trade_date'], float(candle['open']), float(candle['close']),
                     float(candle['high']), float(candle['low']), float(candle['vol'])]]
             bar = pd.DataFrame(can, columns=['trade_date', 'open', 'close', 'high', 'low', 'volume'])
-            self.check_order(bar)                       # 检查该行情bar是否满足成交条件
+            # self.check_order(bar)                       # 检查该行情bar是否满足成交条件
             self.strategy_instance.on_bar(bar)          # 给到策略（用户）
             # 打印相关信息
             self.print_allInfo()
