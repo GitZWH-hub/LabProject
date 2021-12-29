@@ -117,6 +117,7 @@ class HisQuotes(Base):
         # log.info('-- 开始拉取历史行情(HisQuotes) --')
         data = []
         try:
+            print(ts_code, start_date, end_date)
             data = self.pro.fut_daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
             print(data)
             data.to_sql(ts_code[:2].upper(), self.conn, index=True, if_exists='append')
