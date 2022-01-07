@@ -127,7 +127,7 @@ class HisQuotes(Base):
             with Futures() as future:
                 ts_codes = future.get_ts_code_by_year(start_date, end_date)
                 print(ts_codes)
-                for code in ts_codes:
+                for code in ts_codes.ts_code.tolist():
                     data = self.pro.fut_daily(ts_code=code)
                     data.to_sql(ts_code[:2].upper(), self.conn, index=True, if_exists='append')
         except:
