@@ -70,7 +70,7 @@ class Futures(Base):
         return ts_code
 
     def get_ts_code_by_year(self, start_year, end_year):
-        ts_codes = pd.read_sql_query("select ts_code from " + self.TABLENAME + " where last_ddate between '" +
+        ts_codes = pd.read_sql_query("select ts_code, fut_code from " + self.TABLENAME + " where last_ddate between '" +
                                      start_year + "' and '" + end_year + "'", self.conn)
         return ts_codes
 
@@ -126,15 +126,14 @@ class HisQuotes(Base):
             print(ts_code, start_date, end_date)
             # 查询期货合约信息表,查询时间区间内的所有合约代码，全拉下来
             with Futures() as future:
-                ts_codes = future.get_ts_code_by_year(start_date, end_date)
-                ts_codes = ts_codes.ts_code.tolist()
-                print("正在拉取{}个合约的历史行情".format(len(ts_codes)))
+                df = future.get_ts_code_by_year(start_date, end_date)
+                print("正在拉取{}个合约的历史行情".format(len(df)))
                 count = 0
-                for code in ts_codes:
+                for i, r in df.iterrows():
                     count += 1
-                    print('\r' + str(count) + '/' + str(len(ts_codes)), end='', flush=True)
-                    data = self.pro.fut_daily(ts_code=code)
-                    data.to_sql(code[:2].upper(), self.conn, index=True, if_exists='append')
+                    print('\r' + str(count) + '/' + str(len(df)), end='', flush=True)
+                    data = self.pro.fut_daily(ts_code=r['ts_code'])
+                    data.to_sql(r['fut_code'].upper(), self.conn, index=True, if_exists='append')
         except:
             pass
             # log.error("to_sql ERROR")
