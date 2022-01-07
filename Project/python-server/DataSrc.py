@@ -131,7 +131,7 @@ class HisQuotes(Base):
                 count = 0
                 for code in ts_codes:
                     count += 1
-                    print(count)
+                    print('\r' + str(count) + '/' + str(len(ts_codes)), end='', flush=True)
                     data = self.pro.fut_daily(ts_code=code)
                     data.to_sql(code[:2].upper(), self.conn, index=True, if_exists='append')
         except:
