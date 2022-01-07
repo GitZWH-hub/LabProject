@@ -128,8 +128,9 @@ class HisQuotes(Base):
                 ts_codes = future.get_ts_code_by_year(start_date, end_date)
                 ts_codes = ts_codes.ts_code.tolist()
                 print("正在拉取{}个合约的历史行情".format(len(ts_codes)))
-                count = 1
+                count = 0
                 for code in ts_codes:
+                    count += 1
                     print(count)
                     data = self.pro.fut_daily(ts_code=code)
                     data.to_sql(code[:2].upper(), self.conn, index=True, if_exists='append')
