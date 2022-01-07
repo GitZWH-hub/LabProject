@@ -129,7 +129,7 @@ class HisQuotes(Base):
                 print(ts_codes)
                 for code in ts_codes.ts_code.tolist():
                     data = self.pro.fut_daily(ts_code=code)
-                    data.to_sql(ts_code[:2].upper(), self.conn, index=True, if_exists='append')
+                    data.to_sql(code[:2].upper(), self.conn, index=True, if_exists='append')
         except:
             pass
             # log.error("to_sql ERROR")
