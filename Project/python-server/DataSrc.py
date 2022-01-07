@@ -68,6 +68,11 @@ class Futures(Base):
                                     self.conn)
         return ts_code
 
+    def get_ts_code_by_year(self, start_year, end_year):
+        ts_codes = pd.read_sql_query("select ts_code from " + self.TABLENAME + " where last_ddate between '" + start_year
+                                     + "' and '" + end_year + "'")
+        return ts_codes
+
 
 '''
 获取SHFE交易日历: TuShare
@@ -118,9 +123,12 @@ class HisQuotes(Base):
         data = []
         try:
             print(ts_code, start_date, end_date)
-            data = self.pro.fut_daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
-            print(data)
-            data.to_sql(ts_code[:2].upper(), self.conn, index=True, if_exists='append')
+            # 查询期货合约信息表,查询时间区间内的所有合约代码，全拉下来
+            with Futures() as future:
+                ts_codes = future.get_ts_code_by_year(start_date, end_date)
+                for code in ts_codes:
+                    data = self.pro.fut_daily(ts_code=code)
+                    data.to_sql(ts_code[:2].upper(), self.conn, index=True, if_exists='append')
         except:
             pass
             # log.error("to_sql ERROR")
