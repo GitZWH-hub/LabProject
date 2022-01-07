@@ -24,8 +24,8 @@ class Base(object):
         self.token = 'f0d2ecb5970c108c5959d1b445fb99e55690038748029204c0df86ec'
         self.pro = ts.pro_api(self.token)
         # self.exchange = 'SHFE'
-        self.exchange = 'DCE'
-        self.DBNAME = 'DBDataDCE'
+        self.exchange = 'CZCE'
+        self.DBNAME = 'DBDataCZCE'
 
     def __enter__(self):
         self.conn = sql3.connect(self.DBNAME)
