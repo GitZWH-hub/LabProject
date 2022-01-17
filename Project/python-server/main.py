@@ -99,18 +99,6 @@ def pullData(type, exchange, start, end):
     return rsp
 
 
-# 8008 拉取合约历史数据
-@app.route("/8008/<fut>/<start>/<end>")
-def downFutHis(fut, start, end):
-    # 暂时：起始时间和结束时间为必须
-    start = start.replace('-', '')
-    end = end.replace('-', '')
-    with HisQuotes() as hq:
-        data = hq.getData(ts_code=fut, start=start, end=end)
-    # 同时需要将数据返回给web端
-    return Response(json.dumps(data.to_json(orient='records')), mimetype='application/json')
-
-
 from md_demo import Controller
 
 controller = Controller()
