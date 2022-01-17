@@ -9,7 +9,7 @@ public class Req8002 {
 
     private String type;
 
-    private String fut;
+    private String exchange;
 
     private String start;
 
@@ -19,8 +19,8 @@ public class Req8002 {
         return type;
     }
 
-    public String getFut() {
-        return fut;
+    public String getExchange() {
+        return exchange;
     }
 
     public String getStart() {
@@ -35,7 +35,7 @@ public class Req8002 {
         this.type = type;
     }
 
-    public void setFut(String fut) { this.fut = fut; }
+    public void setExchange(String fut) { this.exchange = fut; }
 
     public void setStart(String start) {
         this.start = start;

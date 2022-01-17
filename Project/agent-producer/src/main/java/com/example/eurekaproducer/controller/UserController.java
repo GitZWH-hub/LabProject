@@ -3,11 +3,8 @@ import com.example.eurekaproducer.request.Req8008;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
 import com.example.eurekaproducer.request.Req8001;
 import com.example.eurekaproducer.request.Req8002;
-
-import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @CrossOrigin
 @RestController

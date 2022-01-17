@@ -7,14 +7,14 @@ package com.example.eurekaproducer.request;
 
 public class Req8008 {
 
-    private String exchange;
+    private String fut;
 
     private String start;
 
     private String end;
 
-    public String getExchange() {
-        return exchange;
+    public String getFut() {
+        return fut;
     }
 
     public String getStart() {
@@ -25,7 +25,7 @@ public class Req8008 {
         return end;
     }
 
-    public void setExchange(String fut) { this.exchange = exchange; }
+    public void setFut(String fut) { this.fut = fut; }
 
     public void setStart(String start) {
         this.start = start;
