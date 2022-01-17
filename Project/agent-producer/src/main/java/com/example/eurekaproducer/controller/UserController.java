@@ -40,7 +40,7 @@ public class UserController {
     public String pullData(@RequestBody Req8002 req) {
         return restTemplate.getForEntity("http://sidecar/8002"
                 + "/" + req.getType()
-                + "/" + req.getFut()
+                + "/" + req.getExchange()
                 + "/" + req.getStart()
                 + "/" + req.getEnd(), String.class).getBody();
     }
