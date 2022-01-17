@@ -57,27 +57,3 @@ public class UserController {
                 + "/" + req.getEnd(), String.class).getBody();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    // 获取K线图
-//    @RequestMapping("/getKImage")
-//    public String getKImage() {
-//        return restTemplate.getForEntity("http://sidecar/KImage", String.class).getBody();
-//    }
-//    // 获取多子图
-//    @RequestMapping("/getMultiImage")
-//    public String getMultiImage() { return restTemplate.getForEntity("http://sidecar/MultiImage", String.class).getBody(); }
