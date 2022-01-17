@@ -52,7 +52,6 @@ class Futures(Base):
             data.to_sql(self.TABLENAME, self.conn, index=True, if_exists='replace')
         except:
             logging.error("to_sql ERROR")
-            pass
         logging.info('-- 拉取合约信息结束(Future) --')
 
     def get_fut(self):
@@ -247,7 +246,6 @@ class FutSettle(Base):
             data.to_sql(self.TABLENAME, self.conn, index=True, if_exists='replace')
         except:
             logging.error('to_sql ERROR')
-            pass
         logging.info('-- 拉取结算参数结束(FutSettle) --')
 
 
