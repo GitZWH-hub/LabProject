@@ -66,27 +66,35 @@ def getKData(fut, futEnd, start, end):
 
 
 # 8002: pull data from tushare
-@app.route("/8002/<type>/<fut>/<start>/<end>", methods=["GET", "POST"])
-def pullData(type, fut=None, start=None, end=None):
+@app.route("/8002/<type>/<exchange>/<start>/<end>", methods=["GET", "POST"])
+def pullData(type, exchange, start, end):
     res = {'status': 'sucess', 'type': type}
     rsp = Response(json.dumps(res), mimetype='application/json')
 
-    if type == '1':  # 拉取期货合约信息
+    # 期货合约信息
+    if type == '1':
         with Futures() as fut:
+            fut.setExchange(exchange=exchange)
             fut.pull_data()
         return rsp
-    # 暂时：起始时间和结束时间为必须
+
     start = start.replace('-', '')
     end = end.replace('-', '')
-    if type == '2':  # 拉取交易日历（只需要起始日期和结束日期）
+    # 交易日历
+    if type == '2':
         with TradeCal() as tc:
+            tc.setExchange(exchange=exchange)
             tc.pull_data(start_date=start, end_date=end)
-    elif type == '3':  # 拉取历史行情（拉取某个合约或全部合约的某时间段的历史行情）
+    # 历史行情
+    elif type == '3':
         with HisQuotes() as hq:
-            hq.pullData(start_date=start, end_date=end, ts_code=fut)
-    elif type == '4':  # 拉取结算参数（拉取某合约或全部合约的某时间段的结算参数）
+            hq.setExchange(exchange=exchange)
+            hq.pullData(start_date=start, end_date=end)
+    # 结算参数
+    elif type == '4':
         with FutSettle() as fs:
-            fs.pull_data(start_date=start, end_date=end, ts_code=fut)
+            fs.setExchange(exchange=exchange)
+            fs.pull_data(start_date=start, end_date=end)
 
     return rsp
 

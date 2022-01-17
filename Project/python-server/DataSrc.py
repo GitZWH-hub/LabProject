@@ -5,10 +5,8 @@ import re
 import tqdm
 import tushare as ts
 import sqlite3 as sql3
-
+import logging
 from pandas.core import frame
-
-# from logfile import log, Logger
 from datetime import datetime
 import pandas as pd
 
@@ -33,6 +31,9 @@ class Base(object):
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.conn.close()
 
+    def setExchange(self, exchange):
+        self.exchange = exchange
+
     def read_sql(self):
         data = pd.read_sql_query("select *from " + self.TABLENAME, self.conn)
         return data
@@ -51,14 +52,14 @@ class Futures(Base):
         return self
 
     def pull_data(self):
-        # log.info('-- 开始拉取合约信息(Future) --')
+        logging.info('-- 开始拉取合约信息(Future) --')
         data = self.pro.fut_basic(exchange=self.exchange)
         try:  # index:是否插入索引，默认插入   if_exists:replace、append、fail
             data.to_sql(self.TABLENAME, self.conn, index=True, if_exists='replace')
         except:
-            # log.error("to_sql ERROR")
+            logging.error("to_sql ERROR")
             pass
-        # log.info('-- 拉取合约信息结束(Future) --')
+        logging.info('-- 拉取合约信息结束(Future) --')
 
     def get_fut(self):
         futs = pd.read_sql_query("select * from " + self.TABLENAME, self.conn)
@@ -88,14 +89,13 @@ class TradeCal(Base):
         return self
 
     def pull_data(self, start_date, end_date):
-        # log.info('-- 开始获取交易日历(TradeCal) --')
+        logging.info('-- 开始获取交易日历(TradeCal) --')
         try:
             data = self.pro.trade_cal(exchange=self.exchange, start_date=start_date, end_date=end_date)
             data.to_sql(self.TABLENAME, self.conn, index=True, if_exists='replace')
         except:
-            # log.error('to_sql ERROR')
-            pass
-        # log.info('-- 拉取交易日历结束(TradeCal) --')
+            logging.error('to_sql ERROR')
+        logging.info('-- 拉取交易日历结束(TradeCal) --')
 
     # 获取某段时间内的所有交易日
     def getTradeDay(self, start, end):
@@ -119,11 +119,10 @@ class HisQuotes(Base):
         self.TABLENAME = 'HisQuotes'
         return self
 
-    def pullData(self, ts_code, start_date, end_date):
-        # log.info('-- 开始拉取历史行情(HisQuotes) --')
+    def pullData(self, start_date, end_date):
+        logging.info('-- 开始拉取历史行情(HisQuotes) --')
         data = []
         try:
-            print(ts_code, start_date, end_date)
             # 查询期货合约信息表,查询时间区间内的所有合约代码，全拉下来
             with Futures() as future:
                 df = future.get_ts_code_by_year(start_date, end_date)
@@ -135,9 +134,8 @@ class HisQuotes(Base):
                     data = self.pro.fut_daily(ts_code=r['ts_code'])
                     data.to_sql(r['fut_code'].upper(), self.conn, index=True, if_exists='replace')
         except:
-            pass
-            # log.error("to_sql ERROR")
-        # log.info('-- 拉取历史行情结束(HisQuotes) --')
+            logging.error("to_sql ERROR")
+        logging.info('-- 拉取历史行情结束(HisQuotes) --')
         return data
 
     def getKData(self, fut, futEnd, start, end):
@@ -150,8 +148,7 @@ class HisQuotes(Base):
             print("啊啊啊啊啊，出错了")
             return data
         except:
-            # log.info("ERROR")
-            pass
+            logging.info("ERROR")
 
     # 用于回测（下载数据）功能，
     # 先查询库，若库中有需要的所有数据，则直接从库中查询。
@@ -247,18 +244,17 @@ class FutSettle(Base):
         self.TABLENAME = 'FutSettle'
         return self
 
-    def pull_data(self, start_date=None, end_date=None, ts_code=None):
-        # log.info('-- 开始获取结算参数(FutSettle)')
+    def pull_data(self, start_date=None, end_date=None):
+        logging.info('-- 开始获取结算参数(FutSettle)')
         try:
             # fut_settle接口中，ts_code和trade_date至少需要一个
             # data = self.pro.fut_settle(trade_date=trade_date, ts_code=ts_code, exchange=self.exchange)
-            data = self.pro.fut_settle(ts_code=ts_code, exchange=self.exchange, start_date=start_date,
-                                       end_date=end_date)
+            data = self.pro.fut_settle(exchange=self.exchange, start_date=start_date, end_date=end_date)
             data.to_sql(self.TABLENAME, self.conn, index=True, if_exists='replace')
         except:
-            # log.error('to_sql ERROR')
+            logging.error('to_sql ERROR')
             pass
-        # log.info('-- 拉取结算参数结束(FutSettle) --')
+        logging.info('-- 拉取结算参数结束(FutSettle) --')
 
 
 '''
