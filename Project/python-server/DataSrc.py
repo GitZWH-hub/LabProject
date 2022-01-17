@@ -133,7 +133,7 @@ class HisQuotes(Base):
                     count += 1
                     print('\r' + str(count) + '/' + str(len(df)), end='', flush=True)
                     data = self.pro.fut_daily(ts_code=r['ts_code'])
-                    data.to_sql(r['fut_code'].upper(), self.conn, index=True, if_exists='append')
+                    data.to_sql(r['fut_code'].upper(), self.conn, index=True, if_exists='replace')
         except:
             pass
             # log.error("to_sql ERROR")
