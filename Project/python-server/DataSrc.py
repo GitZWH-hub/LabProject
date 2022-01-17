@@ -1,14 +1,10 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
 import json
-import re
-import tqdm
 import tushare as ts
 import sqlite3 as sql3
 import logging
-from pandas.core import frame
 from datetime import datetime
-import pandas as pd
 
 '''
 基类
@@ -18,11 +14,9 @@ Created on Sept 27, 2021    @Author: zwh
 
 class Base(object):
     def __init__(self):
-        # Logger()
         self.token = 'f0d2ecb5970c108c5959d1b445fb99e55690038748029204c0df86ec'
         self.pro = ts.pro_api(self.token)
         self.exchange = 'SHFE'
-        # self.exchange = 'CFFEX'
         self.DBNAME = 'DBData'
 
     def __enter__(self):
