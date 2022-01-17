@@ -1,5 +1,4 @@
 package com.example.eurekaproducer.controller;
-import com.example.eurekaproducer.request.Req8008;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -14,8 +13,8 @@ public class UserController {
     private RestTemplate restTemplate;
 
     /*
-        8001：查询：请求获取K线图数据
-    */
+    * 8001：查询K线图数据
+    * */
     @PostMapping("/Req8001")
     public String getKData(@RequestBody Req8001 req){
         System.out.println(req);
@@ -26,7 +25,7 @@ public class UserController {
                 + "/" + req.getEnd(), String.class).getBody();
     }
     /*
-    * 8002
+    * 8002: 拉取数据
     * */
     @PostMapping("/Req8002")
     public String pullData(@RequestBody Req8002 req) {
