@@ -6,6 +6,7 @@ import sqlite3 as sql3
 import logging
 from datetime import datetime
 
+logging.basicConfig(level=logging.NOTSET)  # 设置日志级别
 '''
 基类
 Created on Sept 27, 2021    @Author: zwh
@@ -20,6 +21,7 @@ class Base(object):
         self.DBNAME = 'DBData'
 
     def __enter__(self):
+
         self.conn = sql3.connect(self.DBNAME)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
