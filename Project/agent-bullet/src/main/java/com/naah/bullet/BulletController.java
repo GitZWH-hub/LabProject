@@ -1,5 +1,4 @@
 package com.naah.bullet;
-
 import com.naah.bullet.request.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 import com.alibaba.fastjson.JSON;
 import javax.annotation.Resource;
 
-//@Controller
 @CrossOrigin
 @RestController
 public class BulletController {
