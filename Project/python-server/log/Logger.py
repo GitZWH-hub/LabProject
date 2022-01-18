@@ -1,4 +1,3 @@
-#! /usr/bin/env python
 import logging
 from datetime import date
 
@@ -9,15 +8,15 @@ class Logger:
         self.logger = logging.getLogger(path)
         self.logger.setLevel(logging.DEBUG)
         fmt = logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s', '%Y-%m-%d %H:%M:%S')
-        # 设置CMD日志
+        # cmd
         sh = logging.StreamHandler()
         sh.setFormatter(fmt)
         sh.setLevel(clevel)
-        # 设置文件日志
+        # logfile
         fh = logging.FileHandler(path)
         fh.setFormatter(fmt)
         fh.setLevel(Flevel)
-        # self.logger.addHandler(sh)
+        self.logger.addHandler(sh)
         self.logger.addHandler(fh)
 
     def debug(self, message):
@@ -34,5 +33,3 @@ class Logger:
 
     def cri(self, message):
         self.logger.critical(message)
-
-
