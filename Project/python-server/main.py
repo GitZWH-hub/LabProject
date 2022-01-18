@@ -8,8 +8,6 @@ from BackTest.BackTest import BackTester
 from BackTest.DoubleMovingAverage import DoubleMovingAverage
 from BackTest.ARIMA import ARIMAStrategy
 
-# 数据挖掘，待删除
-from Model import Model
 
 app = Flask(__name__)
 plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']  # 用来正常显示中文标签
@@ -51,7 +49,7 @@ def pullData(type, exchange, start, end):
     if type == '1':
         with Futures() as fut:
             fut.setExchange(exchange=exchange)
-            fut.pull_data()
+            fut.pull()
         return rsp
 
     start = start.replace('-', '')
@@ -60,17 +58,17 @@ def pullData(type, exchange, start, end):
     if type == '2':
         with TradeCal() as tc:
             tc.setExchange(exchange=exchange)
-            tc.pull_data(start_date=start, end_date=end)
+            tc.pull(start_date=start, end_date=end)
     # 历史行情
     elif type == '3':
         with HisQuotes() as hq:
             hq.setExchange(exchange=exchange)
-            hq.pullData(start_date=start, end_date=end)
+            hq.pull(start_date=start, end_date=end)
     # 结算参数
     elif type == '4':
         with FutSettle() as fs:
             fs.setExchange(exchange=exchange)
-            fs.pull_data(start_date=start, end_date=end)
+            fs.pull(start_date=start, end_date=end)
 
     return rsp
 

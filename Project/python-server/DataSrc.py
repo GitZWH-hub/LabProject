@@ -46,7 +46,7 @@ class Futures(Base):
         self.TABLENAME = 'Futures'
         return self
 
-    def pull_data(self):
+    def pull(self):
         logger.info('-- 开始拉取合约信息(Future) --')
         data = self.pro.fut_basic(exchange=self.exchange)
         try:  # index:是否插入索引，默认插入   if_exists:replace、append、fail
@@ -82,7 +82,7 @@ class TradeCal(Base):
         self.TABLENAME = 'TradeCal'
         return self
 
-    def pull_data(self, start_date, end_date):
+    def pull(self, start_date, end_date):
         logger.info('-- 开始获取交易日历(TradeCal) --')
         try:
             data = self.pro.trade_cal(exchange=self.exchange, start_date=start_date, end_date=end_date)
@@ -113,20 +113,24 @@ class HisQuotes(Base):
         self.TABLENAME = 'HisQuotes'
         return self
 
-    def pullData(self, start_date, end_date):
+    def pull(self, start_date, end_date, ts_code=None):
         logger.info('-- 开始拉取历史行情(HisQuotes) --')
         data = []
         try:
-            # 查询期货合约信息表,查询时间区间内的所有合约代码，全拉下来
             with Futures() as future:
-                df = future.get_ts_code_by_year(start_date, end_date)
-                print("正在拉取{}个合约的历史行情".format(len(df)))
-                count = 0
-                for i, r in df.iterrows():
-                    count += 1
-                    print('\r' + str(count) + '/' + str(len(df)), end='', flush=True)
-                    data = self.pro.fut_daily(ts_code=r['ts_code'])
-                    data.to_sql(r['fut_code'].upper(), self.conn, index=True, if_exists='replace')
+                if ts_code is None:
+                    # 查询期货合约信息表,查询时间区间内的所有合约代码，全拉下来
+                    df = future.get_ts_code_by_year(start_date, end_date)
+                    print("正在拉取{}个合约的历史行情".format(len(df)))
+                    count = 0
+                    for i, r in df.iterrows():
+                        count += 1
+                        print('\r' + str(count) + '/' + str(len(df)), end='', flush=True)
+                        data = self.pro.fut_daily(ts_code=r['ts_code'])
+                        data.to_sql(r['fut_code'].upper(), self.conn, index=True, if_exists='replace')
+                else:
+                    data = self.pro.fut_daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
+                    data.to_sql(ts_code[:2].upper(), self.conn, index=True, if_exists='append')
         except:
             logger.error("to_sql ERROR")
         logger.info('-- 拉取历史行情结束(HisQuotes) --')
@@ -148,13 +152,13 @@ class HisQuotes(Base):
     # 先查询库，若库中有需要的所有数据，则直接从库中查询。
     # 若库中数据不全，则from tushare and delete table data
     def getData(self, ts_code, start, end):
-        self.pullData(ts_code=ts_code, start_date='20201001', end_date='20201001')
+        self.pull(start_date='20201001', end_date='20201001', ts_code=ts_code)
         # 库中获取数据
         data = self.sqlData(ts_code, start, end)
 
         if 0 == len(data):
             print("库中没有一条数据")
-            pull = self.pullData(ts_code=ts_code, start_date=start, end_date=end)
+            pull = self.pull(start_date=start, end_date=end, ts_code=ts_code)
             return pull
 
         with TradeCal() as tc:
@@ -165,7 +169,7 @@ class HisQuotes(Base):
             print("库中数据不完整")
             # 删除该库中所有该时间段的数据，并重新拉取tushare并append表
             self.deleteData(ts_code, start, end)
-            data = self.pullData(ts_code, start, end)
+            data = self.pull(start, end, ts_code)
 
         # 需要对data按日期拍下序
         data = data.sort_values(by="trade_date", ascending=True)
@@ -236,7 +240,7 @@ class FutSettle(Base):
         self.TABLENAME = 'FutSettle'
         return self
 
-    def pull_data(self, start_date=None, end_date=None):
+    def pull(self, start_date=None, end_date=None):
         logger.info('-- 开始获取结算参数(FutSettle)')
         try:
             # fut_settle接口中，ts_code和trade_date至少需要一个
