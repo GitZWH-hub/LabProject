@@ -5,7 +5,7 @@ from datetime import date
 
 class Logger:
     def __init__(self, clevel=logging.DEBUG, Flevel=logging.DEBUG):
-        path = str(date.today()) + '.log'
+        path = 'log/' + str(date.today()) + '.log'
         self.logger = logging.getLogger(path)
         self.logger.setLevel(logging.DEBUG)
         fmt = logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s', '%Y-%m-%d %H:%M:%S')
@@ -17,7 +17,7 @@ class Logger:
         fh = logging.FileHandler(path)
         fh.setFormatter(fmt)
         fh.setLevel(Flevel)
-        self.logger.addHandler(sh)
+        # self.logger.addHandler(sh)
         self.logger.addHandler(fh)
 
     def debug(self, message):
