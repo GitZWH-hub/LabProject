@@ -29,10 +29,6 @@ class Base(object):
     def setExchange(self, exchange):
         self.exchange = exchange
 
-    def read_sql(self):
-        data = pd.read_sql_query("select *from " + self.TABLENAME, self.conn)
-        return data
-
 
 '''
 获取SHFE的期货合约信息: TuShare
@@ -55,16 +51,7 @@ class Futures(Base):
             logger.error("to_sql ERROR")
         logger.info('-- 拉取合约信息结束(Future) --')
 
-    def get_fut(self):
-        futs = pd.read_sql_query("select * from " + self.TABLENAME, self.conn)
-        return futs.head()
-
-    def get_ts_code(self, fut_code):
-        ts_code = pd.read_sql_query("select ts_code from " + self.TABLENAME + " where fut_code = '" + fut_code + "'",
-                                    self.conn)
-        return ts_code
-
-    def get_ts_code_by_year(self, start_year, end_year):
+    def get_ts_code_by_date(self, start_year, end_year):
         ts_codes = pd.read_sql_query("select ts_code, fut_code from " + self.TABLENAME + " where last_ddate between '" +
                                      start_year + "' and '" + end_year + "'", self.conn)
         return ts_codes
@@ -120,7 +107,7 @@ class HisQuotes(Base):
             with Futures() as future:
                 if ts_code is None:
                     # 查询期货合约信息表,查询时间区间内的所有合约代码，全拉下来
-                    df = future.get_ts_code_by_year(start_date, end_date)
+                    df = future.get_ts_code_by_date(start_date, end_date)
                     logger.info("正在拉取{}个合约的历史行情".format(len(df)))
                     count = 0
                     for i, r in df.iterrows():
@@ -152,7 +139,7 @@ class HisQuotes(Base):
         with TradeCal() as tc:
             tradecal = tc.getTradeDay(start=start, end=end)
 
-        # 库中存在完整数据
+        # 库中不存在完整数据
         if len(data) != len(tradecal):
             logger.info("库中数据不完整")
             # 删除该库中所有该时间段的数据，并重新拉取tushare并append表
@@ -160,34 +147,13 @@ class HisQuotes(Base):
             data = self.pull(start, end, ts_code)
 
         # 需要对data按日期拍下序
-        data = data.sort_values(by="trade_date") #, ascending=True)
+        data = data.sort_values(by="trade_date")    # 排序ascending=True)
         # 添加两列，MAS：短期均线值，MAL长期均线值
         # 这里当天的五日均线，包含了当天的结算价（后续需要确定五日均线是否是包含当日，按理说应该是包含的，结算价就是当日的平均价）
         data['MAS'] = round(data.close.rolling(5, min_periods=1).mean(), 2)
         data['MAL'] = round(data.close.rolling(10, min_periods=1).mean(), 2)
         # 再查询库中的相关数据，并计算均价放到返回的数据data中（因为前4天的五日均价无法通过当前的data得来）
         # 暂时先不实现。。。。。
-
-        # data['MAS'] = 0.0
-        # data['MAL'] = 0.0
-        # data_length = len(data)
-        # if data_length >= 5:
-        #     mas = mal = 0.0
-        #     for i in range(data_length - 1, -1, -1):
-        #         if i < data_length - 5:   # 第6天开始有前五日均值
-        #             data.loc[i, 'MAS'] = mas / 5
-        #             mas = mas - float(data.loc[i + 5, 'close'])
-        #         if i < data_length - 10:  # 第十天开始有前10日均值
-        #             data.loc[i, 'MAL'] = mal / 10
-        #             mal = mal - float(data.loc[i + 10, 'close'])
-        #         mas = mas + float(data.loc[i, 'close'])
-        #         mal = mal + float(data.loc[i, 'close'])
-        #
-        #         if i >= data_length - 5:
-        #             data.loc[i, 'MAS'] = round(mas / (data_length - i), 2)
-        #         if i >= data_length - 10:
-        #             data.loc[i, 'MAL'] = round(mal / (data_length - i), 2)
-        #         # print(mas)
         return data
 
     # sql查询，返回k线图字段，若无数据，则返回[]

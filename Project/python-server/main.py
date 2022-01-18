@@ -24,21 +24,6 @@ def formatDate(date):
     return date.replace('-', '')
 
 
-# # 8001
-# @app.route("/8001/<fut>/<futEnd>/<start>/<end>", methods=["GET", "POST"])
-# def getKData(fut, futEnd, start, end):
-#     futEnd = formatDate(futEnd)
-#     start = formatDate(start)
-#     end = formatDate(end)
-#
-#     print(futEnd, start, end)
-#     with HisQuotes() as hq:
-#         data = hq.getKData(fut=fut, futEnd=futEnd[2:], start=start, end=end)
-#
-#         print(data)
-#     return Response(json.dumps(data.to_json(orient='records')), mimetype='application/json')
-
-
 # 8002: pull data from tushare
 @app.route("/8002/<type>/<exchange>/<start>/<end>", methods=["GET", "POST"])
 def pullData(type, exchange, start, end):
@@ -73,7 +58,7 @@ def pullData(type, exchange, start, end):
     return rsp
 
 
-# 8008
+# 8008 回测：下载数据
 @app.route("/8008/<fut>/<start>/<end>", methods=["GET", "POST"])
 def getKData(fut, start, end):
     start = formatDate(start)
@@ -83,7 +68,6 @@ def getKData(fut, start, end):
         data = hq.getData(ts_code=fut, start=start, end=end)
 
     return Response(json.dumps(data.to_json(orient='records')), mimetype='application/json')
-
 
 
 from md_demo import Controller
