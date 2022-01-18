@@ -121,7 +121,7 @@ class HisQuotes(Base):
                 if ts_code is None:
                     # 查询期货合约信息表,查询时间区间内的所有合约代码，全拉下来
                     df = future.get_ts_code_by_year(start_date, end_date)
-                    print("正在拉取{}个合约的历史行情".format(len(df)))
+                    logger.info("正在拉取{}个合约的历史行情".format(len(df)))
                     count = 0
                     for i, r in df.iterrows():
                         count += 1
@@ -136,17 +136,17 @@ class HisQuotes(Base):
         logger.info('-- 拉取历史行情结束(HisQuotes) --')
         return data
 
-    def getKData(self, fut, futEnd, start, end):
-        try:
-            print("select trade_date,ts_code,open,close,high,low from " +
-                  fut + " where ts_code = '" + fut + futEnd + ".SHF' and trade_date between '" + start + "' and '" + end + "'")
-            data = pd.read_sql_query("select trade_date,ts_code,open,close,high,low from " +
-                                     fut + " where ts_code = '" + fut + futEnd + ".SHF' and trade_date between '" + start + "' and '" + end + "'",
-                                     self.conn)
-            print("啊啊啊啊啊，出错了")
-            return data
-        except:
-            logger.info("ERROR")
+    # def getKData(self, fut, futEnd, start, end):
+    #     try:
+    #         print("select trade_date,ts_code,open,close,high,low from " +
+    #               fut + " where ts_code = '" + fut + futEnd + ".SHF' and trade_date between '" + start + "' and '" + end + "'")
+    #         data = pd.read_sql_query("select trade_date,ts_code,open,close,high,low from " +
+    #                                  fut + " where ts_code = '" + fut + futEnd + ".SHF' and trade_date between '" + start + "' and '" + end + "'",
+    #                                  self.conn)
+    #         print("啊啊啊啊啊，出错了")
+    #         return data
+    #     except:
+    #         logger.info("ERROR")
 
     # 用于回测（下载数据）功能，
     # 先查询库，若库中有需要的所有数据，则直接从库中查询。

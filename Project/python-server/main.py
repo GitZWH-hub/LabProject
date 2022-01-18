@@ -24,19 +24,19 @@ def formatDate(date):
     return date.replace('-', '')
 
 
-# 8001
-@app.route("/8001/<fut>/<futEnd>/<start>/<end>", methods=["GET", "POST"])
-def getKData(fut, futEnd, start, end):
-    futEnd = formatDate(futEnd)
-    start = formatDate(start)
-    end = formatDate(end)
-
-    print(futEnd, start, end)
-    with HisQuotes() as hq:
-        data = hq.getKData(fut=fut, futEnd=futEnd[2:], start=start, end=end)
-
-        print(data)
-    return Response(json.dumps(data.to_json(orient='records')), mimetype='application/json')
+# # 8001
+# @app.route("/8001/<fut>/<futEnd>/<start>/<end>", methods=["GET", "POST"])
+# def getKData(fut, futEnd, start, end):
+#     futEnd = formatDate(futEnd)
+#     start = formatDate(start)
+#     end = formatDate(end)
+#
+#     print(futEnd, start, end)
+#     with HisQuotes() as hq:
+#         data = hq.getKData(fut=fut, futEnd=futEnd[2:], start=start, end=end)
+#
+#         print(data)
+#     return Response(json.dumps(data.to_json(orient='records')), mimetype='application/json')
 
 
 # 8002: pull data from tushare
@@ -52,8 +52,8 @@ def pullData(type, exchange, start, end):
             fut.pull()
         return rsp
 
-    start = start.replace('-', '')
-    end = end.replace('-', '')
+    start = formatDate(start)
+    end = formatDate(end)
     # 交易日历
     if type == '2':
         with TradeCal() as tc:
@@ -71,6 +71,19 @@ def pullData(type, exchange, start, end):
             fs.pull(start_date=start, end_date=end)
 
     return rsp
+
+
+# 8008
+@app.route("/8008/<fut>/<start>/<end>", methods=["GET", "POST"])
+def getKData(fut, start, end):
+    start = formatDate(start)
+    end = formatDate(end)
+
+    with HisQuotes() as hq:
+        data = hq.getData(fut=fut, start=start, end=end)
+
+    return Response(json.dumps(data.to_json(orient='records')), mimetype='application/json')
+
 
 
 from md_demo import Controller
