@@ -80,7 +80,7 @@ def getKData(fut, start, end):
     end = formatDate(end)
 
     with HisQuotes() as hq:
-        data = hq.getData(fut=fut, start=start, end=end)
+        data = hq.getData(ts_code=fut, start=start, end=end)
 
     return Response(json.dumps(data.to_json(orient='records')), mimetype='application/json')
 
