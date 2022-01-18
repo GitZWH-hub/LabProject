@@ -3,7 +3,7 @@
 import json
 import tushare as ts
 import sqlite3 as sql3
-from log import Logger
+from log.Logger import Logger
 from datetime import datetime
 
 logger = Logger()
