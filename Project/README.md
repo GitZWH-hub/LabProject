@@ -1,3 +1,6 @@
-# LabProject
-数据挖掘课程后端代码
-![](https://github.com/GitZWH-hub/LabProject/blob/master/Img/DadaMining.png)
+## 工程部分
+#### 架构如下图所示：
+![Zhang Weihua](https://github.com/GitZWH-hub/LabProject/tree/master/Project/PNG/arch.png)
+
+
+
