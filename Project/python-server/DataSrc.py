@@ -136,18 +136,6 @@ class HisQuotes(Base):
         logger.info('-- 拉取历史行情结束(HisQuotes) --')
         return data
 
-    # def getKData(self, fut, futEnd, start, end):
-    #     try:
-    #         print("select trade_date,ts_code,open,close,high,low from " +
-    #               fut + " where ts_code = '" + fut + futEnd + ".SHF' and trade_date between '" + start + "' and '" + end + "'")
-    #         data = pd.read_sql_query("select trade_date,ts_code,open,close,high,low from " +
-    #                                  fut + " where ts_code = '" + fut + futEnd + ".SHF' and trade_date between '" + start + "' and '" + end + "'",
-    #                                  self.conn)
-    #         print("啊啊啊啊啊，出错了")
-    #         return data
-    #     except:
-    #         logger.info("ERROR")
-
     # 用于回测（下载数据）功能，
     # 先查询库，若库中有需要的所有数据，则直接从库中查询。
     # 若库中数据不全，则from tushare and delete table data
@@ -157,7 +145,7 @@ class HisQuotes(Base):
         data = self.sqlData(ts_code, start, end)
 
         if 0 == len(data):
-            print("库中没有一条数据")
+            logger.info("库中没有一条数据")
             pull = self.pull(start_date=start, end_date=end, ts_code=ts_code)
             return pull
 
@@ -166,7 +154,7 @@ class HisQuotes(Base):
 
         # 库中存在完整数据
         if len(data) != len(tradecal):
-            print("库中数据不完整")
+            logger.info("库中数据不完整")
             # 删除该库中所有该时间段的数据，并重新拉取tushare并append表
             self.deleteData(ts_code, start, end)
             data = self.pull(start, end, ts_code)
@@ -207,8 +195,8 @@ class HisQuotes(Base):
         data = []
         try:
             fut = ts_code[:2].upper()
-            print("select trade_date,ts_code,open,close,high,low,vol from " + fut + " where ts_code = '" +
-                  ts_code.upper() + "' and trade_date between '" + start + "' and '" + end + "'")
+            logger.debug("select trade_date,ts_code,open,close,high,low,vol from " + fut + " where ts_code = '" +
+                         ts_code.upper() + "' and trade_date between '" + start + "' and '" + end + "'")
             data = pd.read_sql_query(
                 "select trade_date,ts_code,open,close,high,low,vol from " + fut + " where ts_code = '"
                 + ts_code.upper() + "' and trade_date between '" + start + "' and '" + end + "'",
@@ -220,8 +208,8 @@ class HisQuotes(Base):
     def deleteData(self, ts_code, start, end):
         try:
             fut = ts_code[:2].upper()
-            print("delete from " + fut + " where ts_code = '" + ts_code.upper() +
-                  "' and trade_date between '" + start + "' and '" + end + "'", )
+            logger.debug("delete from " + fut + " where ts_code = '" + ts_code.upper() +
+                         "' and trade_date between '" + start + "' and '" + end + "'", )
             pd.read_sql_query("delete from " + fut + " where ts_code = '" + ts_code.upper() +
                               "' and trade_date between '" + start + "' and '" + end + "'", self.conn)
         except:
