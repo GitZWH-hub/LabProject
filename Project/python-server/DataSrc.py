@@ -104,20 +104,20 @@ class HisQuotes(Base):
         logger.info('-- 开始拉取历史行情(HisQuotes) --')
         data = []
         try:
-            with Futures() as future:
-                if ts_code is None:
+            if ts_code is None:
+                with Futures() as future:
                     # 查询期货合约信息表,查询时间区间内的所有合约代码，全拉下来
                     df = future.get_ts_code_by_date(start_date, end_date)
                     logger.info("正在拉取{}个合约的历史行情".format(len(df)))
                     count = 0
                     for i, r in df.iterrows():
                         count += 1
-                        print('\r' + str(count) + '/' + str(len(df)), end='', flush=True)
+                        print('\r' + str(count) + '/' + str(len(df)), end=' ', flush=True)
                         data = self.pro.fut_daily(ts_code=r['ts_code'])
                         data.to_sql(r['fut_code'].upper(), self.conn, index=True, if_exists='replace')
-                else:
-                    data = self.pro.fut_daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
-                    data.to_sql(ts_code[:2].upper(), self.conn, index=True, if_exists='append')
+            else:
+                data = self.pro.fut_daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
+                data.to_sql(ts_code[:2].upper(), self.conn, index=True, if_exists='append')
         except:
             logger.error("to_sql ERROR")
         logger.info('-- 拉取历史行情结束(HisQuotes) --')
@@ -132,7 +132,7 @@ class HisQuotes(Base):
         data = self.sqlData(ts_code, start, end)
 
         if 0 == len(data):
-            logger.info("库中没有一条数据")
+            logger.info("本地数据")
             pull = self.pull(start_date=start, end_date=end, ts_code=ts_code)
             return pull
 
@@ -141,7 +141,7 @@ class HisQuotes(Base):
 
         # 库中不存在完整数据
         if len(data) != len(tradecal):
-            logger.info("库中数据不完整")
+            logger.info("本地数据不完整")
             # 删除该库中所有该时间段的数据，并重新拉取tushare并append表
             self.deleteData(ts_code, start, end)
             data = self.pull(start, end, ts_code)
