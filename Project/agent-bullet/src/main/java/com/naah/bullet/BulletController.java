@@ -75,7 +75,7 @@ public class BulletController {
         String json=JSON.toJSONString(req);//关键
         System.out.println(json);
         template.convertAndSend("/toAll/DoubleMABackTester", json);
-        return "yes";
+        return "success";
     }
 
     //数据挖掘课程demo
