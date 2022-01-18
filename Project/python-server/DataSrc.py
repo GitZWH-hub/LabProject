@@ -48,7 +48,7 @@ class Futures(Base):
         return self
 
     def pull_data(self):
-        logging.info('-- 开始拉取合约信息(Future) --')
+        print('-- 开始拉取合约信息(Future) --')
         data = self.pro.fut_basic(exchange=self.exchange)
         try:  # index:是否插入索引，默认插入   if_exists:replace、append、fail
             data.to_sql(self.TABLENAME, self.conn, index=True, if_exists='replace')
