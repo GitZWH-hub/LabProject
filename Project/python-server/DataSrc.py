@@ -210,8 +210,7 @@ class HisQuotes(Base):
                 + ts_code.upper() + "' and trade_date between '" + start + "' and '" + end + "'",
                 self.conn)
         except:
-            # log.info("ERROR")
-            pass
+            logger.error("to sql ERROR")
         return data
 
     def deleteData(self, ts_code, start, end):
@@ -222,8 +221,7 @@ class HisQuotes(Base):
             pd.read_sql_query("delete from " + fut + " where ts_code = '" + ts_code.upper() +
                               "' and trade_date between '" + start + "' and '" + end + "'", self.conn)
         except:
-            # log.info("ERROR")
-            pass
+            logger.info("to sql ERROR")
 
 
 '''
@@ -296,8 +294,7 @@ class TradePara(object):
             data = pd.DataFrame(real)
             data.to_sql(self.TABLENAME, self.conn, index=True, if_exists='replace')
         except:
-            pass
-            # log.error("sql error")
+            logger.error("sql error")
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.conn.close()
