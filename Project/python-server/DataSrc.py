@@ -147,7 +147,7 @@ class HisQuotes(Base):
             data = self.pull(start, end, ts_code)
 
         # 需要对data按日期拍下序
-        data = data.sort_values(by="trade_date")    # 排序ascending=True)
+        data = data.sort_values(by="trade_date", ascending=True)
         # 添加两列，MAS：短期均线值，MAL长期均线值
         # 这里当天的五日均线，包含了当天的结算价（后续需要确定五日均线是否是包含当日，按理说应该是包含的，结算价就是当日的平均价）
         data['MAS'] = round(data.close.rolling(5, min_periods=1).mean(), 2)
