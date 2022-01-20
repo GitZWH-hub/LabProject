@@ -24,6 +24,17 @@ def formatDate(date):
     return date.replace('-', '')
 
 
+# 8001: 获取交易所下所有期货代码
+@app.route("/8001/<exchange>", methods=["GET", "POST"])
+def getFuture(exchange):
+    data = []
+    for key in FutMapExchange:
+        if FutureWarning[key][0] == exchange:
+            data.append([key, FutureWarning[key][1]])
+
+    return Response(json.dumps(data.to_json(orient='records')), mimetype='application/json')
+
+
 # 8002: pull data from tushare
 @app.route("/8002/<type>/<exchange>/<start>/<end>", methods=["GET", "POST"])
 def pullData(type, exchange, start, end):
