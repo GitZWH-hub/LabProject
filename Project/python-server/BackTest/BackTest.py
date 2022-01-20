@@ -9,7 +9,7 @@ import json
 import random
 import time
 from datetime import datetime
-
+from FutMapExchange import FutMapExchange
 import pandas as pd
 import requests
 
@@ -139,7 +139,8 @@ class BackTester(object):
         """
         self.send_info("开始加载历史数据")
         time.sleep(1)
-        with HisQuotes() as hq:
+        exchange = FutMapExchange.get(self.ts_code[:2].upper())[0]
+        with HisQuotes(exchange) as hq:
             self.backtest_data = hq.getData(ts_code=self.ts_code, start=self.start_date, end=self.end_date)
         self.send_info("历史数据加载完成")
 
