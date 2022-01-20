@@ -13,16 +13,13 @@ public class UserController {
     private RestTemplate restTemplate;
 
     /*
-    * 8001：查询K线图数据
+    * 8001：查询交易所下所有期货代码
     * */
     @PostMapping("/Req8001")
     public String getKData(@RequestBody Req8001 req){
         System.out.println(req);
         return restTemplate.getForEntity("http://sidecar/8001"
-                + "/" + req.getFut()
-                + "/" + req.getFutEnd()
-                + "/" + req.getStart()
-                + "/" + req.getEnd(), String.class).getBody();
+                + "/" + req.getExchange(), String.class).getBody();
     }
     /*
     * 8002: 拉取数据
