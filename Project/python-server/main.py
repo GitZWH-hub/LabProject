@@ -30,7 +30,7 @@ def getFuture(exchange):
     data = []
     for key in FutMapExchange:
         if FutMapExchange.get(key)[0] == exchange:
-            data.append([key, FutMapExchange.get(key)[1]])
+            data.append([key, FutMapExchange.get(key)[0], FutMapExchange.get(key)[1]])
 # .to_json(orient='records')
     return Response(json.dumps(data), mimetype='application/json')
 
