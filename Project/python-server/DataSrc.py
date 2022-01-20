@@ -14,25 +14,17 @@ Created on Sept 27, 2021    @Author: zwh
 
 
 class Base(object):
-    def __init__(self):
-        self.conn = None
+    def __init__(self, exchange):
         self.token = 'f0d2ecb5970c108c5959d1b445fb99e55690038748029204c0df86ec'
         self.pro = ts.pro_api(self.token)
-        self.exchange = 'SHFE'
-        self.DBNAME = 'DB_SHFE'
+        self.exchange = exchange
+        self.DBNAME = 'DB_' + exchange
 
     def __enter__(self):
         self.conn = sql3.connect(self.DBNAME)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.conn.close()
-
-    def setExchange(self, exchange):
-        self.exchange = exchange
-        self.DBNAME = 'DB_' + exchange
-        logger.info("连接数据库{}".format(self.DBNAME))
-        self.conn.close()
-        self.conn = sql3.connect(self.DBNAME)
 
 
 '''
@@ -106,14 +98,12 @@ class HisQuotes(Base):
         self.TABLENAME = 'HisQuotes'
         return self
 
-    def pull(self, start_date, end_date, ts_code=None):
+    def pull(self, start_date, end_date, exchange, ts_code=None):
         logger.info('-- 开始拉取历史行情(HisQuotes) --')
         data = []
         try:
             if ts_code is None:
-                with Futures() as future:
-                    print(future.DBNAME)
-                    print(future.conn)
+                with Futures(exchange) as future:
                     # 查询期货合约信息表,查询时间区间内的所有合约代码，全拉下来
                     df = future.get_ts_code_by_date(start_date, end_date)
                     logger.info("正在拉取{}个合约的历史行情".format(len(df)))
