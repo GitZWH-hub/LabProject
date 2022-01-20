@@ -31,7 +31,7 @@ FutMapExchange = {
     "M": ["DCE", "豆粕"],
     "P": ["DCE", "棕榈油"],
     "PP": ["DCE", "聚丙烯"],
-    "V": ["DCE", "PVC聚氯乙烯"],
+    "V": ["DCE", "聚氯乙烯"],
     "Y": ["DCE", "豆油"],
 
     "AP": ["CZCE", "苹果"],
@@ -50,7 +50,7 @@ FutMapExchange = {
     "RI": ["CZCE", "早籼稻"],
     "SF": ["CZCE", "硅铁"],
     "SM": ["CZCE", "锰硅"],
-    "TA": ["CZCE", "PTA精对苯二甲酸"],    # 生产聚酯纤维
+    "TA": ["CZCE", "精对苯二甲酸"],    # 生产聚酯纤维
     "WH": ["CZCE", "强麦"],
     "ZC": ["CZCE", "动力煤"]
 }
