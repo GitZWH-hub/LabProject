@@ -29,8 +29,8 @@ def formatDate(date):
 def getFuture(exchange):
     data = []
     for key in FutMapExchange:
-        if FutureWarning.get(key)[0] == exchange:
-            data.append([key, FutureWarning.get(key)[1]])
+        if FutMapExchange.get(key)[0] == exchange:
+            data.append([key, FutMapExchange.get(key)[1]])
 
     return Response(json.dumps(data.to_json(orient='records')), mimetype='application/json')
 
