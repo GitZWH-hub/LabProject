@@ -7,7 +7,7 @@ from flask import Flask, Response
 from BackTest.BackTest import BackTester
 from BackTest.DoubleMovingAverage import DoubleMovingAverage
 from BackTest.ARIMA import ARIMAStrategy
-
+from FutMapExchange import FutMapExchange
 
 app = Flask(__name__)
 plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']  # 用来正常显示中文标签
@@ -60,7 +60,9 @@ def getKData(fut, start, end):
     start = formatDate(start)
     end = formatDate(end)
 
-    with HisQuotes() as hq:
+    # 自动获取fut所在的交易所
+    exchange = FutMapExchange.get(fut[:2].upper())[0]
+    with HisQuotes(exchange) as hq:
         data = hq.getData(ts_code=fut, start=start, end=end)
 
     return Response(json.dumps(data.to_json(orient='records')), mimetype='application/json')
