@@ -31,6 +31,7 @@ class Base(object):
         self.exchange = exchange
         self.DBNAME = 'DB_' + exchange
         logger.info("连接数据库{}".format(self.DBNAME))
+        self.conn.close()
         self.conn = sql3.connect(self.DBNAME)
 
 
