@@ -32,8 +32,8 @@ def pullData(type, exchange, start, end):
 
     # 期货合约信息
     if type == '1':
-        with Futures() as fut:
-            fut.setExchange(exchange=exchange)
+        with Futures(exchange) as fut:
+            # fut.setExchange(exchange=exchange)
             fut.pull()
         return rsp
 
@@ -42,17 +42,18 @@ def pullData(type, exchange, start, end):
     # 交易日历
     if type == '2':
         with TradeCal() as tc:
-            tc.setExchange(exchange=exchange)
+            # tc.setExchange(exchange=exchange)
             tc.pull(start_date=start, end_date=end)
     # 历史行情
     elif type == '3':
         with HisQuotes() as hq:
-            hq.setExchange(exchange=exchange)
-            hq.pull(start_date=start, end_date=end)
+
+            # hq.setExchange(exchange=exchange)
+            hq.pull(start_date=start, end_date=end, exchange=exchange)
     # 结算参数
     elif type == '4':
         with FutSettle() as fs:
-            fs.setExchange(exchange=exchange)
+            # fs.setExchange(exchange=exchange)
             fs.pull(start_date=start, end_date=end)
 
     return rsp
