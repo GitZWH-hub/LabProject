@@ -30,6 +30,7 @@ class Base(object):
     def setExchange(self, exchange):
         self.exchange = exchange
         self.DBNAME = 'DB_' + exchange
+        logger.info("连接数据库", self.DBNAME)
         self.conn = sql3.connect(self.DBNAME)
 
 
@@ -57,6 +58,7 @@ class Futures(Base):
     def get_ts_code_by_date(self, start_year, end_year):
         ts_codes = pd.read_sql_query("select ts_code, fut_code from " + self.TABLENAME + " where last_ddate between '" +
                                      start_year + "' and '" + end_year + "'", self.conn)
+        print(ts_codes.head())
         return ts_codes
 
 
