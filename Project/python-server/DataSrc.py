@@ -135,7 +135,7 @@ class HisQuotes(Base):
             pull = self.pull(start_date=start, end_date=end, ts_code=ts_code)
             return pull
 
-        with TradeCal() as tc:
+        with TradeCal(self.exchange) as tc:
             tradecal = tc.getTradeDay(start=start, end=end)
 
         # 库中不存在完整数据
