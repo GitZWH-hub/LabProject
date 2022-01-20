@@ -30,7 +30,7 @@ class Base(object):
     def setExchange(self, exchange):
         self.exchange = exchange
         self.DBNAME = 'DB_' + exchange
-        logger.info("连接数据库", self.DBNAME)
+        logger.info("连接数据库{}".format(self.DBNAME))
         self.conn = sql3.connect(self.DBNAME)
 
 
