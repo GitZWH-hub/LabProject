@@ -112,6 +112,8 @@ class HisQuotes(Base):
         try:
             if ts_code is None:
                 with Futures() as future:
+                    print(future.DBNAME)
+                    print(future.conn)
                     # 查询期货合约信息表,查询时间区间内的所有合约代码，全拉下来
                     df = future.get_ts_code_by_date(start_date, end_date)
                     logger.info("正在拉取{}个合约的历史行情".format(len(df)))
