@@ -98,12 +98,12 @@ class HisQuotes(Base):
         self.TABLENAME = 'HisQuotes'
         return self
 
-    def pull(self, start_date, end_date, exchange, ts_code=None):
+    def pull(self, start_date, end_date, ts_code=None):
         logger.info('-- 开始拉取历史行情(HisQuotes) --')
         data = []
         try:
             if ts_code is None:
-                with Futures(exchange) as future:
+                with Futures(self.exchange) as future:
                     # 查询期货合约信息表,查询时间区间内的所有合约代码，全拉下来
                     df = future.get_ts_code_by_date(start_date, end_date)
                     logger.info("正在拉取{}个合约的历史行情".format(len(df)))

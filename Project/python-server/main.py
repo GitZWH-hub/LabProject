@@ -45,7 +45,7 @@ def pullData(type, exchange, start, end):
     # 历史行情
     elif type == '3':
         with HisQuotes(exchange) as hq:
-            hq.pull(start_date=start, end_date=end, exchange=exchange)
+            hq.pull(start_date=start, end_date=end)
     # 结算参数
     elif type == '4':
         with FutSettle(exchange) as fs:
