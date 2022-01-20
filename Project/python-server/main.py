@@ -31,8 +31,8 @@ def getFuture(exchange):
     for key in FutMapExchange:
         if FutMapExchange.get(key)[0] == exchange:
             data.append([key, FutMapExchange.get(key)[1]])
-
-    return Response(json.dumps(data.to_json(orient='records')), mimetype='application/json')
+# .to_json(orient='records')
+    return Response(json.dumps(data), mimetype='application/json')
 
 
 # 8002: pull data from tushare
