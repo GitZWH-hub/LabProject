@@ -61,8 +61,10 @@ def getKData(fut, start, end):
     end = formatDate(end)
 
     # 自动获取fut所在的交易所
+    print(fut[2].upper())
     if fut[2].upper() not in FutMapExchange:
-        return "合约不存在，请重新填写"
+        res = {"fail": "合约不存在，请重新填写"}
+        return Response(json.dumps(res.to_json(orient='records')), mimetype='application/json')
     exchange = FutMapExchange.get(fut[:2].upper())[0]
 
     with HisQuotes(exchange) as hq:
