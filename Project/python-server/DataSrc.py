@@ -15,6 +15,7 @@ Created on Sept 27, 2021    @Author: zwh
 
 class Base(object):
     def __init__(self):
+        self.conn = None
         self.token = 'f0d2ecb5970c108c5959d1b445fb99e55690038748029204c0df86ec'
         self.pro = ts.pro_api(self.token)
         self.exchange = 'SHFE'
@@ -29,6 +30,7 @@ class Base(object):
     def setExchange(self, exchange):
         self.exchange = exchange
         self.DBNAME = 'DB_' + exchange
+        self.conn = sql3.connect(self.DBNAME)
 
 
 '''
