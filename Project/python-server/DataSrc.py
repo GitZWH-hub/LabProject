@@ -114,7 +114,10 @@ class HisQuotes(Base):
                         count += 1
                         print('\r' + str(count) + '/' + str(len(df)), end=' ', flush=True)
                         data = self.pro.fut_daily(ts_code=r['ts_code'])
-                        data.to_sql(r['fut_code'].upper(), self.conn, index=True, if_exists='replace')
+                        if count == 1:
+                            data.to_sql(r['fut_code'].upper(), self.conn, index=True, if_exists='replace')
+                        else:
+                            data.to_sql(r['fut_code'].upper(), self.conn, index=True, if_exists='append')
             else:
                 data = self.pro.fut_daily(ts_code=ts_code, start_date=start_date, end_date=end_date)
                 data.to_sql(ts_code[:2].upper(), self.conn, index=True, if_exists='append')
