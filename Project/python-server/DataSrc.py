@@ -18,7 +18,7 @@ class Base(object):
         self.token = 'f0d2ecb5970c108c5959d1b445fb99e55690038748029204c0df86ec'
         self.pro = ts.pro_api(self.token)
         self.exchange = 'SHFE'
-        self.DBNAME = 'DBData'
+        self.DBNAME = 'DB_SHFE'
 
     def __enter__(self):
         self.conn = sql3.connect(self.DBNAME)
@@ -28,6 +28,7 @@ class Base(object):
 
     def setExchange(self, exchange):
         self.exchange = exchange
+        self.DBNAME = 'DB_' + exchange
 
 
 '''
