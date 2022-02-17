@@ -76,7 +76,8 @@ class DoubleMovingAverage(BaseStrategy):
                     self.closeLong(order_price, pos_long)
                 else:
                     self.closeShort(order_price, pos_short)
-
+        # 再查询持仓
+        pos_long, pos_short = self.broker.select_posList()
         # 短均线上穿长均线，做多（即当前时间点短均线处于长均线上方，前一时间点短均线处于长均线下方）
         if short_avg.iloc[-2] < long_avg.iloc[-2] and short_avg.iloc[-1] >= long_avg.iloc[-1]:
             # 无空仓情况下，直接开多
