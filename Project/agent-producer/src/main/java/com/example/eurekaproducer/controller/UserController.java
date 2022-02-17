@@ -1,4 +1,5 @@
 package com.example.eurekaproducer.controller;
+import com.example.eurekaproducer.request.Req8008;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -29,6 +30,13 @@ public class UserController {
         return restTemplate.getForEntity("http://sidecar/8002"
                 + "/" + req.getType()
                 + "/" + req.getExchange()
+                + "/" + req.getStart()
+                + "/" + req.getEnd(), String.class).getBody();
+    }
+    @PostMapping("/Req8008")
+    public String BackTestPull(@RequestBody Req8008 req) {
+        return restTemplate.getForEntity("http://sidecar/8008"
+                + "/" + req.getFut()
                 + "/" + req.getStart()
                 + "/" + req.getEnd(), String.class).getBody();
     }
