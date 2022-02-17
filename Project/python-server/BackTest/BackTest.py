@@ -475,6 +475,7 @@ class BackTester(object):
                 self.cash -= trade.price * trade.volume
             else:
                 self.cash += trade.price * trade.volume
+        print(" 现金cash: {}".format(self.cash))
 
     def optimize_strategy(self, **kwargs):
         """
