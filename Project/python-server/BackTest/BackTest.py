@@ -1,6 +1,8 @@
 """
-created by ZWH 2021-11-01
-回测模块
+  created by ZWH 2021-11-01
+  回测模块
+回测逻辑：
+简化实际场景中的报单成交逻辑，直接根据推送的行情（不同的策略判断）是否直接买入成交（开仓位）或卖出成交（平仓位）
 """
 
 import collections
@@ -43,37 +45,47 @@ def get_now():
     return datetime.strftime(datetime.now(), "%H:%M:%S")
 
 
-class Order(object):
-    """
-    报单
-    """
-    def __init__(self, order_no, price, volume, operation, direction):
-        super(Order, self).__init__()
-        self.order_no = order_no
-        self.price = price
-        self.volume = volume
-        self.operation = operation
-        self.direction = direction
-
-    def __str__(self):
-        return f"{self.order_no} {self.price} {self.volume} {self.direction} {self.operation}"
+# class Order(object):
+#     """
+#     报单
+#     """
+#     def __init__(self, order_no, price, volume, operation, direction):
+#         super(Order, self).__init__()
+#         self.order_no = order_no
+#         self.price = price
+#         self.volume = volume
+#         self.operation = operation
+#         self.direction = direction
+#
+#     def __str__(self):
+#         return f"{self.order_no} {self.price} {self.volume} {self.direction} {self.operation}"
 
 
 class Match(object):
     """
-    成交单
+    成交单记录（永久存在，用于计算用户盈亏）
     """
-    def __init__(self, order_no, match_no, price, volume, operation, direction):
+    def __init__(self, price, volume, operation, direction):
         super(Match, self).__init__()
-        self.order_no = order_no
-        self.match_no = match_no
+        # self.order_no = order_no
+        # self.match_no = match_no
         self.price = price
         self.volume = volume
         self.operation = operation
         self.direction = direction
 
     def __str__(self):
-        return f"{self.order_no} {self.match_no} {self.price} {self.volume} {self.direction} {self.operation}"
+        # return f"{self.order_no} {self.match_no} {self.price} {self.volume} {self.direction} {self.operation}"
+        return f"{self.match_no} {self.price} {self.volume} {self.direction} {self.operation}"
+
+
+class Posi(object):
+    """
+    仓位记录（动态更新当前仓位数量（增删））
+    """
+    def __init__(self):
+        self.longVol = 0    # 多仓数量
+        self.shortVol = 0   # 空仓数量
 
 
 class BackTester(object):
@@ -104,12 +116,15 @@ class BackTester(object):
         self.min_margin_rate = 0.15
         # 成交单记录
         self.trades = []
-        # 报单列表dataframe
-        self.active_orders = []
-        # 持多仓数量
-        self.pos_long = 0
-        # 持空仓数量
-        self.pos_short = 0
+        # # 报单列表dataframe
+        # self.active_orders = []
+        # # 持多仓数量
+        # self.pos_long = 0
+        # # 持空仓数量
+        # self.pos_short = 0
+        """"""
+        # 持仓情况记录
+        self.pos = Posi()
         # 回测的数据 dataframe格式
         self.backtest_data = None
         # 是否运行策略优化的方法
@@ -222,83 +237,139 @@ class BackTester(object):
         """
         self.commission = commission
 
-    '''
-    不需要计算报单手续费，正常情况下：报单，冻结手续费，如果撤单或成交需要解冻手续费
-    这里只需要在成交时计算成交手续费并扣除即可
-    '''
-    def buy(self, price, volume):
-        """
-        开多仓报单
-        :param price: 报单价格
-        :param volume: 报单手数
-        :return:
-        """
-        print(f"开多仓下单: {volume}@{price}")
-        order = Order(self.generate_orderNo(), price, volume, OPEN, LONG)
-        self.active_orders.append(order)
+    """
+    Date：2022-02-17
+    将模拟策略逻辑做简化，不区分报单和成交！这里简化为直接将price作为成交价格成交 
+    则交易所角色不需要撮合成交的功能
+    并记录成交单（成交单永久存储）和当前持仓（随着开平仓动态增删持仓）
+    """
+    # '''
+    # 不需要计算报单手续费，正常情况下：报单，冻结手续费，如果撤单或成交需要解冻手续费
+    # 这里只需要在成交时计算成交手续费并扣除即可
+    # '''
+    # def buy(self, price, volume):
+    #     """
+    #     开多仓报单
+    #     :param price: 报单价格
+    #     :param volume: 报单手数
+    #     :return:
+    #     """
+    #     print(f"开多仓下单: {volume}@{price}")
+    #     order = Order(self.generate_orderNo(), price, volume, OPEN, LONG)
+    #     self.active_orders.append(order)
+    #
+    # def sell(self, price, volume):
+    #     """
+    #     平多仓下单
+    #     平仓报单的价格要看之前开仓成交的成交价：
+    #     如开多仓成交的成交价是70000，则如果要赚钱的话，平仓报单的价格应该要大于70000；所以这里可能要查看成交信息确定自己的报单价格。
+    #     还有报单手数怎么确定？
+    #     :param price: 报单价格
+    #     :param volume: 报单手数
+    #     :return:
+    #     """
+    #     print(f"平多仓下单: {volume}@{price}")  #
+    #     order = Order(self.generate_orderNo(), price, volume, CLOSE, LONG)
+    #     self.active_orders.append(order)
+    #
+    # def short(self, price, volume):
+    #     """
+    #     开空仓下单
+    #     :param price: 报单价格
+    #     :param volume: 报单手数
+    #     :return:
+    #     """
+    #     print(f"开空仓下单: {volume}@{price}")
+    #     order = Order(self.generate_orderNo(), price, volume, OPEN, SHORT)
+    #     self.active_orders.append(order)
+    #
+    # def cover(self, price, volume):
+    #     """
+    #     平空仓下单
+    #     平仓报单的价格要看之前开仓成交的成交价：
+    #     如开多仓成交的成交价是70000，则如果要赚钱的话，平仓报单的价格应该要大于70000；所以这里可能要查看成交信息确定自己的报单价格。
+    #     :param price: 报单价格
+    #     :param volume: 报单手数
+    #     :return:
+    #     """
+    #     print(f"平空仓下单: {volume}@{price}")
+    #     order = Order(self.generate_orderNo(), price, volume, CLOSE, SHORT)
+    #     self.active_orders.append(order)
 
-    def sell(self, price, volume):
+    def openLong(self, price, volume):
         """
-        平多仓下单
-        平仓报单的价格要看之前开仓成交的成交价：
-        如开多仓成交的成交价是70000，则如果要赚钱的话，平仓报单的价格应该要大于70000；所以这里可能要查看成交信息确定自己的报单价格。
-        还有报单手数怎么确定？
-        :param price: 报单价格
-        :param volume: 报单手数
+        2022-02-17
+        开多仓成交，记录成交单
+        :param price: 成交价格
+        :param volume: 成交手数
         :return:
         """
-        print(f"平多仓下单: {volume}@{price}")  #
-        order = Order(self.generate_orderNo(), price, volume, CLOSE, LONG)
-        self.active_orders.append(order)
+        match = Match(price, volume, OPEN, LONG)
+        # 记录成交单
+        self.trades.append(match)
+        # 更新仓位
+        self.pos.longVol += volume
 
-    def short(self, price, volume):
+    def openShort(self, price, volume):
         """
-        开空仓下单
-        :param price: 报单价格
-        :param volume: 报单手数
+        2022-02-17
+        开空仓成交
+        :param price:
+        :param volume:
         :return:
         """
-        print(f"开空仓下单: {volume}@{price}")
-        order = Order(self.generate_orderNo(), price, volume, OPEN, SHORT)
-        self.active_orders.append(order)
+        match = Match(price, volume, OPEN, SHORT)
+        self.trades.append(match)
+        self.pos.shortVol += volume
 
-    def cover(self, price, volume):
+    def closeLong(self, price, volume):
         """
-        平空仓下单
-        平仓报单的价格要看之前开仓成交的成交价：
-        如开多仓成交的成交价是70000，则如果要赚钱的话，平仓报单的价格应该要大于70000；所以这里可能要查看成交信息确定自己的报单价格。
-        :param price: 报单价格
-        :param volume: 报单手数
+        2022-02-17
+        平多仓成交
+        :param price:
+        :param volume:
         :return:
         """
-        print(f"平空仓下单: {volume}@{price}")
-        order = Order(self.generate_orderNo(), price, volume, CLOSE, SHORT)
-        self.active_orders.append(order)
+        match = Match(price, volume, CLOSE, LONG)
+        self.trades.append(match)
+        self.pos.longVol -= volume
+
+    def closeShort(self, price, volume):
+        """
+        2022-02-17
+        平空仓成交
+        :param price:
+        :param volume:
+        :return:
+        """
+        match = Match(price, volume, CLOSE, SHORT)
+        self.trades.append(match)
+        self.pos.shortVol -= volume
 
     def select_posList(self):
         """
         返回多仓和空仓仓位数量
         :return: 多仓仓位量、空仓仓位量
         """
-        return self.pos_long, self.pos_short
+        return self.pos.longVol, self.pos.shortVol
 
-    def generate_orderNo(self):
-        """
-        生成报单号。报单号：'O' + 13位豪秒级时间戳 + 2位随机数
-        :return: 返回报单号
-        """
-        now = str(int(round(time.time() * 1000)))
-        order_no = "O" + now + str(random.randint(10, 99))
-        return order_no
+    # def generate_orderNo(self):
+    #     """
+    #     生成报单号。报单号：'O' + 13位豪秒级时间戳 + 2位随机数
+    #     :return: 返回报单号
+    #     """
+    #     now = str(int(round(time.time() * 1000)))
+    #     order_no = "O" + now + str(random.randint(10, 99))
+    #     return order_no
 
-    def generate_matchNo(self):
-        """
-        生成成交单号。成交单号：'M' + 13位豪秒级时间戳 + 2位随机数
-        :return: 返回成交单号
-        """
-        now = str(int(round(time.time() * 1000)))
-        match_no = "M" + now + str(random.randint(10, 99))
-        return match_no
+    # def generate_matchNo(self):
+    #     """
+    #     生成成交单号。成交单号：'M' + 13位豪秒级时间戳 + 2位随机数
+    #     :return: 返回成交单号
+    #     """
+    #     now = str(int(round(time.time() * 1000)))
+    #     match_no = "M" + now + str(random.randint(10, 99))
+    #     return match_no
 
     def set_strategy_instance(self, strategy_instance):
         """
@@ -321,8 +392,9 @@ class BackTester(object):
             can = [[candle['trade_date'], float(candle['open']), float(candle['close']),
                     float(candle['high']), float(candle['low']), float(candle['vol'])]]
             bar = pd.DataFrame(can, columns=['trade_date', 'open', 'close', 'high', 'low', 'volume'])
-            # self.check_order(bar)                       # 检查该行情bar是否满足成交条件
-            self.strategy_instance.on_bar(bar)          # 给到策略（用户）
+            # 这里模拟交易所的撮合成交(检查该行情bar是否满足成交条件)，简化后删除该功能
+            # self.check_order(bar)
+            self.strategy_instance.on_bar(bar)          # 将bar给到策略（用户）
             # 打印相关信息
             self.print_allInfo()
 
@@ -347,54 +419,54 @@ class BackTester(object):
         print("当前空仓仓位: {}".format(self.pos_short))
         print("当前现金cash: {}".format(self.cash))
 
-    def check_order(self, bar):
-        """
-        模拟交易所的撮合成交（根据当前这笔行情bar，判断用户已报的单子是否满足成交条件。如果满足，则成交；不满足，跳出）
-        :param bar:
-        :return:
-        """
-        # 当前这比行情的价格
-        for order in self.active_orders:
-            price = bar.close.iloc[0]
-            # 成交单
-            match = None
-            """
-            【这里撮合成交的价格仍有待考虑和修改，目前就以报单价格成交】
-            【实际上的成交价依据前一笔成交价而定出最新成交价】如果前一笔成交价低于或等于卖出价，则最新成交价就是卖出价；
-                                                      如果前一笔成交价高于或等于买入价，则最新成交价就是买入价；
-                                                      如果前一笔成交价在卖出价与买入价之间，则最新成交价就是前一笔的成交价。
-            """
-            if order.operation == OPEN:
-                if order.direction == LONG and price <= order.price:    # 开多仓
-                    print("开多仓报单成交")
-                    # （1）报单记录去掉该单子（2）持仓数+volume（3）trades成交单+1（4）处理cash，cash-=成交价格*成交量
-                    self.cash -= order.price * order.volume
-                    # 生成成交单
-                    match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
-                    # 仓位数增加
-                    self.pos_long += order.volume
-                if order.direction == SHORT and price >= order.price:   # 开空仓
-                    print("开空仓报单成交")
-                    self.cash += order.price * order.volume
-                    match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
-                    self.pos_short += order.volume
-            else:
-                if order.direction == LONG and price >= order.price:    # 平多仓
-                    print("平多仓报单成交")
-                    self.cash += order.price * order.volume
-                    match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
-                    # 平多仓成交，需要将多仓remove掉该仓位, 根据报单号删除这个成交仓位
-                    self.pos_long -= order.volume
-                if order.direction == SHORT and price <= order.price:   # 平空仓
-                    print("平空仓报单成交")
-                    self.cash -= order.price * order.volume
-                    match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
-                    self.pos_short -= order.volume
-            # 如果成交了，报单记录需要remove掉
-            if match is not None:
-                self.active_orders.remove(order)
-                # 成交单都是要push进来
-                self.trades.append(match)
+    # def check_order(self, bar):
+    #     """
+    #     模拟交易所的撮合成交（根据当前这笔行情bar，判断用户已报的单子是否满足成交条件。如果满足，则成交；不满足，跳出）
+    #     :param bar:
+    #     :return:
+    #     """
+    #     # 当前这比行情的价格
+    #     for order in self.active_orders:
+    #         price = bar.close.iloc[0]
+    #         # 成交单
+    #         match = None
+    #         """
+    #         【这里撮合成交的价格仍有待考虑和修改，目前就以报单价格成交】
+    #         【实际上的成交价依据前一笔成交价而定出最新成交价】如果前一笔成交价低于或等于卖出价，则最新成交价就是卖出价；
+    #                                                   如果前一笔成交价高于或等于买入价，则最新成交价就是买入价；
+    #                                                   如果前一笔成交价在卖出价与买入价之间，则最新成交价就是前一笔的成交价。
+    #         """
+    #         if order.operation == OPEN:
+    #             if order.direction == LONG and price <= order.price:    # 开多仓
+    #                 print("开多仓报单成交")
+    #                 # （1）报单记录去掉该单子（2）持仓数+volume（3）trades成交单+1（4）处理cash，cash-=成交价格*成交量
+    #                 self.cash -= order.price * order.volume
+    #                 # 生成成交单
+    #                 match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
+    #                 # 仓位数增加
+    #                 self.pos_long += order.volume
+    #             if order.direction == SHORT and price >= order.price:   # 开空仓
+    #                 print("开空仓报单成交")
+    #                 self.cash += order.price * order.volume
+    #                 match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
+    #                 self.pos_short += order.volume
+    #         else:
+    #             if order.direction == LONG and price >= order.price:    # 平多仓
+    #                 print("平多仓报单成交")
+    #                 self.cash += order.price * order.volume
+    #                 match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
+    #                 # 平多仓成交，需要将多仓remove掉该仓位, 根据报单号删除这个成交仓位
+    #                 self.pos_long -= order.volume
+    #             if order.direction == SHORT and price <= order.price:   # 平空仓
+    #                 print("平空仓报单成交")
+    #                 self.cash -= order.price * order.volume
+    #                 match = Match(order.order_no, self.generate_matchNo(), order.price, order.volume, order.operation, order.direction)
+    #                 self.pos_short -= order.volume
+    #         # 如果成交了，报单记录需要remove掉
+    #         if match is not None:
+    #             self.active_orders.remove(order)
+    #             # 成交单都是要push进来
+    #             self.trades.append(match)
 
     def calculate(self):
         """

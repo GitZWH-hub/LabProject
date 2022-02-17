@@ -68,20 +68,20 @@ class DoubleMovingAverage(BaseStrategy):
             # 无空仓情况下，直接开多
             if not pos_short:
                 print("无空仓，直接开多仓")
-                self.buy(price=order_price, volume=1)
+                self.openLong(price=order_price, volume=1)
             # 有空仓的情况下，先平空，再开多(开多命令放在on_order_status里面)
             else:
                 print("有空仓，先平空仓")
                 # 以市价平空仓
-                self.cover(price=order_price, volume=1)
+                self.closeShort(price=order_price, volume=1)
         # 短均线下穿长均线，做空(即当前时间点短均线处于长均线下方，前一时间点短均线处于长均线上方)
         if long_avg.iloc[-2] < short_avg.iloc[-2] and long_avg.iloc[-1] >= short_avg.iloc[-1]:
             # 无多仓持仓情况下，直接开空
             if not pos_long:
                 print("无多仓，直接开空")
-                self.short(price=order_price, volume=1)
+                self.openShort(price=order_price, volume=1)
             # 有多仓情况下，先平多，再开空(开空命令放在on_order_status里面)
             else:
                 print("有多仓，平多仓")
                 # 以市价平多仓
-                self.sell(price=order_price, volume=1)
+                self.closeLong(price=order_price, volume=1)

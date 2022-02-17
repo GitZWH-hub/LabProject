@@ -82,17 +82,17 @@ class ARIMAStrategy(BaseStrategy):
             if not pos_short:  # 没有空仓的话，就可以现在买了
                 print('无空仓，可开多')
                 # 这里有个问题是，应该报几手，暂时报一手单子
-                self.buy(price=bar.close, volume=1)
+                self.openLong(price=bar.close, volume=1)
             else:  # 有空仓的话，需要将现在的空仓平掉，防止明天涨价后平仓的话亏本儿
                 print('有空仓，平空仓')
                 # 统计当前空仓仓位
-                self.cover(price=bar.close, volume=pos_short)   # 这里应该要更改，是拿现在所有的仓位手数平
+                self.closeShort(price=bar.close, volume=pos_short)   # 这里应该要更改，是拿现在所有的仓位手数平
 
         if bar.close < pre_price:  # 如果预测第二天要跌
             # 判断有无持多仓
             if not pos_long:
                 print('无多仓，可开空')
-                self.short(price=bar.close, volume=1)
+                self.openShort(price=bar.close, volume=1)
             else:
                 print('有多仓，平多仓')
-                self.sell(price=bar.close, volume=pos_long)
+                self.closeLong(price=bar.close, volume=pos_long)

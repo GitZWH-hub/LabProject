@@ -31,38 +31,74 @@ class BaseStrategy(object):
     def on_bar(self, bar):
         raise NotImplementedError("请在子类中实现该方法")
 
-    def buy(self, price, volume):
+    # def buy(self, price, volume):
+    #     """
+    #     做多
+    #     :param price: 价格
+    #     :param volume: 数量
+    #     :return:
+    #     """
+    #     self.broker.buy(price, volume)
+    #
+    # def sell(self, price, volume):
+    #     """
+    #     平多
+    #     :param price: 价格
+    #     :param volume: 数量
+    #     :return:
+    #     """
+    #     self.broker.sell(price, volume)
+    #
+    # def short(self, price, volume):
+    #     """
+    #     做空
+    #     :param price: 价格
+    #     :param volume: 数量
+    #     :return:
+    #     """
+    #     self.broker.short(price, volume)
+    #
+    # def cover(self, price, volume):
+    #     """
+    #     平空
+    #     :param price: 价格
+    #     :param volume: 数量
+    #     :return:
+    #     """
+    #     self.broker.cover(price, volume)
+
+    def openLong(self, price, volume):
         """
         做多
         :param price: 价格
         :param volume: 数量
         :return:
         """
-        self.broker.buy(price, volume)
+        self.broker.openLong(price, volume)
 
-    def sell(self, price, volume):
+    def closeLong(self, price, volume):
         """
         平多
         :param price: 价格
         :param volume: 数量
         :return:
         """
-        self.broker.sell(price, volume)
+        self.broker.closeLong(price, volume)
 
-    def short(self, price, volume):
+    def openShort(self, price, volume):
         """
         做空
         :param price: 价格
         :param volume: 数量
         :return:
         """
-        self.broker.short(price, volume)
+        self.broker.openShort(price, volume)
 
-    def cover(self, price, volume):
+    def closeShort(self, price, volume):
         """
         平空
         :param price: 价格
         :param volume: 数量
         :return:
         """
-        self.broker.cover(price, volume)
+        self.broker.closeShort(price, volume)
