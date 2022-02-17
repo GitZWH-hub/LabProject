@@ -387,7 +387,9 @@ class BackTester(object):
         # 启动策略
         self.strategy_instance.on_start()
 
+        cash = self.cash
         for index, candle in self.backtest_data.iterrows():
+            self.cash = cash
             can = [[candle['trade_date'], float(candle['open']), float(candle['close']),
                     float(candle['high']), float(candle['low']), float(candle['vol'])]]
             bar = pd.DataFrame(can, columns=['trade_date', 'open', 'close', 'high', 'low', 'volume'])
@@ -396,7 +398,8 @@ class BackTester(object):
             self.strategy_instance.on_bar(bar)          # 将bar给到策略（用户）
             # 打印相关信息
             self.print_allInfo()
-
+            self.calculate()
+        self.cash = cash
         # 停止策略
         self.strategy_instance.on_stop()
         # 计算当前盈亏
