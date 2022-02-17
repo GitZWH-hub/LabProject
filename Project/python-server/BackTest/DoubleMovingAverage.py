@@ -1,5 +1,5 @@
 from BackTest.Strategy import BaseStrategy
-from BackTest import OPEN, LONG
+
 
 class DoubleMovingAverage(BaseStrategy):
     """
@@ -71,8 +71,8 @@ class DoubleMovingAverage(BaseStrategy):
         # 当前bar的价格，再获取最后一次成交单(且是open开仓，平仓跳过此步)的价格看是否合适。这里如果合适，直接平掉仓位；如果不合适，考虑是否要亏损成交
         last_trade = self.broker.get_latest_trade()
         if last_trade is not None:
-            if last_trade.operation == OPEN:
-                if last_trade.direction == LONG:
+            if last_trade.operation == 'OPEN':
+                if last_trade.direction == 'LONG':
                     self.closeLong(order_price, pos_long)
                 else:
                     self.closeShort(order_price, pos_short)
