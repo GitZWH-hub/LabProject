@@ -378,6 +378,8 @@ class BackTester(object):
         self.strategy_instance = strategy_instance
 
     def get_latest_trade(self):
+        if len(self.trades) == 0:
+            return None
         return self.trades[-1]
 
     def run(self):
