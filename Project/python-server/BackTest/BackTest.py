@@ -67,8 +67,6 @@ class Match(object):
     """
     def __init__(self, price, volume, operation, direction):
         super(Match, self).__init__()
-        # self.order_no = order_no
-        # self.match_no = match_no
         self.price = price
         self.volume = volume
         self.operation = operation
