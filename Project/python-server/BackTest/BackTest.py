@@ -399,8 +399,8 @@ class BackTester(object):
 
         # 停止策略
         self.strategy_instance.on_stop()
-        # 计算策略指标
-        # self.calculate()
+        # 计算当前盈亏
+        self.calculate()
 
     def print_allInfo(self):
         """
@@ -413,7 +413,7 @@ class BackTester(object):
             print("      {}".format(i))
         print("当前多仓仓位: {}".format(self.pos.longVol))
         print("当前空仓仓位: {}".format(self.pos.shortVol))
-        print("当前现金cash: {}".format(self.cash))
+        # print("当前现金cash: {}".format(self.cash))
 
     # def check_order(self, bar):
     #     """
@@ -466,12 +466,15 @@ class BackTester(object):
 
     def calculate(self):
         """
-        计算策略评价指标。如夏普率、盈亏比、胜率、最大回撤、年化率等
-        这边可能需要根据成交单来计算，或者添加其他的记录。
+        根据记录的所有成交单计算cash盈亏
         :return:
         """
         for trade in self.trades:
-            pass
+            # 如果该成交单位开多仓或平空仓
+            if trade.operation == OPEN and trade.direction == LONG or trade.operation == CLOSE and trade.direction == SHORT:
+                self.cash -= trade.price * trade.volume
+            else:
+                self.cash += trade.price * trade.volume
 
     def optimize_strategy(self, **kwargs):
         """
