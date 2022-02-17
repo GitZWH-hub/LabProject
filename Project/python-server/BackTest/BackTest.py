@@ -76,7 +76,7 @@ class Match(object):
 
     def __str__(self):
         # return f"{self.order_no} {self.match_no} {self.price} {self.volume} {self.direction} {self.operation}"
-        return f"{self.match_no} {self.price} {self.volume} {self.direction} {self.operation}"
+        return f"{self.price} {self.volume} {self.direction} {self.operation}"
 
 
 class Posi(object):
