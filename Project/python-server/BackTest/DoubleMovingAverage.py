@@ -1,5 +1,5 @@
 from BackTest.Strategy import BaseStrategy
-
+from BackTest import OPEN, LONG
 
 class DoubleMovingAverage(BaseStrategy):
     """
@@ -61,8 +61,22 @@ class DoubleMovingAverage(BaseStrategy):
         # （5）查询持仓
         pos_long, pos_short = self.broker.select_posList()
         # （6）双均线逻辑
-        # 报单价格,以当天的均价报单
+        # 价格,以当天的均价成交
         order_price = self.bar_df.close.iloc[-1]
+        '''
+        2022-02-17 
+        这里寻求短期收益，即成交持仓后如果下一次的价格合适立刻平仓
+        所以，不可能存在本身有多仓持仓，还多仓成交
+        '''
+        # 当前bar的价格，再获取最后一次成交单(且是open开仓，平仓跳过此步)的价格看是否合适。这里如果合适，直接平掉仓位；如果不合适，考虑是否要亏损成交
+        last_trade = self.broker.get_latest_trade()
+        if last_trade is not None:
+            if last_trade.operation == OPEN:
+                if last_trade.direction == LONG:
+                    self.closeLong(order_price, pos_long)
+                else:
+                    self.closeShort(order_price, pos_short)
+
         # 短均线上穿长均线，做多（即当前时间点短均线处于长均线上方，前一时间点短均线处于长均线下方）
         if short_avg.iloc[-2] < long_avg.iloc[-2] and short_avg.iloc[-1] >= long_avg.iloc[-1]:
             # 无空仓情况下，直接开多
@@ -71,9 +85,9 @@ class DoubleMovingAverage(BaseStrategy):
                 self.openLong(price=order_price, volume=1)
             # 有空仓的情况下，先平空，再开多(开多命令放在on_order_status里面)
             else:
-                print("有空仓，先平空仓")
+                print("有空仓，先平空仓")   # 平仓手数等于持仓数量
                 # 以市价平空仓
-                self.closeShort(price=order_price, volume=1)
+                self.closeShort(price=order_price, volume=pos_short)
         # 短均线下穿长均线，做空(即当前时间点短均线处于长均线下方，前一时间点短均线处于长均线上方)
         if long_avg.iloc[-2] < short_avg.iloc[-2] and long_avg.iloc[-1] >= short_avg.iloc[-1]:
             # 无多仓持仓情况下，直接开空
@@ -84,4 +98,4 @@ class DoubleMovingAverage(BaseStrategy):
             else:
                 print("有多仓，平多仓")
                 # 以市价平多仓
-                self.closeLong(price=order_price, volume=1)
+                self.closeLong(price=order_price, volume=pos_long)

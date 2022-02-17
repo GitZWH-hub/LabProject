@@ -377,6 +377,9 @@ class BackTester(object):
         """
         self.strategy_instance = strategy_instance
 
+    def get_latest_trade(self):
+        return self.trades[-1]
+
     def run(self):
         """
         启动
@@ -389,6 +392,7 @@ class BackTester(object):
 
         cash = self.cash
         for index, candle in self.backtest_data.iterrows():
+            time.sleep(0.5)
             self.cash = cash
             can = [[candle['trade_date'], float(candle['open']), float(candle['close']),
                     float(candle['high']), float(candle['low']), float(candle['vol'])]]
